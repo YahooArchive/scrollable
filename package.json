@@ -1,17 +1,20 @@
 {
   "name": "scrollable",
   "version": "0.0.0",
-  "description": "Scrollable elements for advanced mobile scrolling with React.js",
+  "description": "Scrollable components for advanced mobile scrolling with React.js",
   "main": "index.js",
   "dependencies": {
     "react": "^0.13.0-beta.1"
   },
   "devDependencies": {
-    "reactify": "^1.0.0"
+    "reactify": "^1.0.0",
+    "watchify": "^2.3.0"
   },
   "scripts": {
+    "build": "browserify -t reactify js/main.js -o build/bundle.js",
+    "watch": "watchify   -t reactify js/main.js -o build/bundle.js --verbose --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Irae Carvalho <irae@irae.pro.br>",
   "license": "MIT"
 }
