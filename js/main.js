@@ -1,12 +1,19 @@
 
-var React = require('react');
 
 var container = document.getElementById('container');
+var React = require('react');
+
+var Scroller = require('./scroller');
+var ScrollItem = require('./scroll-item');
 
 var App = React.createClass({
 
   render: function () {
-    return <div>works</div>;
+    return (
+      <Scroller>
+        <ScrollItem>Text from item children</ScrollItem>
+      </Scroller>
+    );
   }
 
 });
