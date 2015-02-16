@@ -11,7 +11,7 @@
     "watchify": "^2.3.0"
   },
   "scripts": {
-    "build": "browserify -t reactify examples/main.js -o examples/build/bundle.js",
+    "build": "browserify -t reactify examples/main.js -o examples/build/bundle.js --insert-global-vars React",
     "watch": "watchify   -t reactify examples/main.js -o examples/build/bundle.js --verbose --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

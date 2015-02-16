@@ -19,3 +19,6 @@ Scrollable components for advanced mobile scrolling with React.js
   * Figure out the best way to require the components and at the same time provide
     a package that whoever is not using CommonJS can still have a good API.
 
+  * Forcing `<Scroller>` to declare scrollingX and scrollingY for now. There is
+    potential to inferring this based on itemSizes, but Zynga's API don't provide
+    a way of updating this value in runtime.
