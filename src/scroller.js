@@ -1,6 +1,7 @@
-
 var React = require('react');
 var RectCache = require('./rect-cache');
+
+var ZingaScroller = require('../vendor/zynga.scroller.js');
 
 var Scroller = React.createClass({
   mixins: [RectCache],
@@ -17,6 +18,12 @@ var Scroller = React.createClass({
 
   registerItem: function(scrollableItem) {
     console.log(scrollableItem);
+  },
+
+  componentDidMount: function () {
+    new ZingaScroller(function() {}, {
+      // params
+    });
   },
 
   render: function () {
