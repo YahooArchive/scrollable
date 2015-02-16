@@ -1,0 +1,23 @@
+.scrollable {
+    position: relative;
+    overflow: hidden;
+}
+
+.scrollable-viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.scrollable-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+}
+

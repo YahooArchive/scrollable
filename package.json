@@ -2,7 +2,7 @@
   "name": "scrollable",
   "version": "0.0.0",
   "description": "Scrollable components for advanced mobile scrolling with React.js",
-  "main": "index.js",
+  "main": "src/scrollable.js",
   "dependencies": {
     "react": "^0.13.0-beta.1"
   },
@@ -11,8 +11,8 @@
     "watchify": "^2.3.0"
   },
   "scripts": {
-    "build": "browserify -t reactify js/main.js -o build/bundle.js",
-    "watch": "watchify   -t reactify js/main.js -o build/bundle.js --verbose --debug",
+    "build": "browserify -t reactify examples/main.js -o examples/build/bundle.js",
+    "watch": "watchify   -t reactify examples/main.js -o examples/build/bundle.js --verbose --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Irae Carvalho <irae@irae.pro.br>",
