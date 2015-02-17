@@ -30,12 +30,15 @@ var Scroller = React.createClass({
   },
 
   _scrollHandler: function(x, y) {
-    /*jshint ignore:start */
     var items = this._scrollItems;
-    for(var item in items) {
-      items[item]._scrollTo(x, y);
+    for(var itemK in items) {
+      var item = items[itemK];
+      item._scrollTo(item.props.scrollHandler(x, y, item, items, this));
     }
-    /*jshint ignore:end */
+  },
+
+  _getContentSize: function() {
+    return this.props.getContentSize(this._scrollItems, this);
   },
 
   componentDidMount: function () {
@@ -54,7 +57,7 @@ var Scroller = React.createClass({
     // for next tick in order to all ScrollableItems initialize and have proper
     // RectCache before updating containerSizer for the first time.
     setTimeout(function() {
-      var content = self.props.getContentSize();
+      var content = self._getContentSize();
       self.scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
     }, 1);
 

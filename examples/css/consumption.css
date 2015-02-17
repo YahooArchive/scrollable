@@ -1,0 +1,19 @@
+.scrollable-item {
+    width: 100%;
+}
+.generic-bar {
+    background-color: #f7f7f8;
+    color: black;
+    height: 44px;
+    padding-top: 9px;
+    text-align: center;
+}
+.top-bar {
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    border-bottom: 1px solid #c4c4c4;
+}
+.bot-bar {
+    border-top: 1px solid #c4c4c4;
+}

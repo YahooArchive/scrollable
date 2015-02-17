@@ -1,9 +1,9 @@
 
 var React = require('react');
-var Scroller = require('../src/scroller');
-var ScrollItem = require('../src/scroll-item');
+var Scroller = require('../../src/scroller');
+var ScrollItem = require('../../src/scroll-item');
 
-var Lorem = require('./lorem');
+var Lorem = require('../lorem');
 
 var MinimalScroller = React.createClass({
 
@@ -21,7 +21,7 @@ var MinimalScroller = React.createClass({
 
     return (
       <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
-        <ScrollItem ref="first" name="first" scrollHandler={simpleHendler}>
+        <ScrollItem ref="first" name="first" scrollHandler={simpleHandler}>
           {content}
         </ScrollItem>
       </Scroller>
@@ -38,9 +38,9 @@ zero overhead, but when trying to achieve 60fps we should avoid it.
 
 Ideally, this function should not call any other function and do only the math needed.
 */
-function simpleHendler(x, y) {
+function simpleHandler(x, y) {
   return {
-    y: y,
+    y: -y,
   };
 }
 
