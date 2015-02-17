@@ -33,7 +33,23 @@ var Scroller = React.createClass({
     var items = this._scrollItems;
     for(var itemK in items) {
       var item = items[itemK];
-      item._scrollTo(item.props.scrollHandler(x, y, item, items, this));
+      var styleObject = item.props.scrollHandler(x, y, item, items, this);
+
+      var tx = styleObject.x || 0;
+      var ty = styleObject.y || 0;
+      var tz = styleObject.zIndex && styleObject.zIndex/10 || 0;
+
+      // Using replaceState so CSS properties that are not
+      // returned but existed on previous states get cleansed
+
+      // Also, doing setState from the parent is an anti-pattern, but
+      // there is a large performance improvement on doing less function
+      // calls.
+      item.replaceState({
+        zIndex: styleObject.zIndex,
+        WebkitTransform: 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)',
+      });
+
     }
   },
 
