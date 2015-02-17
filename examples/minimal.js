@@ -12,10 +12,17 @@ var MinimalScroller = React.createClass({
   },
 
   render: function () {
+
+    // This is just a simple text component, but note that it's essential that
+    // all children of a <ScrollItem> to either be a "PureComponent" or to have
+    // a good `shouldComponentUpdate` method preventing almost all updates.
+    // See https://facebook.github.io/react/docs/pure-render-mixin.html
+    var content = <Lorem />;
+
     return (
       <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
         <ScrollItem ref="first" name="first" scrollHandler={simpleHendler}>
-          <Lorem />
+          {content}
         </ScrollItem>
       </Scroller>
     );
@@ -23,6 +30,14 @@ var MinimalScroller = React.createClass({
 
 });
 
+/*
+Notice: The following function is outside of React.createClass object.
+React bound methods will go though some very small function call
+overhead in order to bind the method to the instance. This is near
+zero overhead, but when trying to achieve 60fps we should avoid it.
+
+Ideally, this function should not call any other function and do only the math needed.
+*/
 function simpleHendler(x, y) {
   return {
     y: y,

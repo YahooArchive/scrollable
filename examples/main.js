@@ -7,6 +7,9 @@ var MinimalScroller = require('./minimal');
 var App = React.createClass({
 
   getInitialState: function () {
+    // intentionally get window.history.state, as this is also
+    // available during reload.
+    // this way it's possible to reload during development.
     var startWith = window.history.state|| 'nav';
     return {
       currentExample: startWith,
