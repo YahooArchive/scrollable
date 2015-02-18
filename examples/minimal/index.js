@@ -7,13 +7,13 @@ var Lorem = require('../lorem');
 
 var MinimalScroller = React.createClass({
 
-  getContentSize: function () {
-    return this.refs.first.rect;
+  getContentSize: function (items, scroller) {
+    return items.content.rect;
   },
 
   render: function () {
 
-    // This is just a simple text component, but note that it's essential that
+    // <Lorem/> is just a simple text component, but note that it's essential that
     // all children of a <ScrollItem> to either be a "PureComponent" or to have
     // a good `shouldComponentUpdate` method preventing almost all updates.
     // See https://facebook.github.io/react/docs/pure-render-mixin.html
@@ -21,7 +21,7 @@ var MinimalScroller = React.createClass({
 
     return (
       <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
-        <ScrollItem ref="first" name="first" scrollHandler={simpleHandler}>
+        <ScrollItem name="content" scrollHandler={simpleHandler}>
           {content}
         </ScrollItem>
       </Scroller>
