@@ -43,18 +43,22 @@ var Scroller = React.createClass({
       var ty = styleObject.y || 0;
       var tz = styleObject.zIndex && styleObject.zIndex/10 || 0;
 
+      delete styleObject.x;
+      delete styleObject.y;
+      styleObject.WebkitTransform = 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)';
+
+      if (styleObject.scale) {
+        styleObject.WebkitTransform += ' scale('+styleObject.scale+')';
+        delete styleObject.scale;
+      }
+
       // Using replaceState so CSS properties that are not
       // returned but existed on previous states get cleansed
 
       // Also, doing setState from the parent is an anti-pattern, but
       // there is a large performance improvement on doing less function
       // calls.
-      item.replaceState({
-        opacity: styleObject.hasOwnProperty('opacity') ? styleObject.opacity : 1,
-        zIndex: styleObject.zIndex,
-        WebkitTransform: 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)',
-      });
-
+      item.replaceState(styleObject);
     }
   },
 

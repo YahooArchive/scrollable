@@ -9,7 +9,10 @@ var Header = require('./header');
 var FancyHeader = React.createClass({
 
   getContentSize: function (items, scroller) {
-    return items.content.rect;
+    return {
+      width: items.content.rect.width,
+      height: items.content.rect.height + items.background.rect.height
+    };
   },
 
   render: function () {
@@ -49,7 +52,7 @@ function handler(x, y, self, items, scroller) {
   switch (self.props.name) {
     case "content":
       return {
-        zIndex: 1,
+        zIndex: 3,
         y: -y + items.background.rect.height,
       };
     case "white":
@@ -65,7 +68,8 @@ function handler(x, y, self, items, scroller) {
       };
     case "background":
       return {
-        zIndex: 3,
+        scale: Math.max(1, 1 - (y / 400)),
+        zIndex: 2,
         y: Math.min(0, -y),
       };
     default:
