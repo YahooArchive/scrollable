@@ -29,6 +29,10 @@ var Scroller = React.createClass({
     this._scrollItems[scrollableItem.props.name] = scrollableItem;
   },
 
+  unRegisterItem: function(scrollableItem) {
+    delete this._scrollItems[scrollableItem.props.name];
+  },
+
   _scrollHandler: function(x, y) {
     var items = this._scrollItems;
     for(var itemK in items) {

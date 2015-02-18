@@ -19,6 +19,10 @@ var ScrollItem = React.createClass({
     this._reactInternalInstance._context.scrollingParent.registerItem(this);
   },
 
+  componentWillUnmount: function () {
+    this._reactInternalInstance._context.scrollingParent.unRegisterItem(this);
+  },
+
   render: function () {
     return (
       <div className="scrollable-item" style={this.state}>
