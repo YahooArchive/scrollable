@@ -6,6 +6,7 @@ var container = document.getElementById('container');
 
 var MinimalScroller = require('./minimal');
 var ComsumptionMode = require('./consumption');
+var FancyHeader = require('./fancy-header');
 
 var App = React.createClass({
 
@@ -56,6 +57,8 @@ var App = React.createClass({
           description: "minimal/ - the most minimalist example"},
         { name:        'consumption',
           description: "consumption/ - top and bottom bar consumption mode"},
+        { name:        'fancy-header',
+          description: "fancy-header/ - fading and parallax transitions based on scroll"},
       ];
 
       var navList = examples.map(function(example) {
@@ -74,8 +77,9 @@ var App = React.createClass({
     return (
       <div>
 
-        { render === 'minimal'     && <MinimalScroller /> }
-        { render === 'consumption' && <ComsumptionMode /> }
+        { render === 'minimal'      && <MinimalScroller /> }
+        { render === 'consumption'  && <ComsumptionMode /> }
+        { render === 'fancy-header' && <FancyHeader /> }
 
         { render === 'nav' &&
           <div style={{padding: '10px', fontSize: '12px'}}>

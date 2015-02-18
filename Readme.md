@@ -13,6 +13,10 @@ Scrollable components for advanced mobile scrolling with React.js
 
 ### TODO notes
 
+  * I was lazy and didn't complete the consumption mode example, will need to
+    finish later. For not it has only top and bottom sidebar handling, but no
+    consumption transition itself.
+
   * Styles are currently only on the examples, need to figure out a way to
     be in JavaScript and still be able to override via some API.
 
