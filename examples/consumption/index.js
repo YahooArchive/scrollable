@@ -24,17 +24,19 @@ var ConsumptionMode = React.createClass({
 
   render: function () {
     return (
-      <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
-        <ScrollItem name="topbar" scrollHandler={topHandler}>
-          <TopBar />
-        </ScrollItem>
-        <ScrollItem name="content" scrollHandler={contentHandler}>
-          <Lorem />
-        </ScrollItem>
-        <ScrollItem name="botbar" scrollHandler={botHandler}>
-          <BotBar />
-        </ScrollItem>
-      </Scroller>
+      <div className="consumption">
+        <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
+          <ScrollItem name="topbar" scrollHandler={topHandler}>
+            <TopBar />
+          </ScrollItem>
+          <ScrollItem name="content" scrollHandler={contentHandler}>
+            <Lorem />
+          </ScrollItem>
+          <ScrollItem name="botbar" scrollHandler={botHandler}>
+            <BotBar />
+          </ScrollItem>
+        </Scroller>
+      </div>
     );
   }
 

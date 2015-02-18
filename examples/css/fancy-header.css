@@ -1,0 +1,45 @@
+.scrollable-item {
+    width: 100%;
+}
+
+.fancy-header {
+    height: 44px;
+    padding-top: 9px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 500;
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+.white .fancy-header {
+    background-color: #f7f7f8;
+    color: black;
+    border-bottom: 1px solid #c4c4c4;
+}
+.transparent .fancy-header {
+    color: white;
+}
+.background {
+    height: 180px;
+    background-color: #333;
+    background-size: 50px 50px; /* Controls the size of the stripes */
+    background-image: -webkit-gradient(linear, 0 100%, 100% 0,
+                            color-stop(.25, rgba(255, 255, 255, .1)), color-stop(.25, transparent),
+                            color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .1)),
+                            color-stop(.75, rgba(255, 255, 255, .1)), color-stop(.75, transparent),
+                            to(transparent));
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%,
+                        transparent 75%, transparent);
+    background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%,
+                        transparent 75%, transparent);
+    background-image: -ms-linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%,
+                        transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%,
+                        transparent 75%, transparent);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%,
+                        transparent 75%, transparent);
+}

@@ -50,6 +50,7 @@ var Scroller = React.createClass({
       // there is a large performance improvement on doing less function
       // calls.
       item.replaceState({
+        opacity: styleObject.hasOwnProperty('opacity') ? styleObject.opacity : 1,
         zIndex: styleObject.zIndex,
         WebkitTransform: 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)',
       });
