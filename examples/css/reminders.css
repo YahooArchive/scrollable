@@ -1,0 +1,48 @@
+
+.reminders .scrollable-viewport {
+    background-color: #1C1C1C;
+}
+
+.reminders .scrollable-item {
+    width: 100%;
+}
+
+.reminder-category {
+    font-family: Helvetica Neue Light,Helvetica,Arial,sans-serif;
+    background-color: white;
+    background-image: url(list_bg.png);
+    background-size: 20px 20px;
+    border-radius: 8px;
+    padding: 14px;
+    box-shadow: 0px -2px 4px -1px rgba(0,0,0,0.25);
+    height: 100%;
+}
+.reminder-category h1 {
+    margin-top: 0;
+    font-size: 30px;
+    font-weight: normal;
+    text-shadow: 1px 4px 6px #fff, 0 0 0 rgba(0,0,0,0.5), 1px 4px 6px #fff;
+
+}
+
+.green {
+    color: rgba(104, 216, 69, 0.8);
+}
+.blue {
+    color: rgba(42, 174, 245, 0.8);
+}
+.pink {
+    color: rgba(252, 47, 106, 0.8);
+}
+.brown {
+    color: rgba(161, 132, 96, 0.8);
+}
+.yellow {
+    color: rgba(233, 186, 43, 0.8);
+}
+.orange {
+    color: rgba(253, 148, 39, 0.8);
+}
+.purple {
+    color: rgba(203, 119, 223, 0.8);
+}

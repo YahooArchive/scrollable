@@ -7,6 +7,7 @@ var container = document.getElementById('container');
 var MinimalScroller = require('./minimal');
 var ComsumptionMode = require('./consumption');
 var FancyHeader = require('./fancy-header');
+var Reminders = require('./reminders');
 
 var App = React.createClass({
 
@@ -59,6 +60,8 @@ var App = React.createClass({
           description: "consumption/ - top and bottom bar consumption mode"},
         { name:        'fancy-header',
           description: "fancy-header/ - fading and parallax transitions based on scroll"},
+        { name:        'reminders',
+          description: "reminders/ - just like Apple's Reminders App"},
       ];
 
       var navList = examples.map(function(example) {
@@ -80,6 +83,7 @@ var App = React.createClass({
         { render === 'minimal'      && <MinimalScroller /> }
         { render === 'consumption'  && <ComsumptionMode /> }
         { render === 'fancy-header' && <FancyHeader /> }
+        { render === 'reminders'    && <Reminders /> }
 
         { render === 'nav' &&
           <div style={{padding: '10px', fontSize: '12px'}}>
