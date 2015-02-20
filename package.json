@@ -11,8 +11,8 @@
     "watchify": "^2.3.0"
   },
   "scripts": {
-    "build": "browserify -t reactify examples/main.js -o examples/build/bundle.js --insert-global-vars React",
-    "watch": "watchify   -t reactify examples/main.js -o examples/build/bundle.js --verbose --debug",
+    "build": "browserify examples/main.js -o examples/build/bundle.js        --transform reactify --insert-global-vars React",
+    "dev":   "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform reactify --insert-global-vars React --debug --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Irae Carvalho <irae@irae.pro.br>",
