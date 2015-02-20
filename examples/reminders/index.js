@@ -22,7 +22,7 @@ var ReminderCartegory = require('./category');
       {title: "Yellow", color: "yellow", uuid: "1245", order: 12},
       {title: "Orange", color: "orange", uuid: "1235", order: 13},
     ];
-    var stackedSize = 75;
+    var stackedSize = 76;
     var spaceAtBottom = 60;
     var friction = 600;
 

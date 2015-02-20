@@ -13,6 +13,8 @@ Scrollable components for advanced mobile scrolling with React.js
 
 ### TODO notes
 
+  * WebkitTransform -> MozTransform -> transform detection
+
   * While changing the code to use DOM directly instead of React, I actually
     wrote some code to cleanup previous styles. I am not sure the lib should
     do it, so I left it commented for now. There are very low perceived

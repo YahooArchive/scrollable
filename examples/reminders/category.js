@@ -11,8 +11,9 @@ var ReminderCartegory = React.createClass({
   render: function () {
     var p = this.props;
     return (
-      <div className="reminder-category">
-        <h1 className={p.color}>{p.title}</h1>
+      <div className={"reminder-category "+p.color}>
+        <h1>{p.title}</h1>
+        <h3>No Items</h3>
       </div>
     );
   },
