@@ -38,7 +38,6 @@ var Reminders = React.createClass({
 
   render: function () {
     var scrollingCategories = categories.map(function(category) {
-      console.log(category.title);
       return (
         <ScrollItem name={"category_"+category.uuid} key={category.uuid} scrollHandler={categoryScroll} model={category}>
           <ReminderCartegory order={category.order} title={category.title} color={category.color} />
@@ -76,7 +75,7 @@ function categoryScroll(x, y, self, items, scroller) {
 
   var pos = Math.max(0, order * multiplier * stackedSize - y);
   return {
-    height: scroller.rect.height - spaceAtBottom,
+    height: (scroller.rect.height - spaceAtBottom) + 'px',
     zIndex: 2 + order,
     y: pos,
   };

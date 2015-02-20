@@ -33,11 +33,14 @@ var Scroller = React.createClass({
     delete this._scrollItems[scrollableItem.props.name];
   },
 
+  // _lastStyles: {},
+
   _scrollHandler: function(x, y) {
-    var items = this._scrollItems;
+    var self = this;
+    var items = self._scrollItems;
     for(var itemK in items) {
       var item = items[itemK];
-      var styleObject = item.props.scrollHandler(x, y, item, items, this);
+      var styleObject = item.props.scrollHandler(x, y, item, items, self);
       if (styleObject) {
 
         var tx = styleObject.x || 0;
@@ -53,13 +56,24 @@ var Scroller = React.createClass({
           delete styleObject.scale;
         }
 
-        // Using replaceState so CSS properties that are not
-        // returned but existed on previous states get cleansed
+        // Using this simple for loops yeilds HUGE performance improvements
+        // specially on iPhone 4 with iOS 7.
 
-        // Also, doing setState from the parent is an anti-pattern, but
-        // there is a large performance improvement on doing less function
-        // calls.
-        item.replaceState(styleObject);
+        // Set styles and remove from the last ones in memory
+        for(var prop in styleObject) {
+          item._node.style[prop] = styleObject[prop];
+          // if (self._lastStyles.hasOwnProperty(prop)) {
+          //   delete self._lastStyles[prop];
+          // }
+        }
+
+        // if we have remaining styles on the _lastStyles, it means the new
+        // calculation does not return it, then we should remove
+        // for(var prop in self._lastStyles) {
+        //   delete item._node.style[prop];
+        // }
+
+        // self._lastStyles = styleObject;
 
       }
     }
@@ -71,7 +85,7 @@ var Scroller = React.createClass({
 
   componentDidMount: function () {
     var self = this;
-    var container = this.getDOMNode();
+    var container = self.getDOMNode();
 
     var scroller = (self.scroller = new ZingaScroller(
       self._scrollHandler,

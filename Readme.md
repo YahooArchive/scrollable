@@ -13,6 +13,11 @@ Scrollable components for advanced mobile scrolling with React.js
 
 ### TODO notes
 
+  * While changing the code to use DOM directly instead of React, I actually
+    wrote some code to cleanup previous styles. I am not sure the lib should
+    do it, so I left it commented for now. There are very low perceived
+    issues on iPhone 4 with the cleanup, (guessing from 60 to 40 fps?)
+
   * I was lazy and didn't complete the consumption mode example, will need to
     finish later. For not it has only top and bottom sidebar handling, but no
     consumption transition itself.
