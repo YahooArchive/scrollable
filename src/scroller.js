@@ -83,6 +83,15 @@ var Scroller = React.createClass({
     return this.props.getContentSize(this._scrollItems, this);
   },
 
+  _disabled: false,
+  disable: function() {
+    this._disabled = true;
+  },
+
+  enable: function() {
+    this._disabled = false;
+  },
+
   componentDidMount: function () {
     var self = this;
     var container = self.getDOMNode();
@@ -108,24 +117,24 @@ var Scroller = React.createClass({
       if (e.touches[0] && e.touches[0].target && e.touches[0].target.tagName.match(/input|textarea|select/i)) {
         return;
       }
-      var isMoving = !scroller.__isDragging || !scroller.__isDecelerating || !scroller.__isAnimating;
+      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
       if (isMoving) {
         e.preventDefault();
         e.stopPropagation();
       }
-      scroller.doTouchStart(e.touches, e.timeStamp);
+      !self._disabled && scroller.doTouchStart(e.touches, e.timeStamp);
     }, false);
     container.addEventListener("touchmove", function(e) {
       e.preventDefault(); // unconditionally to prevent React onScroll handlers
-      var isMoving = !scroller.__isDragging || !scroller.__isDecelerating || !scroller.__isAnimating;
+      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
       if (isMoving) {
         e.stopPropagation();
       }
-      scroller.doTouchMove(e.touches, e.timeStamp, e.scale);
+      !self._disabled && scroller.doTouchMove(e.touches, e.timeStamp, e.scale);
     }, false);
 
     container.addEventListener("touchend", function(e) {
-      var isMoving = !scroller.__isDragging || !scroller.__isDecelerating || !scroller.__isAnimating;
+      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
       if (isMoving) {
         e.preventDefault();
         e.stopPropagation();
@@ -133,7 +142,7 @@ var Scroller = React.createClass({
       scroller.doTouchEnd(e.timeStamp);
     }, false);
     container.addEventListener("touchcancel", function(e) {
-      var isMoving = !scroller.__isDragging || !scroller.__isDecelerating || !scroller.__isAnimating;
+      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
       if (isMoving) {
         e.preventDefault();
         e.stopPropagation();
