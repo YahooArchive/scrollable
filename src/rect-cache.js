@@ -19,7 +19,7 @@ var RectCache = {
     // This is specially true for nested rect-cached elements inside overflow: hidden; elements
     // where the outermost rect-cache is not updated while the inner most might be.
     if (oldRect.width !== newRect.width || oldRect.height !== newRect.height) {
-      (this.props.onResize && this.props.onResize()) || (this.onResize && this.onResize());
+      this.props.onResize && this.props.onResize();
     }
   },
 
@@ -39,7 +39,11 @@ var RectCache = {
 function getImageLoadedNotifications(node, callback) {
   watchLoadImages(node.getElementsByTagName('img'), callback);
   node.addEventListener('DOMNodeInserted', function(event) {
-    watchLoadImages(event.target.getElementsByTagName && event.target.getElementsByTagName('img'), callback);
+    var images = event.target.getElementsByTagName && event.target.getElementsByTagName('img');
+    if (event.target.tagName.toLowerCase() === 'img') {
+      watchLoadImages([event.target], callback);
+    }
+    watchLoadImages(images, callback);
   });
 }
 function watchLoadImages(imgArr, callback) {
@@ -51,6 +55,7 @@ function watchLoadImages(imgArr, callback) {
   }
 }
 
+/* istanbul ignore if */
 if (typeof window === 'undefined'){
   module.exports = {
     rect: initialRect,
