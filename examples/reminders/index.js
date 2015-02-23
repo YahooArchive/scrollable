@@ -2,26 +2,28 @@
 var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
+var Hammer = require('react-hammerjs/dist/react-hammerjs');
 
 var ReminderCartegory = require('./category');
 
 
     var categories = [
-      {title: "Purple", color: "purple", uuid: "2485", order: 0},
-      {title: "Green",  color: "green",  uuid: "0891", order: 1},
-      {title: "Blue",   color: "blue",   uuid: "1248", order: 2},
-      {title: "Pink",   color: "pink",   uuid: "3436", order: 3},
-      {title: "Brown",  color: "brown",  uuid: "2384", order: 4},
-      {title: "Yellow", color: "yellow", uuid: "2394", order: 5},
-      {title: "Orange", color: "orange", uuid: "5330", order: 6},
-      {title: "Purple", color: "purple", uuid: "9023", order: 7},
-      {title: "Green",  color: "green",  uuid: "1284", order: 8},
-      {title: "Blue",   color: "blue",   uuid: "0934", order: 9},
-      {title: "Pink",   color: "pink",   uuid: "1723", order: 10},
-      {title: "Brown",  color: "brown",  uuid: "1483", order: 11},
-      {title: "Yellow", color: "yellow", uuid: "1245", order: 12},
-      {title: "Orange", color: "orange", uuid: "1235", order: 13},
+      {title: "Purple", color: "purple", uid: "2485"},
+      {title: "Green",  color: "green",  uid: "0891"},
+      {title: "Blue",   color: "blue",   uid: "1248"},
+      {title: "Pink",   color: "pink",   uid: "3436"},
+      {title: "Brown",  color: "brown",  uid: "2384"},
+      {title: "Yellow", color: "yellow", uid: "2394"},
+      {title: "Orange", color: "orange", uid: "5330"},
+      {title: "Purple", color: "purple", uid: "9023"},
+      {title: "Green",  color: "green",  uid: "1284"},
+      {title: "Blue",   color: "blue",   uid: "0934"},
+      {title: "Pink",   color: "pink",   uid: "1723"},
+      {title: "Brown",  color: "brown",  uid: "1483"},
+      {title: "Yellow", color: "yellow", uid: "1245"},
+      {title: "Orange", color: "orange", uid: "1235"},
     ];
+    var category_ordering = ["2485","0891","1248","3436","2384","2394","5330","9023","1284","0934","1723","1483","1245","1235"];
     var stackedSize = 76;
     var spaceAtBottom = 60;
     var friction = 600;
@@ -36,18 +38,28 @@ var Reminders = React.createClass({
     };
   },
 
+  showCategory: function(category, event) {
+    event.preventDefault();
+    this.refs.scroller.disable();
+  },
+
   render: function () {
+    var self = this;
     var scrollingCategories = categories.map(function(category) {
       return (
-        <ScrollItem name={"category_"+category.uuid} key={category.uuid} scrollHandler={categoryScroll} model={category}>
-          <ReminderCartegory order={category.order} title={category.title} color={category.color} />
+        <ScrollItem name={"category_"+category.uid}
+                    key={category.uid}
+                    model={category}
+                    scrollHandler={listScroll}>
+          <Hammer component={ReminderCartegory} {...category}
+                      onTap={self.showCategory.bind(self, category)} />
         </ScrollItem>
       );
     });
 
     return (
       <div className="reminders">
-        <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
+        <Scroller ref={"scroller"} viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
           <ScrollItem name="search" scrollHandler={searchStatic}>
             <div />
           </ScrollItem>
@@ -55,7 +67,7 @@ var Reminders = React.createClass({
         </Scroller>
       </div>
     );
-  }
+  },
 
 });
 
@@ -69,8 +81,8 @@ function searchStatic() {// fixed
     zIndex: 1,
   };
 }
-function categoryScroll(x, y, self, items, scroller) {
-  var order = self.props.model.order;
+function listScroll(x, y, self, items, scroller) {
+  var order = category_ordering.indexOf(self.props.model.uid);
   var multiplier = Math.max(1, 1 - ( y / friction)); // stretch effect
 
   var pos = Math.max(0, order * multiplier * stackedSize - y);

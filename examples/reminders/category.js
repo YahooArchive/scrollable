@@ -1,6 +1,5 @@
 
 var React = require('react');
-var MinimalScroller = require('../minimal');
 
 var ReminderCartegory = React.createClass({
 
@@ -11,7 +10,7 @@ var ReminderCartegory = React.createClass({
   render: function () {
     var p = this.props;
     return (
-      <div className={"reminder-category "+p.color}>
+      <div className={"reminder-category "+p.color} {...this.props}>
         <h1>{p.title}</h1>
         <h3>No Items</h3>
       </div>
