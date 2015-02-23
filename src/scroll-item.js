@@ -16,7 +16,7 @@ var ScrollItem = React.createClass({
   },
 
   componentWillMount: function () {
-    this._reactInternalInstance._context.scrollingParent.registerItem(this);
+    this._reactInternalInstance._context.scrollingParent._registerItem(this);
   },
 
   componentDidMount: function () {
@@ -24,7 +24,7 @@ var ScrollItem = React.createClass({
   },
 
   componentWillUnmount: function () {
-    this._reactInternalInstance._context.scrollingParent.unRegisterItem(this);
+    this._reactInternalInstance._context.scrollingParent._unRegisterItem(this);
     this._node = null;
   },
 

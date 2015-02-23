@@ -1,6 +1,7 @@
+
 var React = require('react');
 var RectCache = require('./rect-cache');
-
+var ScrollerEvents = require('./scroller-events');
 var ZingaScroller = require('../vendor/zynga.scroller.js');
 
 var Scroller = React.createClass({
@@ -25,17 +26,17 @@ var Scroller = React.createClass({
 
   _scrollItems: {},
 
-  registerItem: function(scrollableItem) {
+  _registerItem: function(scrollableItem) {
     this._scrollItems[scrollableItem.props.name] = scrollableItem;
   },
 
-  unRegisterItem: function(scrollableItem) {
+  _unRegisterItem: function(scrollableItem) {
     delete this._scrollItems[scrollableItem.props.name];
   },
 
   // _lastStyles: {},
 
-  _scrollHandler: function(x, y) {
+  setStyleWithPosition: function(x, y) {
     var self = this;
     var items = self._scrollItems;
     for(var itemK in items) {
@@ -83,26 +84,27 @@ var Scroller = React.createClass({
     return this.props.getContentSize(this._scrollItems, this);
   },
 
-  _disabled: false,
   disable: function() {
-    this._disabled = true;
+    this._events.disable();
   },
 
   enable: function() {
-    this._disabled = false;
+    this._events.enable();
   },
 
   componentDidMount: function () {
     var self = this;
     var container = self.getDOMNode();
 
-    var scroller = (self.scroller = new ZingaScroller(
-      self._scrollHandler,
+    var zingaScroller = (self.scroller = new ZingaScroller(
+      self.setStyleWithPosition,
       {
         scrollingX: self.props.scrollingX,
         scrollingY: self.props.scrollingY,
       }
     ));
+
+    self._events = new ScrollerEvents(zingaScroller, container);
 
     // Because of React batch operations and optimizations, we need to wait
     // for next tick in order to all ScrollableItems initialize and have proper
@@ -111,44 +113,6 @@ var Scroller = React.createClass({
       var content = self._getContentSize();
       self.scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
     }, 1);
-
-    // setup events
-    container.addEventListener("touchstart", function(e) {
-      if (e.touches[0] && e.touches[0].target && e.touches[0].target.tagName.match(/input|textarea|select/i)) {
-        return;
-      }
-      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
-      if (isMoving) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      !self._disabled && scroller.doTouchStart(e.touches, e.timeStamp);
-    }, false);
-    container.addEventListener("touchmove", function(e) {
-      e.preventDefault(); // unconditionally to prevent React onScroll handlers
-      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
-      if (isMoving) {
-        e.stopPropagation();
-      }
-      !self._disabled && scroller.doTouchMove(e.touches, e.timeStamp, e.scale);
-    }, false);
-
-    container.addEventListener("touchend", function(e) {
-      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
-      if (isMoving) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      scroller.doTouchEnd(e.timeStamp);
-    }, false);
-    container.addEventListener("touchcancel", function(e) {
-      var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
-      if (isMoving) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      scroller.doTouchEnd(e.timeStamp);
-    }, false);
   },
 
   render: function () {
