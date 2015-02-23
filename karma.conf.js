@@ -33,7 +33,15 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       transform: [
-        'reactify',
+        'reactify', [
+          'browserify-istanbul', {
+            ignore: [
+              '**/src/scrollable.js',
+              '**/__tests__/**',
+              '**/vendor/**'
+            ],
+          }
+        ],
       ],
     },
 
@@ -41,9 +49,15 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
 
-    reporters: ["spec"],
+    reporters: ["spec", "coverage"],
 
     specReporter: {maxLogLines: 5},
+
+    // optionally, configure the reporter
+    coverageReporter: {
+      type : ['json'],
+      dir : 'coverage/'
+    },
 
     // plugins: ["karma-spec-reporter"],
 
