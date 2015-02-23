@@ -65,7 +65,8 @@
 			/** Callback that is fired on the later of touch end or deceleration end,
 				provided that another scrolling action has not begun. Used to know
 				when to fade out a scrollbar. */
-			scrollingComplete: NOOP,
+      scrollingComplete: NOOP,
+			scrollingStarted: NOOP,
 
 			/** This configures the amount of change applied to deceleration when reaching boundaries  **/
             penetrationDeceleration : 0.03,
@@ -900,6 +901,7 @@
 				self.__isDragging = (self.__enableScrollX || self.__enableScrollY) && (distanceX >= minimumTrackingForDrag || distanceY >= minimumTrackingForDrag);
 				if (self.__isDragging) {
 					self.__interruptedAnimation = false;
+          self.options.scrollingStarted();
 				}
 
 			}

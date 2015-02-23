@@ -2,7 +2,6 @@
 var React = require('react');
 var RectCache = require('./rect-cache');
 var ScrollerEvents = require('./scroller-events');
-var ZingaScroller = require('../vendor/zynga.scroller.js');
 
 var Scroller = React.createClass({
 
@@ -85,33 +84,28 @@ var Scroller = React.createClass({
   },
 
   disable: function() {
-    this._events.disable();
+    this._scroller.disable();
   },
 
   enable: function() {
-    this._events.enable();
+    this._scroller.enable();
   },
 
   componentDidMount: function () {
     var self = this;
     var container = self.getDOMNode();
 
-    var zingaScroller = (self.scroller = new ZingaScroller(
-      self.setStyleWithPosition,
-      {
-        scrollingX: self.props.scrollingX,
-        scrollingY: self.props.scrollingY,
-      }
-    ));
-
-    self._events = new ScrollerEvents(zingaScroller, container);
+    self._scroller = new ScrollerEvents(container, self.setStyleWithPosition, {
+      scrollingX: self.props.scrollingX,
+      scrollingY: self.props.scrollingY,
+    });
 
     // Because of React batch operations and optimizations, we need to wait
     // for next tick in order to all ScrollableItems initialize and have proper
     // RectCache before updating containerSizer for the first time.
     setTimeout(function() {
       var content = self._getContentSize();
-      self.scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
+      self._scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
     }, 1);
   },
 
@@ -122,7 +116,9 @@ var Scroller = React.createClass({
     }
     return (
       <div className={className}>
-        {this.props.children}
+        <div>
+          {this.props.children}
+        </div>
       </div>
     );
   },
