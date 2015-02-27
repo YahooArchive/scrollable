@@ -577,6 +577,10 @@
 
 			} else {
 
+        if (typeof top === 'undefined') {
+          top = self.__scrollTop;
+        }
+
 				if (self.options.paging) {
 					top = Math.round(top / self.__clientHeight) * self.__clientHeight;
 				} else if (self.options.snapping) {
