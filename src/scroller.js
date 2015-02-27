@@ -3,6 +3,13 @@ var React = require('react');
 var RectCache = require('./rect-cache');
 var ScrollerEvents = require('./scroller-events');
 
+var transitionProps = {
+  'delay': 'WebkitTransitionDelay',
+  'duration': 'WebkitTransitionDuration',
+  'property': 'WebkitTransitionProperty',
+  'timingFunction': 'WebkitTransitionTimingFunction',
+};
+
 var Scroller = React.createClass({
 
   mixins: [RectCache],
@@ -33,10 +40,9 @@ var Scroller = React.createClass({
     delete this._scrollItems[scrollableItem.props.name];
   },
 
-  // _lastStyles: {},
-
   setStyleWithPosition: function(x, y) {
     var self = this;
+
     var items = self._scrollItems;
     for(var itemK in items) {
       var item = items[itemK];
@@ -56,27 +62,67 @@ var Scroller = React.createClass({
           delete styleObject.scale;
         }
 
-        // Using this simple for loops yeilds HUGE performance improvements
-        // specially on iPhone 4 with iOS 7.
+        // Using styles directly and simple for loops yeilds HUGE performance
+        // improvements specially on iPhone 4 with iOS 7.
 
-        // Set styles and remove from the last ones in memory
+        // Set styles
         for(var prop in styleObject) {
           item._node.style[prop] = styleObject[prop];
-          // if (self._lastStyles.hasOwnProperty(prop)) {
-          //   delete self._lastStyles[prop];
-          // }
         }
-
-        // if we have remaining styles on the _lastStyles, it means the new
-        // calculation does not return it, then we should remove
-        // for(var prop in self._lastStyles) {
-        //   delete item._node.style[prop];
-        // }
-
-        // self._lastStyles = styleObject;
 
       }
     }
+  },
+
+  _animEndX: 0,
+  _animEndY: 0,
+  animateAndResetScroll: function(x, y) {
+    var self = this;
+    self.disable();
+
+    var acumulate = {
+      delay: 0,
+      duration: 0,
+    };
+    var items = self._scrollItems;
+    for(var itemK in items) {
+      var item = items[itemK];
+      if (item.props.transitionStyles) {
+        var transitionObject = item.props.transitionStyles(item, items, self);
+        for(var prop in transitionProps) {
+          if (transitionObject[prop]) {
+            if(prop in acumulate) {
+              acumulate[prop] = Math.max(acumulate[prop], transitionObject[prop]);
+              transitionObject[prop] = transitionObject[prop] + 'ms';
+            }
+            item._node.style[transitionProps[prop]] = transitionObject[prop];
+          }
+        }
+      }
+    }
+    var totalTime = acumulate.delay + acumulate.duration;
+    setTimeout(self._endAnimation, totalTime);
+    self._animEndX = x;
+    self._animEndY = y;
+
+    setTimeout(function() {
+      self._scroller.scrollTo();
+    }, 0); // stop animations, fire scrollHandler once
+  },
+
+  _endAnimation: function() {
+    var self = this;
+    var items = self._scrollItems;
+    for(var itemK in items) {
+      var item = items[itemK];
+      for(var prop in transitionProps) {
+        item._node.style[ transitionProps[prop] ] = null;
+      }
+    }
+
+    self._resetScroll();
+    self._scroller.scrollTo(self._animEndX, self._animEndY);
+    self._scroller.enable();
   },
 
   _getContentSize: function() {
@@ -103,10 +149,12 @@ var Scroller = React.createClass({
     // Because of React batch operations and optimizations, we need to wait
     // for next tick in order to all ScrollableItems initialize and have proper
     // RectCache before updating containerSizer for the first time.
-    setTimeout(function() {
-      var content = self._getContentSize();
-      self._scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
-    }, 1);
+    setTimeout(self._resetScroll, 1);
+  },
+  _resetScroll: function() {
+    var self = this;
+    var content = self._getContentSize();
+    self._scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
   },
 
   render: function () {

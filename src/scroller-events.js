@@ -44,6 +44,10 @@ var members = {
     this._scroller.setDimensions(containerWidth, containerHeight, contentWidth, contentHeight);
   },
 
+  scrollTo: function(left, top, animate, zoom) {
+    this._scroller.scrollTo(left, top, animate, zoom);
+  },
+
   _touchStart: function(event) {
     var scroller = this._scroller;
     if (event.touches[0] && event.touches[0].target && event.touches[0].target.tagName.match(/input|textarea|select/i)) {
@@ -74,7 +78,7 @@ var members = {
       event.preventDefault();
       event.stopPropagation();
     }
-    scroller.doTouchEnd(event.timeStamp);
+    !this._disabled && scroller.doTouchEnd(event.timeStamp);
   },
 };
 
