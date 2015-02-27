@@ -56,10 +56,11 @@ var Reminders = React.createClass({
 
   showCategory: function(category, event) {
     event.preventDefault();
-    this.refs.scroller.animateAndResetScroll(0, 0);
     this.setState({
       mode: 'single',
       selected: category.uid,
+    }, function() {
+      this.refs.scroller.animateAndResetScroll(0, 0);
     });
   },
 

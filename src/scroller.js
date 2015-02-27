@@ -106,7 +106,7 @@ var Scroller = React.createClass({
     self._animEndY = y;
 
     setTimeout(function() {
-      self._scroller.scrollTo();
+      self._scroller.scrollTo(x, y);
     }, 0); // stop animations, fire scrollHandler once
   },
 
