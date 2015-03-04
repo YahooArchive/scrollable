@@ -5,7 +5,7 @@ var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
 
-describe('RectCache', function() {
+describe('RectCache mixin', function() {
 
   describe("startup",function() {
     it("rect exists even before componentDidMount", function () {

@@ -7,8 +7,8 @@ var ScrollItem = React.createClass({
   mixins: [RectCache],
 
   propTypes: {
-      name: React.PropTypes.string.isRequired,
-      scrollHandler: React.PropTypes.func.isRequired,
+    name: React.PropTypes.string.isRequired,
+    scrollHandler: React.PropTypes.func.isRequired,
   },
 
   contextTypes: {
@@ -16,7 +16,9 @@ var ScrollItem = React.createClass({
   },
 
   componentWillMount: function () {
-    this._reactInternalInstance._context.scrollingParent._registerItem(this);
+    var parentContext = this._reactInternalInstance._context;
+    var parent = parentContext.scrollingParent;
+    parent && parent._registerItem(this);
   },
 
   componentDidMount: function () {
@@ -24,8 +26,10 @@ var ScrollItem = React.createClass({
   },
 
   componentWillUnmount: function () {
-    this._reactInternalInstance._context.scrollingParent._unRegisterItem(this);
     this._node = null;
+    var parentContext = this._reactInternalInstance._context;
+    var parent = parentContext.scrollingParent;
+    parent && parent._unRegisterItem(this);
   },
 
   render: function () {
