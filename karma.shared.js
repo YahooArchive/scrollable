@@ -13,7 +13,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'src/**/__tests__/*-test.js', watched: true, included: true, served: true},
+      {pattern: 'src/**/*.js', watched: true, included: true, served: true},
       {pattern: 'src/**/*.gif', watched: false, included: false, served: true},
     ],
 
