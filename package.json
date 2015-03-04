@@ -8,6 +8,7 @@
     "react-tools": "^0.13.0-rc1"
   },
   "devDependencies": {
+    "beefy": "^2.1.3",
     "browserify": "^9.0.3",
     "browserify-istanbul": "^0.1.5",
     "istanbul": "^0.3.6",
@@ -25,7 +26,7 @@
     "watchify": "^2.3.0"
   },
   "scripts": {
-    "build": "browserify examples/main.js -o examples/build/bundle.js        --transform reactify --insert-global-vars React",
+    "build": "browserify examples/main.js -o examples/build/bundle.js      --transform reactify --insert-global-vars React",
     "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform reactify --insert-global-vars React --debug --verbose",
     "test": "karma start karma.headless.js && istanbul report && echo 'Details at ./coverage/index.html'"
   },
