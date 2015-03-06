@@ -6,27 +6,66 @@ var Hammer = require('react-hammerjs/dist/react-hammerjs');
 
 var ReminderCartegory = require('./category');
 var Data = require('./data');
-
-var stackedSize = 76;
-var spaceAtBottom = 60;
-var friction = 600;
-var transitionTime = 300; // ms
+var itemSizeDuringListMode = 76;
 
 var Reminders = React.createClass({
 
   getInitialState: function() {
     return {
-      mode: 'all',
-      selected: null,
-      previousScrollPosition: 0,
+      mode: 'all',               // mode = 'all'   ; Showing all categories
+                                 // mode = 'single'; Showing only selected category
+      selected: null,            // during single mode, the selected category id
+      previousScrollPosition: 0, // scroll position bookkeeping between modes
     };
   },
 
-  getContentSize: function (items, scroller) {
+  render: function () {
+    var self = this;
+    var scrollingCategories = Data.categoryIds.map(this.scrollItemForCategoryId);
+    return (
+      <div className="reminders">
+        <Scroller viewport scrollingX={false} scrollingY={true}
+                  ref={"scroller"} selected={self.state.selected}
+                  getContentSize={this.calculateVerticalScrollArea}>
+          <ScrollItem name="search" scrollHandler={handleSearchBoxPosition}>
+            <div />
+          </ScrollItem>
+          {scrollingCategories}
+        </Scroller>
+      </div>
+    );
+  },
+
+  scrollItemForCategoryId: function(categoryId) {
+    var self = this;
+    var handler = handlePositionWhenShowingAllCategories;
+    if (self.state.mode === 'single') {
+      handler = self.state.selected === categoryId ? handlePositionForSelectedItem : handlePositionForStackedItem;
+    }
+    return (
+      <ScrollItem name={"category_"+categoryId}
+                  key={categoryId}
+                  categoryId={categoryId}
+                  transitionStyles={transitionStyles}
+                  scrollHandler={handler}>
+        <Hammer component={ReminderCartegory}
+                categoryId={categoryId}
+                onTap={function(event) {
+                  if (self.state.mode === 'all') {
+                    self.showCategory(categoryId, event);
+                  } else if(self.state.selected !== categoryId) {
+                    self.showList(event);
+                  }
+                }} />
+      </ScrollItem>
+    );
+  },
+
+  calculateVerticalScrollArea: function (items, scroller) {
     if (this.state.mode === 'all') {
       return {
         width: scroller.rect.width,
-        height: stackedSize * Data.categoryIds.length,
+        height: itemSizeDuringListMode * Data.categoryIds.length,
       };
     } else {
       return {
@@ -36,6 +75,7 @@ var Reminders = React.createClass({
     }
   },
 
+  // When listing all categories and user taps on a given category
   showCategory: function(categoryId, event) {
     event.preventDefault();
     this.setState({
@@ -47,6 +87,7 @@ var Reminders = React.createClass({
     });
   },
 
+  // When showing a single category and user taps the stack
   showList: function(event) {
     event.preventDefault();
     this.setState({
@@ -55,66 +96,24 @@ var Reminders = React.createClass({
     }, function() {
       this.refs.scroller.animateAndResetScroll(0, this.state.previousScrollPosition);
     });
-
-  },
-
-  render: function () {
-    var self = this;
-    var scrollingCategories = Data.categoryIds.map(function(categoryId) {
-      var handler = listScroll;
-      if (self.state.mode === 'single') {
-        handler = self.state.selected === categoryId ? selectedItemHandler : stackedItemHandler;
-      }
-      return (
-        <ScrollItem name={"category_"+categoryId}
-                    key={categoryId}
-                    categoryId={categoryId}
-                    transitionStyles={transitionStyles}
-                    scrollHandler={handler}>
-          <Hammer component={ReminderCartegory}
-                  categoryId={categoryId}
-                  onTap={function(event) {
-                    if (self.state.mode === 'all') {
-                      self.showCategory(categoryId, event);
-                    } else if(self.state.selected !== categoryId) {
-                      self.showList(event);
-                    }
-                  }} />
-        </ScrollItem>
-      );
-    });
-
-    return (
-      <div className="reminders">
-        <Scroller viewport scrollingX={false} scrollingY={true}
-                  ref={"scroller"} selected={self.state.selected}
-                  getContentSize={this.getContentSize}>
-          <ScrollItem name="search" scrollHandler={searchStatic}>
-            <div />
-          </ScrollItem>
-          {scrollingCategories}
-        </Scroller>
-      </div>
-    );
   },
 
 });
 
 /*
-Notice: The following functions are outside of the React component.
-Read more about why on the minimal example.
-*/
-function searchStatic() {// fixed
-  return {
-    y: 0,
-    zIndex: 1,
-  };
-}
-function listScroll(x, y, self, items, scroller) {
+  Notice: The following functions are outside of the React component.
+  Read more about why on the minimal example.
+  */
+
+var spaceAtBottom = 60;
+var friction = 600;
+var transitionTime = 300; // ms
+
+function handlePositionWhenShowingAllCategories(x, y, self, items, scroller) {
   var order = Data.categoryIds.indexOf(self.props.categoryId);
   var multiplier = Math.max(1, 1 - ( y / friction)); // stretch effect
 
-  var pos = Math.max(0, order * multiplier * stackedSize - y);
+  var pos = Math.max(0, order * multiplier * itemSizeDuringListMode - y);
   return {
     height: (scroller.rect.height - spaceAtBottom) + 'px',
     zIndex: 2 + order,
@@ -122,7 +121,7 @@ function listScroll(x, y, self, items, scroller) {
   };
 }
 
-function stackedItemHandler(x, y, self, items, scroller) {
+function handlePositionForStackedItem(x, y, self, items, scroller) {
   var order = Data.categoryIds.indexOf(self.props.categoryId);
   var zIndex = 2 + order;
   var selectedIndex = Data.categoryIds.indexOf(scroller.props.selected);
@@ -143,7 +142,7 @@ function stackedItemHandler(x, y, self, items, scroller) {
   };
 }
 
-function selectedItemHandler(x, y, self, items, scroller) {
+function handlePositionForSelectedItem(x, y, self, items, scroller) {
   var order = Data.categoryIds.indexOf(self.props.categoryId);
   return {
     zIndex: 2 + order,
@@ -155,6 +154,13 @@ function transitionStyles(self, items, scroller) {
   return {
     duration: transitionTime,
     property: '-webkit-transform',
+  };
+}
+
+function handleSearchBoxPosition() {// fixed
+  return {
+    y: 0,
+    zIndex: 1,
   };
 }
 
