@@ -15,7 +15,7 @@ var App = React.createClass({
     // intentionally get window.history.state, as this is also
     // available during reload.
     // this way it's possible to reload during development.
-    var startWith = window.history.state|| 'nav';
+    var startWith = window.history.state || (document.location.hash+'').replace(/^#/,'') || 'nav';
     return {
       currentExample: startWith,
     };

@@ -5,26 +5,7 @@ var ScrollItem = require('../../src/scroll-item');
 var Hammer = require('react-hammerjs/dist/react-hammerjs');
 
 var ReminderCartegory = require('./category');
-
-
-    var categories = [
-      {title: "Purple", color: "purple", uid: "2485"},
-      {title: "Green",  color: "green",  uid: "0891"},
-      {title: "Blue",   color: "blue",   uid: "1248"},
-      {title: "Pink",   color: "pink",   uid: "3436"},
-      {title: "Brown",  color: "brown",  uid: "2384"},
-      {title: "Yellow", color: "yellow", uid: "2394"},
-      {title: "Orange", color: "orange", uid: "5330"},
-      {title: "Purple", color: "purple", uid: "9023"},
-      {title: "Green",  color: "green",  uid: "1284"},
-      {title: "Blue",   color: "blue",   uid: "0934"},
-      {title: "Pink",   color: "pink",   uid: "1723"},
-      {title: "Brown",  color: "brown",  uid: "1483"},
-      {title: "Yellow", color: "yellow", uid: "1245"},
-      {title: "Orange", color: "orange", uid: "1235"},
-    ];
-    var category_ordering = ["2485","0891","1248","3436","2384","2394","5330","9023","1284","0934","1723","1483","1245","1235"];
-
+var Data = require('./data');
 
 var stackedSize = 76;
 var spaceAtBottom = 60;
@@ -44,7 +25,7 @@ var Reminders = React.createClass({
     if (this.state.mode === 'all') {
       return {
         width: scroller.rect.width,
-        height: stackedSize * categories.length,
+        height: stackedSize * Data.categoryIds.length,
       };
     } else {
       return {
@@ -54,11 +35,11 @@ var Reminders = React.createClass({
     }
   },
 
-  showCategory: function(category, event) {
+  showCategory: function(categoryId, event) {
     event.preventDefault();
     this.setState({
       mode: 'single',
-      selected: category.uid,
+      selected: categoryId,
     }, function() {
       this.refs.scroller.animateAndResetScroll(0, 0);
     });
@@ -77,33 +58,35 @@ var Reminders = React.createClass({
 
   render: function () {
     var self = this;
-    var scrollingCategories = categories.map(function(category) {
+    var scrollingCategories = Data.categoryIds.map(function(categoryId) {
       var handler = listScroll;
       if (self.state.mode === 'single') {
-        handler = self.state.selected === category.uid ? selectedItemHandler : stackedItemHandler;
+        handler = self.state.selected === categoryId ? selectedItemHandler : stackedItemHandler;
       }
       return (
-        <ScrollItem name={"category_"+category.uid}
-                    key={category.uid}
-                    model={category}
-                    selectedUid={self.state.selected}
+        <ScrollItem name={"category_"+categoryId}
+                    key={categoryId}
+                    categoryId={categoryId}
                     transitionStyles={transitionStyles}
                     scrollHandler={handler}>
-          <Hammer component={ReminderCartegory} {...category}
-                      onTap={function(event) {
-                        if (self.state.mode === 'all') {
-                          self.showCategory(category, event);
-                        } else if(self.state.selected !== category.uid) {
-                          self.showList(event);
-                        }
-                      }} />
+          <Hammer component={ReminderCartegory}
+                  categoryId={categoryId}
+                  onTap={function(event) {
+                    if (self.state.mode === 'all') {
+                      self.showCategory(categoryId, event);
+                    } else if(self.state.selected !== categoryId) {
+                      self.showList(event);
+                    }
+                  }} />
         </ScrollItem>
       );
     });
 
     return (
       <div className="reminders">
-        <Scroller ref={"scroller"} viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
+        <Scroller viewport scrollingX={false} scrollingY={true}
+                  ref={"scroller"} selected={self.state.selected}
+                  getContentSize={this.getContentSize}>
           <ScrollItem name="search" scrollHandler={searchStatic}>
             <div />
           </ScrollItem>
@@ -126,7 +109,7 @@ function searchStatic() {// fixed
   };
 }
 function listScroll(x, y, self, items, scroller) {
-  var order = category_ordering.indexOf(self.props.model.uid);
+  var order = Data.categoryIds.indexOf(self.props.categoryId);
   var multiplier = Math.max(1, 1 - ( y / friction)); // stretch effect
 
   var pos = Math.max(0, order * multiplier * stackedSize - y);
@@ -138,15 +121,15 @@ function listScroll(x, y, self, items, scroller) {
 }
 
 function stackedItemHandler(x, y, self, items, scroller) {
-  var order = category_ordering.indexOf(self.props.model.uid);
+  var order = Data.categoryIds.indexOf(self.props.categoryId);
   var zIndex = 2 + order;
-  var selectedIndex = category_ordering.indexOf(self.props.selectedUid);
+  var selectedIndex = Data.categoryIds.indexOf(scroller.props.selected);
   if (order >= selectedIndex) {
     order = order - 1;
   }
 
   var pos = scroller.rect.height + 5; // off screen
-  var numStacked = Math.min(5, category_ordering.length-1);
+  var numStacked = Math.min(5, Data.categoryIds.length-1);
   if (order <= numStacked) {
     pos = scroller.rect.height - spaceAtBottom + 10 + ( (order+1) * (spaceAtBottom-30) / numStacked );
   }
@@ -159,7 +142,7 @@ function stackedItemHandler(x, y, self, items, scroller) {
 }
 
 function selectedItemHandler(x, y, self, items, scroller) {
-  var order = category_ordering.indexOf(self.props.model.uid);
+  var order = Data.categoryIds.indexOf(self.props.categoryId);
   return {
     zIndex: 2 + order,
     y: -y,
