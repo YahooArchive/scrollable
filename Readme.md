@@ -1,6 +1,10 @@
 ## React Scrollable
 
-Scrollable components for advanced mobile scrolling with React.js
+A library for layer composition with scrolling interactions.
+
+#### Tests and coverage
+
+    $ npm test
 
 #### Build
 
@@ -8,10 +12,18 @@ Scrollable components for advanced mobile scrolling with React.js
 
 #### Development
 
-    $ npm run watch
+    $ npm run dev
 
+#### Development auto-watch unit tests (without coverage)
+
+    $ karma start
 
 ### TODO notes
+
+  * Size/Position dependencies in lower level, look at ExtJS anchorTo for
+    a higher level API
+
+  * FPS meter on examples, maybe optional parameter
 
   * WebkitTransform -> MozTransform -> transform detection
 
@@ -22,6 +34,6 @@ Scrollable components for advanced mobile scrolling with React.js
     provide a package that whoever is not using CommonJS can still have a
     nice API for bower or manual download.
 
-  * Forcing `<Scroller>` to declare scrollingX and scrollingY for now. There
+  * Requiring `<Scroller>` to declare scrollingX and scrollingY for now. There
     is potential to inferring this based on itemSizes, but Zynga's API don't
     provide a way of updating this value in runtime.
