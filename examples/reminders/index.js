@@ -18,6 +18,7 @@ var Reminders = React.createClass({
     return {
       mode: 'all',
       selected: null,
+      previousScrollPosition: 0,
     };
   },
 
@@ -40,6 +41,7 @@ var Reminders = React.createClass({
     this.setState({
       mode: 'single',
       selected: categoryId,
+      previousScrollPosition: this.refs.scroller._scroller._scroller.getValues().top,
     }, function() {
       this.refs.scroller.animateAndResetScroll(0, 0);
     });
@@ -51,7 +53,7 @@ var Reminders = React.createClass({
       mode: 'all',
       selected: null,
     }, function() {
-      this.refs.scroller.animateAndResetScroll(0, 0);
+      this.refs.scroller.animateAndResetScroll(0, this.state.previousScrollPosition);
     });
 
   },

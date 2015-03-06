@@ -105,9 +105,11 @@ var Scroller = React.createClass({
     self._animEndX = x;
     self._animEndY = y;
 
-    setTimeout(function() {
-      self._scroller.scrollTo(x, y);
-    }, 0); // stop animations, fire scrollHandler once
+    // Make sure all calculations will be based on ** after animation ** max/min scroll size
+    self._resetScroll();
+    // Unfortunately zynga.setDimentions won't receive top/left coordinates, so set
+    // scroll to final position
+    self._scroller.scrollTo(x, y);
   },
 
   _endAnimation: function() {
