@@ -41,6 +41,10 @@ var FancyHeader = React.createClass({
 
 });
 
+/*
+  Notice: It's a Scrollable best practice to use plain functions instead
+  of React bound methods. Read more about why on the minimal example.
+  */
 function handler(x, y, self, items, scroller) {
   var transitionPixels = 100;
   var ratio = 6;

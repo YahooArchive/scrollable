@@ -3,11 +3,10 @@ var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
 var Hammer = require('react-hammerjs/dist/react-hammerjs');
-
 var ReminderCartegory = require('./category');
+
 var Data = require('./data');
 var itemSizeDuringListMode = 76;
-
 var Reminders = React.createClass({
 
   getInitialState: function() {
@@ -101,8 +100,8 @@ var Reminders = React.createClass({
 });
 
 /*
-  Notice: The following functions are outside of the React component.
-  Read more about why on the minimal example.
+  Notice: It's a Scrollable best practice to use plain functions instead
+  of React bound methods. Read more about why on the minimal example.
   */
 
 var spaceAtBottom = 60;

@@ -82,9 +82,9 @@ var ConsumptionMode = React.createClass({
 
 
 /*
-  Notice: The following functions are outside of the React component.
-  Read more about why on the minimal example.
-*/
+  Notice: It's a Scrollable best practice to use plain functions instead
+  of React bound methods. Read more about why on the minimal example.
+  */
 function consumptionBars(x, y, self, items, scroller) {
   // All calculations are made for top handler, then inverted in the end
   // if this call refers to the bottom handler

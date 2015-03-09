@@ -21,7 +21,7 @@ var MinimalScroller = React.createClass({
 
     return (
       <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
-        <ScrollItem name="content" scrollHandler={simpleHandler}>
+        <ScrollItem name="content" scrollHandler={simpleHandler} exampleProp={"for scroll calculation"}>
           {content}
         </ScrollItem>
       </Scroller>
@@ -31,14 +31,26 @@ var MinimalScroller = React.createClass({
 });
 
 /*
-Notice: The following function is outside of React.createClass object.
-React bound methods will go though some very small function call
-overhead in order to bind the method to the instance. This is near
-zero overhead, but when trying to achieve 60fps we should avoid it.
+  Notice:
+  It's a Scrollable best practice to avoid using bound methods and use instead
+  the handlers outside of the `React.createClass({})` object.
 
-Ideally, this function should not call any other function and do only the math needed.
+  React bound methods impose a small, though relevant for 60 fps rendering, overhead
+  in order to bookkeep the function scope (in other words, enforcing `this` to be the
+  React component instance). This might be invisible in smaller applications or
+  contrived examples, but amazing results are achievable even on iPhone 3GS if you
+  follow this and some other best practices throughout this examples folder.
+
+  Ideally, this function (or functions) should not call any other function or component
+  and neither setState. In order to compose layers efficiently the <Scroller> and
+  <ScrollItem> components will be made available to this handler in a performance
+  tested fashion. When state or other information is needed by those functions, you
+  can pass in as props during your render method.
 */
-function simpleHandler(x, y) {
+
+function simpleHandler(x, y, currentScrollItem, listOfAllScrollItemsComponents, scrollerContainerComponent) {
+  // In this scope all component props are still available. i.e.
+  // currentScrollItem.props.exampleProp === "for scroll calculation"
   return {
     y: -y,
   };
