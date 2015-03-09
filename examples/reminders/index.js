@@ -7,6 +7,8 @@ var ReminderCartegory = require('./category');
 
 var Data = require('./data');
 var itemSizeDuringListMode = 76;
+var spaceAtBottom = 60;
+
 var Reminders = React.createClass({
 
   getInitialState: function() {
@@ -25,7 +27,8 @@ var Reminders = React.createClass({
       <div className="reminders">
         <Scroller viewport scrollingX={false} scrollingY={true}
                   ref={"scroller"} selected={self.state.selected}
-                  getContentSize={this.calculateVerticalScrollArea}>
+                  getContentSize={this.calculateVerticalScrollArea}
+                  name="remindersViewport">
           <ScrollItem name="search" scrollHandler={handleSearchBoxPosition}>
             <div />
           </ScrollItem>
@@ -46,7 +49,10 @@ var Reminders = React.createClass({
                   key={categoryId}
                   categoryId={categoryId}
                   transitionStyles={transitionStyles}
-                  scrollHandler={handler}>
+                  scrollHandler={handler}
+                  style={{
+                    height: window.innerHeight - spaceAtBottom,
+                  }}>
         <Hammer component={ReminderCartegory}
                 categoryId={categoryId}
                 onTap={function(event) {
@@ -104,7 +110,6 @@ var Reminders = React.createClass({
   of React bound methods. Read more about why on the minimal example.
   */
 
-var spaceAtBottom = 60;
 var friction = 600;
 var transitionTime = 300; // ms
 
@@ -114,7 +119,6 @@ function handlePositionWhenShowingAllCategories(x, y, self, items, scroller) {
 
   var pos = Math.max(0, order * multiplier * itemSizeDuringListMode - y);
   return {
-    height: (scroller.rect.height - spaceAtBottom) + 'px',
     zIndex: 2 + order,
     y: pos,
   };
@@ -135,7 +139,6 @@ function handlePositionForStackedItem(x, y, self, items, scroller) {
   }
 
   return {
-    height: (scroller.rect.height - spaceAtBottom) + 'px',
     y: pos,
     zIndex: zIndex,
   };

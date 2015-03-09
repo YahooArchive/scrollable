@@ -34,7 +34,7 @@ var ScrollItem = React.createClass({
 
   render: function () {
     return (
-      <div className="scrollable-item">
+      <div className="scrollable-item" {...this.props}>
         {this.props.children}
       </div>
     );

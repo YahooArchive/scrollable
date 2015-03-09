@@ -16,6 +16,12 @@
     padding: 15px 18px;
     box-shadow: 0px -2px 4px -1px rgba(0,0,0,0.25);
     height: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+     -webkit-flex-direction: column;
+    flex-direction: column;
 }
 .reminder-category h1 {
     margin: 0;
@@ -49,4 +55,11 @@
 }
 .purple {
     color: rgba(203, 119, 223, 1);
+}
+
+.reminder-category .scrollable {
+    color: black;
+    -webkit-box-flex: 1;
+     -webkit-flex: 1;
+    flex: 1;
 }

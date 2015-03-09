@@ -30,9 +30,10 @@ var Scroller = React.createClass({
     getContentSize: React.PropTypes.func.isRequired,
   },
 
-  _scrollItems: {},
-
   _registerItem: function(scrollableItem) {
+    if(!this._scrollItems) {
+      this._scrollItems = {};
+    }
     this._scrollItems[scrollableItem.props.name] = scrollableItem;
   },
 
