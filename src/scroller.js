@@ -77,9 +77,16 @@ var Scroller = React.createClass({
 
   _animEndX: 0,
   _animEndY: 0,
-  animateAndResetScroll: function(x, y) {
+  _animTimer: null,
+  animateAndResetScroll: function(x, y, atomic) {
     var self = this;
+    if (atomic) {
+      self._scroller.stopEvents();
+    }
     self.disable();
+    if (self._animTimer) {
+      clearTimeout(self._animTimer);
+    }
 
     var acumulate = {
       delay: 0,
@@ -102,7 +109,7 @@ var Scroller = React.createClass({
       }
     }
     var totalTime = acumulate.delay + acumulate.duration;
-    setTimeout(self._endAnimation, totalTime);
+    self._animTimer = setTimeout(self._endAnimation, totalTime);
     self._animEndX = x;
     self._animEndY = y;
 
@@ -126,6 +133,7 @@ var Scroller = React.createClass({
     self._resetScroll();
     self._scroller.scrollTo(self._animEndX, self._animEndY);
     self._scroller.enable();
+    self._scroller.resumeEvents();
   },
 
   _getContentSize: function() {

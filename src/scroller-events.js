@@ -39,10 +39,17 @@ var members = {
   _scrolling: false,
   _started: function() {
     this._scrolling = true;
-    this._node.firstChild.style.pointerEvents = "none";
+    this.stopEvents();
   },
   _stopped: function() {
     this._scrolling = false;
+    this.resumeEvents();
+  },
+
+  stopEvents: function() {
+    this._node.firstChild.style.pointerEvents = "none";
+  },
+  resumeEvents: function() {
     this._node.firstChild.style.pointerEvents = "inherit";
   },
 
