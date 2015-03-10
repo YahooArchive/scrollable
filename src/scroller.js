@@ -166,7 +166,7 @@ var Scroller = React.createClass({
       className += '-viewport';
     }
     return (
-      <div className={className}>
+      <div className={className} {...this.props}>
         <div>
           {this.props.children}
         </div>

@@ -13,6 +13,12 @@ function ScrollerEvents(domNode, handler, config) {
     scrollingComplete: this._stopped.bind(this),
   });
 
+  // Store ScrollerEvents instances during event capturing
+  domNode.addEventListener("touchstart",  this._storeScrollers.bind(this), true);
+  domNode.addEventListener("touchmove",   this._storeScrollers.bind(this), true);
+  domNode.addEventListener("touchend",    this._storeScrollers.bind(this), true);
+  domNode.addEventListener("touchcancel", this._storeScrollers.bind(this), true);
+  // Then act on this information during bubbling
   domNode.addEventListener("touchstart",  this._touchStart.bind(this), false);
   domNode.addEventListener("touchmove",   this._touchMove.bind(this),  false);
   domNode.addEventListener("touchend",    this._touchEnd.bind(this),   false);
@@ -48,6 +54,12 @@ var members = {
     this._scroller.scrollTo(left, top, animate, zoom);
   },
 
+  _storeScrollers: function(event) {
+    event.__scrollers = event.__scrollers || [];
+    event.__scrollers.push(this); // not using right now, but I have a feeling this will be needed
+    event.__topMostScroller = this;
+  },
+
   _touchStart: function(event) {
     var scroller = this._scroller;
     if (event.touches[0] && event.touches[0].target && event.touches[0].target.tagName.match(/input|textarea|select/i)) {
@@ -58,7 +70,9 @@ var members = {
       event.preventDefault();
       event.stopPropagation();
     }
-    !this._disabled && scroller.doTouchStart(event.touches, event.timeStamp);
+    if (this === event.__topMostScroller && !this._disabled) {
+       scroller.doTouchStart(event.touches, event.timeStamp);
+    }
   },
 
   _touchMove: function(event) {
@@ -68,7 +82,9 @@ var members = {
     if (isMoving) {
       event.stopPropagation();
     }
-    !this._disabled && scroller.doTouchMove(event.touches, event.timeStamp, event.scale);
+    if (this === event.__topMostScroller && !this._disabled) {
+       scroller.doTouchMove(event.touches, event.timeStamp, event.scale);
+    }
   },
 
   _touchEnd: function(event) {
@@ -78,7 +94,9 @@ var members = {
       event.preventDefault();
       event.stopPropagation();
     }
-    !this._disabled && scroller.doTouchEnd(event.timeStamp);
+    if (this === event.__topMostScroller && !this._disabled) {
+       scroller.doTouchEnd(event.timeStamp);
+    }
   },
 };
 
