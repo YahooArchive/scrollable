@@ -88,7 +88,7 @@ var Reminders = React.createClass({
       selected: categoryId,
       previousScrollPosition: this.refs.scroller._scroller._scroller.getValues().top,
     }, function() {
-      this.refs.scroller.animateAndResetScroll(0, 0, "atomic");
+      this.refs.scroller.animateAndResetScroll(0, 0);
     });
   },
 
@@ -99,7 +99,7 @@ var Reminders = React.createClass({
       mode: 'all',
       selected: null,
     }, function() {
-      this.refs.scroller.animateAndResetScroll(0, this.state.previousScrollPosition, "atomic");
+      this.refs.scroller.animateAndResetScroll(0, this.state.previousScrollPosition);
     });
   },
 
