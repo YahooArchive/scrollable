@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "description": "Scrollable components for advanced mobile scrolling with React.js",
   "main": "src/scrollable.js",
-  "dependencies": {
-    "react": "^0.13.0-rc1",
-    "react-tools": "^0.13.0-rc1"
+  "peerDependencies": {
+    "react": ">=0.13.0"
   },
   "devDependencies": {
+    "react": "^0.13.0",
+    "react-tools": ">=0.13.0",
     "beefy": "^2.1.3",
     "browserify": "^9.0.3",
     "browserify-istanbul": "^0.1.5",
