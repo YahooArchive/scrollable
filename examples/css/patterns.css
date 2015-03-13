@@ -1,7 +1,7 @@
 .nested-scroll {
     height: 210px;
 }
-.scrollable-item .nested-scroll .scrollable-item {
+.scrollable-item .nested-scroll .scrollable-item, .nested-native-inner-scroll {
     display: inline-block;
     position: static;
     width: auto;
@@ -20,4 +20,9 @@
     height: 200px;
     border-radius: 100px;
     list-style:none;
+}
+
+.nested-native-inner {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
 }

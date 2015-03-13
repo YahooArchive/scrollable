@@ -9,6 +9,7 @@ var ComsumptionMode = require('./consumption');
 var FancyHeader = require('./fancy-header');
 var Reminders = require('./reminders');
 var NestedScrollers = require('./nested');
+var NestedNative = require('./nested-native');
 
 var App = React.createClass({
 
@@ -65,13 +66,15 @@ var App = React.createClass({
           description: "reminders/ - just like Apple's Reminders App"},
         { name:        'nested',
           description: "nested/ - Nested scrollers with orthogonal directions"},
+        { name:        'nested-native',
+          description: "nested-native/ - Nested scrollers WITHOUT <Scroller>"},
       ];
 
       var navList = examples.map(function(example) {
         var name = example.name;
         var click = self.switchExample.bind(self, example.name);
         return (
-          <li key={'nav-'+name}>
+          <li key={'nav-'+name} style={{paddingTop: 10}}>
             <a href={"#"+name} onClick={click}>
               {example.description}
             </a>
@@ -83,14 +86,15 @@ var App = React.createClass({
     return (
       <div>
 
-        { render === 'minimal'      && <MinimalScroller /> }
-        { render === 'consumption'  && <ComsumptionMode /> }
-        { render === 'fancy-header' && <FancyHeader /> }
-        { render === 'reminders'    && <Reminders /> }
-        { render === 'nested'       && <NestedScrollers /> }
+        { render === 'minimal'       && <MinimalScroller /> }
+        { render === 'consumption'   && <ComsumptionMode /> }
+        { render === 'fancy-header'  && <FancyHeader /> }
+        { render === 'reminders'     && <Reminders /> }
+        { render === 'nested'        && <NestedScrollers /> }
+        { render === 'nested-native' && <NestedNative /> }
 
         { render === 'nav' &&
-          <div style={{padding: '10px', fontSize: '12px'}}>
+          <div style={{padding: '10px', fontSize: '14px'}}>
             <h4>Choose a scroll example:</h4>
             <ul style={{paddingLeft: '15px'}}>
               {navList}

@@ -3,7 +3,7 @@ var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
 
-var PatternsList = require('./patterns');
+var PatternsList = require('../patterns');
 var Lorem = require('../lorem');
 
 var NestedScrollers = React.createClass({
