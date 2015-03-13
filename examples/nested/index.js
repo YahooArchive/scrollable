@@ -33,7 +33,7 @@ var NestedScrollers = React.createClass({
             </ScrollItem>
           </Scroller>
 
-          <Lorem />
+          <Lorem numParagraphs={2} />
 
         </ScrollItem>
       </Scroller>
