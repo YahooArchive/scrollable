@@ -1,0 +1,23 @@
+.nested-scroll {
+    height: 210px;
+}
+.scrollable-item .nested-scroll .scrollable-item {
+    display: inline-block;
+    position: static;
+    width: auto;
+}
+.patterns {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 5px 0;
+    margin: 0;
+}
+.patterns > li {
+    margin: 0 10px;
+    display: inline-block;
+    white-space: normal;
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    list-style:none;
+}

@@ -8,6 +8,7 @@ var MinimalScroller = require('./minimal');
 var ComsumptionMode = require('./consumption');
 var FancyHeader = require('./fancy-header');
 var Reminders = require('./reminders');
+var NestedScrollers = require('./nested');
 
 var App = React.createClass({
 
@@ -62,6 +63,8 @@ var App = React.createClass({
           description: "fancy-header/ - fading and parallax transitions based on scroll"},
         { name:        'reminders',
           description: "reminders/ - just like Apple's Reminders App"},
+        { name:        'nested',
+          description: "nested/ - Nested scrollers with orthogonal directions"},
       ];
 
       var navList = examples.map(function(example) {
@@ -84,6 +87,7 @@ var App = React.createClass({
         { render === 'consumption'  && <ComsumptionMode /> }
         { render === 'fancy-header' && <FancyHeader /> }
         { render === 'reminders'    && <Reminders /> }
+        { render === 'nested'       && <NestedScrollers /> }
 
         { render === 'nav' &&
           <div style={{padding: '10px', fontSize: '12px'}}>

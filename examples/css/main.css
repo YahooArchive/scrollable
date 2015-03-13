@@ -1,7 +1,10 @@
 * {
     box-sizing: border-box;
 }
-
+.lorem {
+    background: white;
+    padding: 0 10px;
+}
 .scrollable {
     position: relative;
     overflow: hidden;
@@ -25,6 +28,9 @@
     backface-visibility: hidden;
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0, 0, 0);
+}
+.scrollable-viewport .scrollable-item {
+    width: 100%;
 }
 
 a {

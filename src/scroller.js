@@ -169,12 +169,13 @@ var Scroller = React.createClass({
   },
 
   render: function () {
-    var className = 'scrollable';
+    var { className, ...otherProps } = this.props;
+    var ownClass = 'scrollable';
     if (this.props.hasOwnProperty('viewport')) {
-      className += '-viewport';
+      ownClass += '-viewport';
     }
     return (
-      <div className={className} {...this.props}>
+      <div className={ownClass+' '+className} {...otherProps}>
         <div>
           {this.props.children}
         </div>

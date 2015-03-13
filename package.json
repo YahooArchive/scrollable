@@ -28,8 +28,8 @@
     "watchify": "^2.3.0"
   },
   "scripts": {
-    "build": "browserify examples/main.js -o examples/build/bundle.js      --transform reactify --insert-global-vars React",
-    "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform reactify --insert-global-vars React --debug --verbose",
+    "build": "browserify examples/main.js -o examples/build/bundle.js      --transform [reactify --es6] --insert-global-vars React",
+    "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform [reactify --es6] --insert-global-vars React --debug --verbose",
     "test": "karma start karma.headless.js && istanbul report && echo 'Details at ./coverage/index.html'"
   },
   "author": "Irae Carvalho <irae@irae.pro.br>",
