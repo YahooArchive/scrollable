@@ -1,0 +1,184 @@
+{
+  "photo": {
+    "id": "13171992334",
+    "secret": "2f3e6b0def",
+    "server": "3787",
+    "farm": 4,
+    "dateuploaded": "1394905837",
+    "isfavorite": 0,
+    "license": "1",
+    "safety_level": "0",
+    "rotation": 0,
+    "originalsecret": "a04e7499e0",
+    "originalformat": "jpg",
+    "owner": {
+      "nsid": "101996824@N05",
+      "username": "Matze Photography",
+      "realname": "Mathias Kuntze",
+      "location": "Ilmenau, Deutschland",
+      "iconserver": "3738",
+      "iconfarm": 4,
+      "path_alias": "mathiaskuntze"
+    },
+    "title": {
+      "_content": "ski kids"
+    },
+    "description": {
+      "_content": ""
+    },
+    "visibility": {
+      "ispublic": 1,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "dates": {
+      "posted": "1394905837",
+      "taken": "2014-03-13 13:07:41",
+      "takengranularity": "0",
+      "takenunknown": 0,
+      "lastupdate": "1425580923"
+    },
+    "views": "2277",
+    "editability": {
+      "cancomment": 0,
+      "canaddmeta": 0
+    },
+    "publiceditability": {
+      "cancomment": 1,
+      "canaddmeta": 1
+    },
+    "usage": {
+      "candownload": 1,
+      "canblog": 0,
+      "canprint": 0,
+      "canshare": 1
+    },
+    "comments": {
+      "_content": "0"
+    },
+    "notes": {
+      "note": []
+    },
+    "people": {
+      "haspeople": 0
+    },
+    "tags": {
+      "tag": [
+        {
+          "id": "101991484-13171992334-27419",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "alpen",
+          "_content": "alpen",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-123526",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "alpin",
+          "_content": "alpin",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-904",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "berg",
+          "_content": "berg",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-3840",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "child",
+          "_content": "child",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-1611",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "children",
+          "_content": "children",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-2588",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "kid",
+          "_content": "kid",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-1179",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "kids",
+          "_content": "kids",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-399",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "mountain",
+          "_content": "mountain",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-3843",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "play",
+          "_content": "play",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-154",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "schnee",
+          "_content": "schnee",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-479",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "ski",
+          "_content": "ski",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-102200",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "ski fahren",
+          "_content": "skifahren",
+          "machine_tag": 0
+        },
+        {
+          "id": "101991484-13171992334-412",
+          "author": "101996824@N05",
+          "authorname": "Matze Photography",
+          "raw": "snow",
+          "_content": "snow",
+          "machine_tag": 0
+        }
+      ]
+    },
+    "urls": {
+      "url": [
+        {
+          "type": "photopage",
+          "_content": "https://www.flickr.com/photos/mathiaskuntze/13171992334/"
+        }
+      ]
+    },
+    "media": "photo"
+  },
+  "stat": "ok"
+}

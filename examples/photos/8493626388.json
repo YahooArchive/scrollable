@@ -1,0 +1,96 @@
+{
+  "photo": {
+    "id": "8493626388",
+    "secret": "24e3e7caf3",
+    "server": "8087",
+    "farm": 9,
+    "dateuploaded": "1361397937",
+    "isfavorite": 0,
+    "license": "1",
+    "safety_level": "0",
+    "rotation": 0,
+    "originalsecret": "a66b5c22e0",
+    "originalformat": "jpg",
+    "owner": {
+      "nsid": "13457985@N05",
+      "username": "efilpera",
+      "realname": "",
+      "location": "TREVISO, ITALY",
+      "iconserver": "2889",
+      "iconfarm": 3,
+      "path_alias": "efilpera"
+    },
+    "title": {
+      "_content": "Ski"
+    },
+    "description": {
+      "_content": "Fai della Paganella"
+    },
+    "visibility": {
+      "ispublic": 1,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "dates": {
+      "posted": "1361397937",
+      "taken": "2013-02-20 23:05:37",
+      "takengranularity": "0",
+      "takenunknown": 0,
+      "lastupdate": "1411290647"
+    },
+    "views": "12873",
+    "editability": {
+      "cancomment": 0,
+      "canaddmeta": 0
+    },
+    "publiceditability": {
+      "cancomment": 1,
+      "canaddmeta": 0
+    },
+    "usage": {
+      "candownload": 1,
+      "canblog": 0,
+      "canprint": 0,
+      "canshare": 1
+    },
+    "comments": {
+      "_content": "30"
+    },
+    "notes": {
+      "note": []
+    },
+    "people": {
+      "haspeople": 0
+    },
+    "tags": {
+      "tag": [
+        {
+          "id": "13452645-8493626388-479",
+          "author": "13457985@N05",
+          "authorname": "efilpera",
+          "raw": "Ski",
+          "_content": "ski",
+          "machine_tag": 0
+        },
+        {
+          "id": "13452645-8493626388-18769653",
+          "author": "13457985@N05",
+          "authorname": "efilpera",
+          "raw": "Fai della Paganella",
+          "_content": "faidellapaganella",
+          "machine_tag": 0
+        }
+      ]
+    },
+    "urls": {
+      "url": [
+        {
+          "type": "photopage",
+          "_content": "https://www.flickr.com/photos/efilpera/8493626388/"
+        }
+      ]
+    },
+    "media": "photo"
+  },
+  "stat": "ok"
+}

@@ -1,0 +1,170 @@
+{
+  "photo": {
+    "id": "13384906064",
+    "secret": "3016bb044a",
+    "server": "2851",
+    "farm": 3,
+    "dateuploaded": "1395681312",
+    "isfavorite": 0,
+    "license": "4",
+    "safety_level": "0",
+    "rotation": 0,
+    "originalsecret": "8a7b825bee",
+    "originalformat": "jpg",
+    "owner": {
+      "nsid": "94350967@N04",
+      "username": "Vendin",
+      "realname": "Vašek Vinklát",
+      "location": "Czech Republic",
+      "iconserver": "8376",
+      "iconfarm": 9,
+      "path_alias": "vendin"
+    },
+    "title": {
+      "_content": "Zillertal, Ski Resort Mayrhofen-Hippach"
+    },
+    "description": {
+      "_content": "Mayrhofen is a town in the Zillertal. The Zillertal (&quot;Ziller valley&quot;) is a valley in Tyrol, Austria that is drained by the Ziller river.\n<a href=\"http://en.wikipedia.org/wiki/Zillertal\" rel=\"nofollow\">Wikipedia</a>\n\nlens: Pentacon 50mm/1.8 (old manual lens)\npanorama created using Hugin free software\nfinal resolution: 9354 x 2834"
+    },
+    "visibility": {
+      "ispublic": 1,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "dates": {
+      "posted": "1395681312",
+      "taken": "2014-03-18 09:55:16",
+      "takengranularity": "0",
+      "takenunknown": 0,
+      "lastupdate": "1423971177"
+    },
+    "views": "4166",
+    "editability": {
+      "cancomment": 0,
+      "canaddmeta": 0
+    },
+    "publiceditability": {
+      "cancomment": 1,
+      "canaddmeta": 0
+    },
+    "usage": {
+      "candownload": 1,
+      "canblog": 0,
+      "canprint": 0,
+      "canshare": 1
+    },
+    "comments": {
+      "_content": "0"
+    },
+    "notes": {
+      "note": []
+    },
+    "people": {
+      "haspeople": 0
+    },
+    "tags": {
+      "tag": [
+        {
+          "id": "94318828-13384906064-500",
+          "author": "94350967@N04",
+          "authorname": "Vendin",
+          "raw": "Alps",
+          "_content": "alps",
+          "machine_tag": 0
+        },
+        {
+          "id": "94318828-13384906064-2088",
+          "author": "94350967@N04",
+          "authorname": "Vendin",
+          "raw": "Austria",
+          "_content": "austria",
+          "machine_tag": 0
+        },
+        {
+          "id": "94318828-13384906064-131387",
+          "author": "94350967@N04",
+          "authorname": "Vendin",
+          "raw": "Mayrhofen",
+          "_content": "mayrhofen",
+          "machine_tag": 0
+        },
+        {
+          "id": "94318828-13384906064-799",
+          "author": "94350967@N04",
+          "authorname": "Vendin",
+          "raw": "public",
+          "_content": "public",
+          "machine_tag": 0
+        },
+        {
+          "id": "94318828-13384906064-479",
+          "author": "94350967@N04",
+          "authorname": "Vendin",
+          "raw": "ski",
+          "_content": "ski",
+          "machine_tag": 0
+        },
+        {
+          "id": "94318828-13384906064-2261",
+          "author": "94350967@N04",
+          "authorname": "Vendin",
+          "raw": "Tirol",
+          "_content": "tirol",
+          "machine_tag": 0
+        },
+        {
+          "id": "94318828-13384906064-105234",
+          "author": "94350967@N04",
+          "authorname": "Vendin",
+          "raw": "Zillertal",
+          "_content": "zillertal",
+          "machine_tag": 0
+        }
+      ]
+    },
+    "location": {
+      "latitude": "47.191062",
+      "longitude": "11.792283",
+      "accuracy": "16",
+      "context": "0",
+      "locality": {
+        "_content": "Schwendau",
+        "place_id": "VEoJX4BQULxlxqflCg",
+        "woeid": "12675413"
+      },
+      "county": {
+        "_content": "Schwaz District",
+        "place_id": "kf0SMZNQUL.MUCnI9w",
+        "woeid": "12591743"
+      },
+      "region": {
+        "_content": "Tyrol",
+        "place_id": "SMRz9bVTUb5DHNW5",
+        "woeid": "2344714"
+      },
+      "country": {
+        "_content": "Austria",
+        "place_id": "rSA5zEBTUb4nNhY79w",
+        "woeid": "23424750"
+      },
+      "place_id": "VEoJX4BQULxlxqflCg",
+      "woeid": "12675413"
+    },
+    "geoperms": {
+      "ispublic": 1,
+      "iscontact": 0,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "urls": {
+      "url": [
+        {
+          "type": "photopage",
+          "_content": "https://www.flickr.com/photos/vendin/13384906064/"
+        }
+      ]
+    },
+    "media": "photo"
+  },
+  "stat": "ok"
+}
