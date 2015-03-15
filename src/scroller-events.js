@@ -29,6 +29,7 @@ function ScrollerEvents(domNode, handler, config) {
 
 var members = {
   _disabled: false,
+  _isParentScrolling: false,
   disable: function() {
     this._disabled = true;
   },
@@ -62,47 +63,52 @@ var members = {
   },
 
   _storeScrollers: function(event) {
-    event.__scrollers = event.__scrollers || [];
-    event.__scrollers.push(this); // not using right now, but I have a feeling this will be needed
-    event.__topMostScroller = this;
+    var scrollers = (event.__scrollers = event.__scrollers || []);
+    var len = scrollers.length;
+    if (len) {
+      var parent = scrollers[len-1];
+      this._isParentScrolling = parent._scrolling || parent._isParentScrolling || false;
+    }
+    scrollers.push(this);
   },
 
   _touchStart: function(event) {
-    var scroller = this._scroller;
     if (event.touches[0] && event.touches[0].target && event.touches[0].target.tagName.match(/input|textarea|select/i)) {
       return;
     }
-    var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
+
+    var scroller = this._scroller;
+    if (!this._isParentScrolling && !this._disabled) {
+       scroller.doTouchStart(event.touches, event.timeStamp);
+    }
+    var isMoving = scroller.__enableScrollX || scroller.__enableScrollY || scroller.__isDecelerating || scroller.__isAnimating;
     if (isMoving) {
       event.preventDefault();
       event.stopPropagation();
-    }
-    if (this === event.__topMostScroller && !this._disabled) {
-       scroller.doTouchStart(event.touches, event.timeStamp);
     }
   },
 
   _touchMove: function(event) {
-    event.preventDefault(); // unconditionally to prevent React onScroll handlers
     var scroller = this._scroller;
-    var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
+    if (!this._isParentScrolling && !this._disabled) {
+       scroller.doTouchMove(event.touches, event.timeStamp, event.scale);
+    }
+    var isMoving = scroller.__enableScrollX || scroller.__enableScrollY || scroller.__isDecelerating || scroller.__isAnimating;
     if (isMoving) {
       event.stopPropagation();
     }
-    if (this === event.__topMostScroller && !this._disabled) {
-       scroller.doTouchMove(event.touches, event.timeStamp, event.scale);
-    }
+    event.preventDefault(); // unconditionally to prevent React onScroll handlers
   },
 
   _touchEnd: function(event) {
     var scroller = this._scroller;
-    var isMoving = scroller.__isDragging || scroller.__isDecelerating || scroller.__isAnimating;
+    if (!this._isParentScrolling && !this._disabled) {
+       scroller.doTouchEnd(event.timeStamp);
+    }
+    var isMoving = scroller.__enableScrollX || scroller.__enableScrollY || scroller.__isDecelerating || scroller.__isAnimating;
     if (isMoving) {
       event.preventDefault();
       event.stopPropagation();
-    }
-    if (this === event.__topMostScroller && !this._disabled) {
-       scroller.doTouchEnd(event.timeStamp);
     }
   },
 };

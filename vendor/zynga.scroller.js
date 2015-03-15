@@ -902,7 +902,8 @@
 
 				positions.push(self.__scrollLeft, self.__scrollTop, timeStamp);
 
-				self.__isDragging = (self.__enableScrollX || self.__enableScrollY) && (distanceX >= minimumTrackingForDrag || distanceY >= minimumTrackingForDrag);
+				self.__isDragging = (self.__enableScrollX && distanceX >= minimumTrackingForDrag) ||
+                            (self.__enableScrollY && distanceY >= minimumTrackingForDrag);
 				if (self.__isDragging) {
 					self.__interruptedAnimation = false;
           self.options.scrollingStarted();
