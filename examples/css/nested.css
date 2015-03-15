@@ -6,20 +6,31 @@
     position: static;
     width: auto;
 }
-.patterns {
+.patterns, .photos {
     display: inline-block;
     white-space: nowrap;
     padding: 5px 0;
     margin: 0;
 }
-.patterns > li {
-    margin: 0 10px;
+.patterns > li, .photos > li {
     display: inline-block;
+    margin: 0 10px;
     white-space: normal;
+    list-style:none;
+}
+.patterns > li {
     width: 200px;
     height: 200px;
     border-radius: 100px;
-    list-style:none;
+}
+.photos > li img {
+    height: 200px;
+}
+
+button {
+    margin: 10px 20px;
+    padding: 5px;
+    -webkit-appearance: none;
 }
 
 .nested-native-inner {

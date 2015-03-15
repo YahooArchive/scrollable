@@ -3,13 +3,27 @@ var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
 
+var PhotoList = require('../photos');
 var PatternsList = require('../patterns');
+
 var Lorem = require('../lorem');
 
 var NestedScrollers = React.createClass({
 
+  getInitialState: function() {
+    return {
+      display: 'photos',
+    };
+  },
+
   getContentSize: function (items, scroller) {
     return items.content.rect;
+  },
+
+  toggle: function() {
+    this.setState({
+      display: 'photos' === this.state.display ? 'patterns' : 'photos',
+    });
   },
 
   render: function () {
@@ -21,7 +35,12 @@ var NestedScrollers = React.createClass({
 
           <Scroller className={'nested-scroll'} scrollingX={true} scrollingY={false} getContentSize={this.getContentSize}>
             <ScrollItem name="content" scrollHandler={horizontalHandler}>
-              <PatternsList />
+              { 'photos' === this.state.display &&
+                <PhotoList />
+              }
+              { 'patterns' === this.state.display &&
+                <PatternsList />
+              }
             </ScrollItem>
           </Scroller>
 
@@ -29,9 +48,16 @@ var NestedScrollers = React.createClass({
 
           <Scroller className={'nested-scroll'} scrollingX={true} scrollingY={false} getContentSize={this.getContentSize}>
             <ScrollItem name="content" scrollHandler={horizontalHandler}>
-              <PatternsList />
+              { 'photos' === this.state.display &&
+                <PhotoList />
+              }
+              { 'patterns' === this.state.display &&
+                <PatternsList />
+              }
             </ScrollItem>
           </Scroller>
+
+          <button onClick={this.toggle}>Toggle between photos and CSS3 patterns</button>
 
           <Lorem numParagraphs={2} />
 
