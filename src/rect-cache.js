@@ -20,6 +20,7 @@ var RectCache = {
     // where the outermost rect-cache is not updated while the inner most might be.
     if (oldRect.width !== newRect.width || oldRect.height !== newRect.height) {
       this.props.onResize && this.props.onResize();
+      this.onResize && this.onResize();
     }
   },
 

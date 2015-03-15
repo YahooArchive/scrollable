@@ -15,6 +15,12 @@ var ScrollItem = React.createClass({
     scrollingParent: React.PropTypes.object,
   },
 
+  onResize: function() {
+    var parentContext = this._reactInternalInstance._context;
+    var parent = parentContext.scrollingParent;
+    parent && parent._resetScroll();
+  },
+
   componentWillMount: function () {
     var parentContext = this._reactInternalInstance._context;
     var parent = parentContext.scrollingParent;

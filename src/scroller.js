@@ -165,7 +165,7 @@ var Scroller = React.createClass({
   _resetScroll: function() {
     var self = this;
     var content = self._getContentSize();
-    self._scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
+    self._scroller && self._scroller.setDimensions(self.rect.width, self.rect.height, content.width, content.height);
   },
 
   render: function () {
