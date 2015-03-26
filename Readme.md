@@ -46,7 +46,6 @@ Pull requests, and issues are welcome. Not only for code but also for documentat
   * Size/Position dependencies in lower level, look at ExtJS anchorTo for
     a higher level API eventually
   * FPS meter on examples, maybe optional parameter
-  * WebkitTransform -> MozTransform -> transform detection
   * Styles are currently only on the examples, need to figure out a way to
     be in JavaScript and still be able to override via some API. Should it
     even be allowed?

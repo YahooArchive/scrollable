@@ -2,12 +2,16 @@
 var React = require('react');
 var RectCache = require('./rect-cache');
 var ScrollerEvents = require('./scroller-events');
+var prefixed = require('./prefixed');
+
+var transition = prefixed('transition');
+var transform = prefixed('transform');
 
 var transitionProps = {
-  'delay': 'WebkitTransitionDelay',
-  'duration': 'WebkitTransitionDuration',
-  'property': 'WebkitTransitionProperty',
-  'timingFunction': 'WebkitTransitionTimingFunction',
+  'delay': transition+'Delay',
+  'duration': transition+'Duration',
+  'property': transition+'Property',
+  'timingFunction': transition+'TimingFunction',
 };
 
 var Scroller = React.createClass({
@@ -56,10 +60,10 @@ var Scroller = React.createClass({
 
         delete styleObject.x;
         delete styleObject.y;
-        styleObject.WebkitTransform = 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)';
+        styleObject[transform] = 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)';
 
         if (styleObject.scale) {
-          styleObject.WebkitTransform += ' scale('+styleObject.scale+')';
+          styleObject[transform] += ' scale('+styleObject.scale+')';
           delete styleObject.scale;
         }
 
