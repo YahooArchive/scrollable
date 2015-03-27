@@ -2,6 +2,7 @@
 var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
+var prefixed = require('../../src/prefixed');
 var Hammer = require('react-hammerjs/dist/react-hammerjs');
 var ReminderCartegory = require('./category');
 
@@ -155,7 +156,7 @@ function handlePositionForSelectedItem(x, y, self, items, scroller) {
 function transitionStyles(self, items, scroller) {
   return {
     duration: transitionTime,
-    property: '-webkit-transform',
+    property: prefixed.hyphenated('transform'),
   };
 }
 

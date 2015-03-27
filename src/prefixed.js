@@ -19,6 +19,11 @@ function prefixed(prop, obj, elem) {
   }
 }
 
+prefixed.hyphenated = function(prop) {
+    // http://modernizr.com/docs/#prefixed
+    return prefixed(prop).replace(/([A-Z])/g, function(str,m1){ return '-' + m1.toLowerCase(); }).replace(/^ms-/,'-ms-');
+};
+
 function testPropsAll(prop, prefixed, elem) {
   var ucProp = prop.charAt(0).toUpperCase() + prop.slice(1);
   var props = (prop + ' ' + cssomPrefixes.join(ucProp + ' ') + ucProp).split(' ');
