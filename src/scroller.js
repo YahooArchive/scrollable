@@ -173,13 +173,26 @@ var Scroller = React.createClass({
   },
 
   render: function () {
-    var { className, ...otherProps } = this.props;
-    var ownClass = 'scrollable';
-    if (this.props.hasOwnProperty('viewport')) {
-      ownClass += '-viewport';
+    var props = this.props;
+    var className = 'scrollable';
+    if (props.hasOwnProperty('viewport')) {
+      className += '-viewport';
     }
+
+    var isClassName = /^(className|class)$/;
+    var passProps = {};
+
+    Object.keys(props).forEach(function(key){
+      var value = props[key];
+      if (isClassName.test(key)) {
+        className += ' ' + value;
+      } else {
+        passProps[key] = value;
+      }
+    });
+
     return (
-      <div className={ownClass+' '+className} {...otherProps}>
+      <div className={className} {...passProps}>
         <div>
           {this.props.children}
         </div>
