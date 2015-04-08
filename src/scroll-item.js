@@ -18,7 +18,7 @@ var ScrollItem = React.createClass({
   onResize: function() {
     var parentContext = this._reactInternalInstance._context;
     var parent = parentContext.scrollingParent;
-    parent && parent._resetScroll();
+    parent && parent._resetScroll && parent._resetScroll();
   },
 
   componentWillMount: function () {
