@@ -1,11 +1,17 @@
 {
   "name": "scrollable",
-  "version": "0.0.0",
-  "description": "Scrollable components for advanced mobile scrolling with React.js",
+  "version": "0.0.1",
+  "description": "Components for layer composition and scrolling with React.js",
   "main": "src/scrollable.js",
   "peerDependencies": {
     "react": ">=0.13.0"
   },
+  "files": [
+    "Readme.md",
+    "vendor/",
+    "src/"
+  ],
+  "private": true,
   "devDependencies": {
     "react": "^0.13.0",
     "react-tools": ">=0.13.0",
@@ -28,7 +34,8 @@
     "watchify": "^2.3.0"
   },
   "scripts": {
-    "build": "browserify examples/main.js -o examples/build/bundle.js      --transform [reactify --es6] --insert-global-vars React",
+    "build": "browserify src/scrollable.js -o dist/scrollable.js --transform [reactify --es6] --exclude react --bare",
+    "build-examples": "browserify examples/main.js -o examples/build/bundle.js --transform [reactify --es6] --insert-global-vars React",
     "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform [reactify --es6] --insert-global-vars React --debug --verbose",
     "test": "karma start karma.headless.js && istanbul report && echo 'Details at ./coverage/index.html'"
   },
