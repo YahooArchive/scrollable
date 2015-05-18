@@ -180,19 +180,15 @@ var Scroller = React.createClass({
     }
 
     var isClassName = /^(className|class)$/;
-    var passProps = {};
-
     Object.keys(props).forEach(function(key){
       var value = props[key];
       if (isClassName.test(key)) {
         className += ' ' + value;
-      } else {
-        passProps[key] = value;
       }
     });
 
     return (
-      <div className={className} {...passProps}>
+      <div className={className}>
         <div>
           {this.props.children}
         </div>
