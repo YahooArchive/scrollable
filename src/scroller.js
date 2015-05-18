@@ -192,11 +192,11 @@ var Scroller = React.createClass({
     });
 
     return (
-      <div className={className} {...passProps}>
-        <div>
-          {this.props.children}
-        </div>
-      </div>
+      React.createElement("div", React.__spread({className: className},  passProps),
+        React.createElement("div", null,
+          this.props.children
+        )
+      )
     );
   },
 

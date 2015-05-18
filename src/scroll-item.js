@@ -40,9 +40,9 @@ var ScrollItem = React.createClass({
 
   render: function () {
     return (
-      <div className="scrollable-item" {...this.props}>
-        {this.props.children}
-      </div>
+      React.createElement("div", React.__spread({className: "scrollable-item"},  this.props),
+        this.props.children
+      )
     );
   },
 
