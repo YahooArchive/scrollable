@@ -4,7 +4,7 @@
   "description": "Components for layer composition and scrolling with React.js",
   "main": "src/scrollable.js",
   "peerDependencies": {
-    "react": ">=0.13.0"
+    "react": "~0.13.0"
   },
   "files": [
     "Readme.md",

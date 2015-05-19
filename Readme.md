@@ -26,6 +26,7 @@ Many examples are provided on the `examples/` folder.
 
     $ karma start
 
+Notice: The current version throws a lot of warnings about 'owner-based context'. To ignore this messages you can use the following regex on the Chrome Dev-Tools console filter: ^((?!owner-based).)*$
 
 ### Contributions Guideline
 

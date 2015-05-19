@@ -1,5 +1,5 @@
 
-var React = require('react');
+var React = (typeof window !== 'undefined' && window.React) || require('react');
 var RectCache = require('./rect-cache');
 var ScrollerEvents = require('./scroller-events');
 var prefixed = require('./prefixed');
