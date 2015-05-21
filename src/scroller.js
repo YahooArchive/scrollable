@@ -71,8 +71,12 @@ var Scroller = React.createClass({
         // improvements specially on iPhone 4 with iOS 7.
 
         // Set styles
-        for(var prop in styleObject) {
-          item._node && (item._node.style[prop] = styleObject[prop]);
+        if (item._node) {
+          for(var prop in styleObject) {
+            item._node.style[prop] = styleObject[prop];
+          }
+        } else {
+          item._pendingStyles = styleObject;
         }
 
       }
