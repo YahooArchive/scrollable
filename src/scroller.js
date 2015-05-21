@@ -72,7 +72,7 @@ var Scroller = React.createClass({
 
         // Set styles
         for(var prop in styleObject) {
-          item._node.style[prop] = styleObject[prop];
+          item._node && (item._node.style[prop] = styleObject[prop]);
         }
 
       }
