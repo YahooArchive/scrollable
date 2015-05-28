@@ -38,11 +38,20 @@ var Scroller = React.createClass({displayName: "Scroller",
     if(!this._scrollItems) {
       this._scrollItems = {};
     }
-    this._scrollItems[scrollableItem.props.name] = scrollableItem;
+    var name = scrollableItem.props.name;
+    if (this._scrollItems[name]) {
+      console.warn('ScrollItem Invariant Error: Mounting duplicated ScrollItem. "'+name+'" is being replaced.');
+    }
+    this._scrollItems[name] = scrollableItem;
   },
 
   _unRegisterItem: function(scrollableItem) {
-    delete this._scrollItems[scrollableItem.props.name];
+    var name = scrollableItem.props.name;
+    if (this._scrollItems[name] !== scrollableItem) {
+      console.warn('ScrollItem Invariant Error: Unmount invalid ScrollItem "'+name+'"');
+    } else {
+      delete this._scrollItems[name];
+    }
   },
 
   setStyleWithPosition: function(x, y) {
