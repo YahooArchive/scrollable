@@ -41,7 +41,7 @@ function getImageLoadedNotifications(node, callback) {
   watchLoadImages(node.getElementsByTagName('img'), callback);
   node.addEventListener('DOMNodeInserted', function(event) {
     var images = event.target.getElementsByTagName && event.target.getElementsByTagName('img');
-    if (event.target.tagName.toLowerCase() === 'img') {
+    if (event.target.nodeName.toLowerCase() === 'img') {
       watchLoadImages([event.target], callback);
     }
     watchLoadImages(images, callback);
