@@ -14,7 +14,7 @@ var transitionProps = {
   'timingFunction': transition+'TimingFunction',
 };
 
-var Scroller = React.createClass({
+var Scroller = React.createClass({displayName: "Scroller",
 
   mixins: [RectCache],
 

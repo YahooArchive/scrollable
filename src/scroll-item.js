@@ -2,7 +2,7 @@
 var React = (typeof window !== 'undefined' && window.React) || require('react');
 var RectCache = require('./rect-cache');
 
-var ScrollItem = React.createClass({
+var ScrollItem = React.createClass({displayName: "ScrollItem",
 
   mixins: [RectCache],
 
@@ -29,7 +29,7 @@ var ScrollItem = React.createClass({
 
   componentDidMount: function () {
     this._node = this.getDOMNode();
-    var styleObject = this._pendingStyles
+    var styleObject = this._pendingStyles;
     if (styleObject) {
       for(var prop in styleObject) {
         this._node.style[prop] = styleObject[prop];
