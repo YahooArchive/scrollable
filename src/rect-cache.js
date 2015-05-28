@@ -30,10 +30,20 @@ var RectCache = {
     update();
     getImageLoadedNotifications(node, update);
     node.addEventListener('DOMSubtreeModified', update);
+    if (this.props.hasOwnProperty('viewport')) {
+      window.addEventListener('orientationchange', update);
+      window.addEventListener("resize", update);
+    }
   },
 
   componentWillUnmount: function(){
-    this.getDOMNode().removeEventListener('DOMSubtreeModified', this._updateRectCache);
+    var node = this.getDOMNode();
+    var update = this._updateRectCache;
+    node.removeEventListener('DOMSubtreeModified', update);
+    if (this.props.hasOwnProperty('viewport')) {
+    window.removeEventListener('orientationchange', update);
+    window.removeEventListener("resize", update);
+    }
   },
 };
 
