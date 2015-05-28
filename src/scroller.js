@@ -179,6 +179,11 @@ var Scroller = React.createClass({displayName: "Scroller",
     // RectCache before updating containerSizer for the first time.
     setTimeout(self._resetScroll, 1);
   },
+
+  onResize: function() {
+    this._resetScroll();
+  },
+
   _resetScroll: function() {
     var self = this;
     var content = self._getContentSize();

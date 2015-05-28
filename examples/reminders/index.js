@@ -29,7 +29,8 @@ var Reminders = React.createClass({
         <Scroller viewport scrollingX={false} scrollingY={true}
                   ref={"scroller"} selected={self.state.selected}
                   getContentSize={this.calculateVerticalScrollArea}
-                  name="remindersViewport">
+                  name="remindersViewport"
+                  onResize={this.refreshHeight}>
           <ScrollItem name="search" scrollHandler={handleSearchBoxPosition}>
             <div />
           </ScrollItem>
@@ -39,12 +40,19 @@ var Reminders = React.createClass({
     );
   },
 
+  refreshHeight: function() {
+    if (this.isMounted()) {
+      this.forceUpdate();
+    }
+  },
+
   scrollItemForCategoryId: function(categoryId) {
     var self = this;
     var handler = handlePositionWhenShowingAllCategories;
     if (self.state.mode === 'single') {
       handler = self.state.selected === categoryId ? handlePositionForSelectedItem : handlePositionForStackedItem;
     }
+    var viewportHeight = this.refs.scroller && this.refs.scroller.rect.height;
     return (
       <ScrollItem name={"category_"+categoryId}
                   key={categoryId}
@@ -52,7 +60,7 @@ var Reminders = React.createClass({
                   transitionStyles={transitionStyles}
                   scrollHandler={handler}
                   style={{
-                    height: window.innerHeight - spaceAtBottom,
+                    height: viewportHeight - spaceAtBottom,
                   }}>
         <Hammer component={ReminderCartegory}
                 categoryId={categoryId}
