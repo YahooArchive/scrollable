@@ -1,8 +1,14 @@
 
-var React = (typeof window !== 'undefined' && window.React) || require('react');
-var RectCache = require('./rect-cache');
-var ScrollerEvents = require('./scroller-events');
+var inBrowser = typeof window !== 'undefined';
+var React = (inBrowser && window.React) || require('react');
 var prefixed = require('./prefixed');
+var RectCache = require('./rect-cache');
+var ScrollerEvents;
+if (inBrowser) {
+  ScrollerEvents = require('./scroller-events');
+} else {
+  ScrollerEvents = require('./scroller-events-stub');
+}
 
 var transition = prefixed('transition');
 var transform = prefixed('transform');
