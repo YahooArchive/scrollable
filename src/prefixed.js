@@ -5,7 +5,7 @@
 "use strict";
 
 var mod = 'modernizr';
-var modElem = document.createElement(mod);
+var modElem = typeof document !== "undefined" && document.createElement(mod);
 var mStyle = modElem.style;
 var omPrefixes = 'Webkit Moz O ms';
 var cssomPrefixes = omPrefixes.split(' ');

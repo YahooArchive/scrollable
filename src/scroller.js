@@ -171,6 +171,10 @@ var Scroller = React.createClass({displayName: "Scroller",
     this._scroller.enable();
   },
 
+  scrollTo: function(x, y) {
+    this._scroller.scrollTo(x, y);
+  },
+
   componentDidMount: function () {
     var self = this;
     var container = self.getDOMNode();
