@@ -55,11 +55,15 @@ var members = {
   },
 
   setDimensions: function(containerWidth, containerHeight, contentWidth, contentHeight) {
-    this._scroller.setDimensions(containerWidth, containerHeight, contentWidth, contentHeight);
+    if (!this._disabled) {
+      this._scroller.setDimensions(containerWidth, containerHeight, contentWidth, contentHeight);
+    }
   },
 
   scrollTo: function(left, top, animate, zoom) {
-    this._scroller.scrollTo(left, top, animate, zoom);
+    if (!this._disabled) {
+      this._scroller.scrollTo(left, top, animate, zoom);
+    }
   },
 
   _storeScrollers: function(event) {
