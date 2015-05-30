@@ -29,12 +29,34 @@ function ScrollerEvents(domNode, handler, config) {
 
 var members = {
   _disabled: false,
+  _temp_disabled: false,
   _isParentScrolling: false,
+
+  /*
+    Temporary Disabled is meant for animation purposes.
+    It will be stronger then disable itself. During temporary disable
+    calling `.enable()` or `.disable()` will just schedule this for when
+    restoration is called.
+  */
+  temporaryDisable: function() {
+    this._restore_disabled = this._disabled;
+    this._temp_disabled = true;
+    this._disabled = true;
+  },
+  restoreTempDisabled: function() {
+    this._temp_disabled = false;
+    this._disabled = this._restore_disabled;
+  },
+
   disable: function() {
+    this._restore_disabled = true;
     this._disabled = true;
   },
   enable: function() {
-    this._disabled = false;
+    this._restore_disabled = false;
+    if (!this._temp_disabled) {
+      this._disabled = false;
+    }
   },
 
   _scrolling: false,
@@ -55,15 +77,11 @@ var members = {
   },
 
   setDimensions: function(containerWidth, containerHeight, contentWidth, contentHeight) {
-    if (!this._disabled) {
-      this._scroller.setDimensions(containerWidth, containerHeight, contentWidth, contentHeight);
-    }
+    this._scroller.setDimensions(containerWidth, containerHeight, contentWidth, contentHeight);
   },
 
   scrollTo: function(left, top, animate, zoom) {
-    if (!this._disabled) {
-      this._scroller.scrollTo(left, top, animate, zoom);
-    }
+    this._scroller.scrollTo(left, top, animate, zoom);
   },
 
   _storeScrollers: function(event) {

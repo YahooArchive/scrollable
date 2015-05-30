@@ -100,13 +100,21 @@ var Scroller = React.createClass({displayName: "Scroller",
 
   _animEndX: 0,
   _animEndY: 0,
+  _animating: false,
   _animTimer: null,
+  _animationPrepared: false,
+  prepareAnimationSync: function() {
+    this._animating = true;
+    this._scroller.temporaryDisable();
+  },
   animateAndResetScroll: function(x, y, atomic) {
     var self = this;
     if (atomic) {
       self._scroller.stopEvents();
     }
-    self.disable();
+    if (!this._animating) {
+      self.prepareAnimationSync();
+    }
     if (self._animTimer) {
       clearTimeout(self._animTimer);
     }
@@ -155,8 +163,10 @@ var Scroller = React.createClass({displayName: "Scroller",
 
     self._resetScroll();
     self._scroller.scrollTo(self._animEndX, self._animEndY);
-    self._scroller.enable();
+    self._scroller.restoreTempDisabled();
+    this._animating = false;
     self._scroller.resumeEvents();
+    delete self._animTimer;
   },
 
   _getContentSize: function() {
@@ -172,7 +182,11 @@ var Scroller = React.createClass({displayName: "Scroller",
   },
 
   scrollTo: function(x, y) {
-    this._scroller.scrollTo(x, y);
+    if (!this._animating) {
+      this._scroller.scrollTo(x, y);
+    } else {
+      console.warn('Scroller.scrollTo will not be honored during animation');
+    }
   },
 
   componentDidMount: function () {
@@ -191,7 +205,10 @@ var Scroller = React.createClass({displayName: "Scroller",
   },
 
   onResize: function() {
-    this._resetScroll();
+    if (!this._animating) {
+      this._resetScroll();
+    }
+    // no need to ward because _resetScroll will be honored on animation end
   },
 
   _resetScroll: function() {
