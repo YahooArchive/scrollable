@@ -1,7 +1,7 @@
 // Karma configuration
 
 module.exports = function(config) {
-  var sharedConf = require('karma.shared')(config);
+  var sharedConf = require('./karma.shared')(config);
 
   // Coverage
   sharedConf.browserify.transform.push([

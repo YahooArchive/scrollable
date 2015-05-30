@@ -80,14 +80,14 @@ describe('RectCache mixin', function() {
         showImages: true,
       });
 
-      expect(sut.rect.height).toBe(70);
+      expect(sut.rect.height).toBe(68);
       expect(sut.rect.width).toBe(200);
 
       var container = sut.refs.imgHere.getDOMNode();
       var img = document.createElement('img');
       img.addEventListener('load', function() {
         expect(resizeCallback.calls.count()).toBe(3);
-        expect(sut.rect.height).toBe(104);
+        expect(sut.rect.height).toBe(100);
         expect(sut.rect.width).toBe(200);
         done();
       });
