@@ -897,8 +897,8 @@
 				var distanceX = Math.abs(currentTouchLeft - self.__initialTouchLeft);
 				var distanceY = Math.abs(currentTouchTop - self.__initialTouchTop);
 
-				self.__enableScrollX = self.options.scrollingX && distanceX >= minimumTrackingForScroll;
-				self.__enableScrollY = self.options.scrollingY && distanceY >= minimumTrackingForScroll;
+				self.__enableScrollX = self.options.scrollingX && distanceX >= minimumTrackingForScroll && distanceX >= distanceY;
+				self.__enableScrollY = self.options.scrollingY && distanceY >= minimumTrackingForScroll  && distanceY > distanceX;
 
 				positions.push(self.__scrollLeft, self.__scrollTop, timeStamp);
 
