@@ -7,6 +7,13 @@ function ScrollerEvents(domNode, handler, config) {
 
   this._node = domNode;
   this._scroller = new ZingaScroller(handler, {
+
+    //scrolling options
+    penetrationDeceleration: config.penetrationDeceleration,
+    penetrationAcceleration: config.penetrationAcceleration,
+    frictionFactor: config.frictionFactor,
+    minVelocityToKeepDecelerating: config.minVelocityToKeepDecelerating,
+
     scrollingX: config.scrollingX,
     scrollingY: config.scrollingY,
     scrollingStarted: this._started.bind(this),

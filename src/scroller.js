@@ -193,7 +193,12 @@ var Scroller = React.createClass({displayName: "Scroller",
     var self = this;
     var container = self.getDOMNode();
 
+    var options = this.props.options || {};
     self._scroller = new ScrollerEvents(container, self.setStyleWithPosition, {
+      penetrationDeceleration: options.penetrationDeceleration,
+      penetrationAcceleration: options.penetrationAcceleration,
+      frictionFactor: options.frictionFactor,
+      minVelocityToKeepDecelerating: options.minVelocityToKeepDecelerating,
       scrollingX: self.props.scrollingX,
       scrollingY: self.props.scrollingY,
     });
