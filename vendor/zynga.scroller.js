@@ -72,7 +72,13 @@
             penetrationDeceleration : 0.03,
 
             /** This configures the amount of change applied to acceleration when reaching boundaries  **/
-            penetrationAcceleration : 0.08
+            penetrationAcceleration : 0.08,
+
+            /** This configures scrolling friction **/
+            frictionFactor: 0.95,
+
+            /** This configures the minimum velocity that is needed to keep on decelerating **/
+            minVelocityToKeepDecelerating: 0.1,
 
 		};
 
@@ -1202,7 +1208,7 @@
 			};
 
 			// How much velocity is required to keep the deceleration running
-			var minVelocityToKeepDecelerating = self.options.snapping ? 4 : 0.1;
+			var minVelocityToKeepDecelerating = self.options.snapping ? 4 : self.options.minVelocityToKeepDecelerating;
 
 			// Detect whether it's still worth to continue animating steps
 			// If we are already slow enough to not being user perceivable anymore, we stop the whole process here.
@@ -1296,7 +1302,7 @@
 				// This is the factor applied to every iteration of the animation
 				// to slow down the process. This should emulate natural behavior where
 				// objects slow down when the initiator of the movement is removed
-				var frictionFactor = 0.95;
+				var frictionFactor = self.options.frictionFactor;
 
 				self.__decelerationVelocityX *= frictionFactor;
 				self.__decelerationVelocityY *= frictionFactor;
