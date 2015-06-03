@@ -906,10 +906,10 @@
 
 				self.__enableScrollX = self.options.scrollingX &&
                                distanceX >= minimumTrackingForScroll &&
-                               self.options.locking ? (distanceX >= distanceY) : true;
+                               (self.options.locking ? (distanceX >= distanceY) : true);
 				self.__enableScrollY = self.options.scrollingY &&
                                distanceY >= minimumTrackingForScroll &&
-                               self.options.locking ? (distanceY > distanceX) : true;
+                               (self.options.locking ? (distanceY > distanceX) : true);
 
 				positions.push(self.__scrollLeft, self.__scrollTop, timeStamp);
 
