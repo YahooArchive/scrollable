@@ -1,6 +1,7 @@
 
 var inBrowser = typeof window !== 'undefined';
 var React = (inBrowser && window.React) || require('react');
+var StyleHelper = require('./style-helper');
 var prefixed = require('./prefixed');
 var RectCache = require('./rect-cache');
 var ScrollerEvents;
@@ -11,7 +12,6 @@ if (inBrowser) {
 }
 
 var transition = prefixed('transition');
-var transform = prefixed('transform');
 
 var transitionProps = {
   'delay': transition+'Delay',
@@ -68,19 +68,7 @@ var Scroller = React.createClass({displayName: "Scroller",
       var item = items[itemK];
       var styleObject = item.props.scrollHandler(x, y, item, items, self);
       if (styleObject) {
-
-        var tx = styleObject.x || 0;
-        var ty = styleObject.y || 0;
-        var tz = styleObject.zIndex && styleObject.zIndex/10 || 0;
-
-        delete styleObject.x;
-        delete styleObject.y;
-        styleObject[transform] = 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)';
-
-        if (styleObject.scale) {
-          styleObject[transform] += ' scale('+styleObject.scale+')';
-          delete styleObject.scale;
-        }
+        styleObject = StyleHelper.scrollStyles(styleObject);
 
         // Using styles directly and simple for loops yeilds HUGE performance
         // improvements specially on iPhone 4 with iOS 7.
