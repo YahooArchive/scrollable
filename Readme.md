@@ -42,6 +42,9 @@ Pull requests, and issues are welcome. Not only for code but also for documentat
 
 ### TODO notes
 
+  * Server-side prefixes are hardcoded for webkit now (because of PhamtomJS)
+    and ideally it should have multiple props in the compatibility order (e.g.
+    -moz-transform:...;-webkit-transform:...;transform:...;)
   * I keep forgetting to create the nested scrolling example and the
     "Flipboard without canvas" example.
   * Size/Position dependencies in lower level, look at ExtJS anchorTo for
