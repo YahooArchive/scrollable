@@ -76,8 +76,11 @@ var Scroller = React.createClass({displayName: "Scroller",
         // Set styles
         if (item._node) {
           for(var prop in styleObject) {
-            item._node.style[prop] = styleObject[prop];
+            if (!item._prevStyles || item._prevStyles[prop] !== styleObject[prop]) {
+              item._node.style[prop] = styleObject[prop];
+            }
           }
+          item._prevStyles = styleObject;
         } else {
           item._pendingStyles = styleObject;
         }
@@ -190,6 +193,7 @@ var Scroller = React.createClass({displayName: "Scroller",
       scrollingX: self.props.scrollingX,
       scrollingY: self.props.scrollingY,
     });
+
 
     // Because of React batch operations and optimizations, we need to wait
     // for next tick in order to all ScrollableItems initialize and have proper
