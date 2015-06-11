@@ -70,10 +70,16 @@ var members = {
   _started: function() {
     this._scrolling = true;
     this.stopEvents();
+    var scrollStateChanged = new Event('scrollStateChanged');
+    scrollStateChanged.state = 'scrolling';
+    this._node.dispatchEvent(scrollStateChanged);
   },
   _stopped: function() {
     this._scrolling = false;
     this.resumeEvents();
+    var scrollStateChanged = new Event('scrollStateChanged');
+    scrollStateChanged.state = 'stopped';
+    this._node.dispatchEvent(scrollStateChanged);
   },
 
   stopEvents: function() {
