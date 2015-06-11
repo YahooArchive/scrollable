@@ -12,6 +12,7 @@
     "src/"
   ],
   "private": true,
+  "dependencies": {},
   "devDependencies": {
     "beefy": "^2.1.3",
     "browserify": "^9.0.3",
