@@ -15,6 +15,7 @@ module.exports = function(config) {
   ]);
 
   sharedConf.reporters.push("coverage");
+  sharedConf.files = ['./node_modules/phantomjs-polyfill/bind-polyfill.js'].concat(sharedConf.files);
 
   var options = {
 
@@ -25,7 +26,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
-      'PhantomJS2',
+      'PhantomJS',
       // 'Chrome',
     ],
 

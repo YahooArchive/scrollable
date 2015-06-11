@@ -32,7 +32,7 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       transform: [
-        ['reactify', {'es6': true}],
+        ['reactify'],
       ],
     },
 

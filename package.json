@@ -13,8 +13,6 @@
   ],
   "private": true,
   "devDependencies": {
-    "react": "^0.13.0",
-    "react-tools": ">=0.13.0",
     "beefy": "^2.1.3",
     "browserify": "^9.0.3",
     "browserify-istanbul": "^0.1.5",
@@ -27,16 +25,20 @@
     "karma-cli": "0.0.4",
     "karma-coverage": "^0.2.7",
     "karma-jasmine": "^0.3.5",
-    "karma-phantomjs2-launcher": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.2.0",
     "karma-spec-reporter": "0.0.16",
+    "phantomjs": "^1.9.17",
+    "phantomjs-polyfill": "0.0.1",
+    "react": "^0.13.0",
     "react-hammerjs": "^0.1.3",
+    "react-tools": ">=0.13.0",
     "reactify": "^1.0.0",
     "watchify": "^2.3.0"
   },
   "scripts": {
-    "build": "browserify src/scrollable.js -o dist/scrollable.js --transform [reactify --es6] --exclude react --bare",
-    "build-examples": "browserify examples/main.js -o examples/build/bundle.js --transform [reactify --es6] --insert-global-vars React",
-    "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform [reactify --es6] --insert-global-vars React --debug --verbose",
+    "build": "browserify src/scrollable.js -o dist/scrollable.js --transform reactify --exclude react --bare",
+    "build-examples": "browserify examples/main.js -o examples/build/bundle.js --transform reactify --insert-global-vars React",
+    "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform reactify --insert-global-vars React --debug --verbose",
     "test": "karma start karma.headless.js && istanbul report && echo 'Details at ./coverage/index.html'"
   },
   "author": "Irae Carvalho <irae@irae.pro.br>",
