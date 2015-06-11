@@ -70,14 +70,16 @@ var members = {
   _started: function() {
     this._scrolling = true;
     this.stopEvents();
-    var scrollStateChanged = new Event('scrollStateChanged');
+    var scrollStateChanged = document.createEvent('Event');
+    scrollStateChanged.initEvent('scrollStateChanged', true, true);
     scrollStateChanged.state = 'scrolling';
     this._node.dispatchEvent(scrollStateChanged);
   },
   _stopped: function() {
     this._scrolling = false;
     this.resumeEvents();
-    var scrollStateChanged = new Event('scrollStateChanged');
+    var scrollStateChanged = document.createEvent('Event');
+    scrollStateChanged.initEvent('scrollStateChanged', true, true);
     scrollStateChanged.state = 'stopped';
     this._node.dispatchEvent(scrollStateChanged);
   },
