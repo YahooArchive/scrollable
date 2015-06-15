@@ -1,3 +1,8 @@
+/* Copyright 2015, Yahoo Inc.
+   Designed by Irae Carvalho
+   Copyrights licensed under the MIT License.
+   See the accompanying LICENSE file for terms. */
+
 var ZingaScroller = require('../vendor/zynga.scroller.js');
 
 function ScrollerEvents(domNode, handler, config) {

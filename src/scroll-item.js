@@ -1,3 +1,7 @@
+/* Copyright 2015, Yahoo Inc.
+   Designed by Irae Carvalho
+   Copyrights licensed under the MIT License.
+   See the accompanying LICENSE file for terms. */
 
 var React = (typeof window !== 'undefined' && window.React) || require('react');
 var RectCache = require('./rect-cache');

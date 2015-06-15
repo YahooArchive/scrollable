@@ -1,7 +1,9 @@
 /* Extracted and re-formated from: */
 /* Modernizr 2.8.3 (Custom Build) | MIT & BSD
  * Build: http://modernizr.com/download/#-prefixed-testprop-testallprops-domprefixes
- */
+
+   Changes to this code are Copyright 2015 Yahoo Inc. Licensed under the project's
+   Open Source license. */
 "use strict";
 
 var mod = 'modernizr';

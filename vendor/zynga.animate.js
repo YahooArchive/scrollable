@@ -12,6 +12,9 @@
  * License: MIT + Apache (V2)
  */
 
+/* Changes to this code are Copyright 2015 Yahoo Inc. Licensed under the project's
+   Open Source license. */
+
 /**
  * Generic animation class with support for dropped frames both optional easing and duration.
  *
