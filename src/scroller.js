@@ -66,7 +66,8 @@ var Scroller = React.createClass({displayName: "Scroller",
 
   setStyleWithPosition: function(x, y) {
     var self = this;
-
+    self.scrollLeft = x;
+    self.scrollTop = y;
     var items = self._scrollItems;
     for(var itemK in items) {
       var item = items[itemK];
@@ -176,6 +177,8 @@ var Scroller = React.createClass({displayName: "Scroller",
     this._scroller.enable();
   },
 
+  scrollTop: 0,
+  scrollLeft: 0,
   scrollTo: function(x, y) {
     if (!this._animating) {
       this._scroller.scrollTo(x, y);
@@ -187,6 +190,7 @@ var Scroller = React.createClass({displayName: "Scroller",
   componentDidMount: function () {
     var self = this;
     var container = self.getDOMNode();
+    container.scrollable = this;
 
     var options = this.props.options || {};
     self._scroller = new ScrollerEvents(container, self.setStyleWithPosition, {
@@ -203,6 +207,10 @@ var Scroller = React.createClass({displayName: "Scroller",
     // for next tick in order to all ScrollableItems initialize and have proper
     // RectCache before updating containerSizer for the first time.
     setTimeout(self._resetScroll, 1);
+  },
+
+  componentWillUnmount: function() {
+    delete this.getDOMNode().scrollable;
   },
 
   onResize: function() {
