@@ -9,10 +9,13 @@ var StyleHelper = require('./style-helper');
 var prefixed = require('./prefixed');
 var RectCache = require('./rect-cache');
 var ScrollerEvents;
+var NativeEvents;
 if (inBrowser) {
   ScrollerEvents = require('./scroller-events');
+  NativeEvents = require('./native-events');
 } else {
   ScrollerEvents = require('./scroller-events-stub');
+  NativeEvents = ScrollerEvents;
 }
 
 var transition = prefixed('transition');
@@ -189,7 +192,8 @@ var Scroller = React.createClass({displayName: "Scroller",
     var container = self.getDOMNode();
 
     var options = this.props.options || {};
-    self._scroller = new ScrollerEvents(container, self.setStyleWithPosition, {
+    var ScrollConstructor = this.props.hasOwnProperty('viewport') ? NativeEvents : ScrollerEvents;
+    self._scroller = new ScrollConstructor(container, self.setStyleWithPosition, {
       penetrationDeceleration: options.penetrationDeceleration,
       penetrationAcceleration: options.penetrationAcceleration,
       frictionFactor: options.frictionFactor,

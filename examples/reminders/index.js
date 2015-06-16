@@ -98,7 +98,7 @@ var Reminders = React.createClass({
     this.setState({
       mode: 'single',
       selected: categoryId,
-      previousScrollPosition: this.refs.scroller._scroller._scroller.getValues().top,
+      previousScrollPosition: this.refs.scroller.getDOMNode().scrollTop,
     }, function() {
       this.refs.scroller.animateAndResetScroll(0, 0);
     });
