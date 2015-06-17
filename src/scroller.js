@@ -205,8 +205,14 @@ var Scroller = React.createClass({displayName: "Scroller",
 
     // Because of React batch operations and optimizations, we need to wait
     // for next tick in order to all ScrollableItems initialize and have proper
-    // RectCache before updating containerSizer for the first time.
-    setTimeout(self._resetScroll, 1);
+    // RectCache before updating containerSize for the first time.
+    setTimeout(function() {
+      // Since we schedule _resetScroll to the next tick, if some edge-case racing
+      // condition starts to unmount the element, we should prevent that.
+      if (self.isMounted()) {
+        self._resetScroll();
+      }
+    }, 1);
   },
 
   componentWillUnmount: function() {
