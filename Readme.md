@@ -1,4 +1,4 @@
-## React Scrollable
+## React Scrollable [![build status](https://travis-ci.org/yahoo/scrollable.svg)](https://travis-ci.org/yahoo/scrollable)
 
 #### A library that brings smooth scrolling interactions to modern mobile browsers.
 
