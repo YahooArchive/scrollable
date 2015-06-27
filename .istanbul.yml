@@ -3,3 +3,4 @@ reporting:
     reports:
         - text
         - html
+        - lcov
