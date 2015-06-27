@@ -28,11 +28,11 @@ Many examples are provided on the `examples/` folder.
 
     $ karma start
 
-Notice: The current version throws a lot of warnings about 'owner-based context'. To ignore this messages you can use the following regex on the Chrome Dev-Tools console filter: ^((?!owner-based).)*$
+Notice: The current version throws a lot of warnings about 'owner-based context'. To ignore these messages you can use the following regex on the Chrome Dev-Tools console filter: `^((?!owner-based).)*$`
 
 ### Contributions Guideline
 
-Pull requests, and issues are welcome. Not only for code but also for documentation and examples.
+Pull requests and issues are welcome. Not only for code but also for documentation and examples.
 
   * Use a code editor with JSXHint or run `jsxhint` before committing
   * Use a code editor with `.editorconfig` support or read the file
@@ -55,7 +55,7 @@ Pull requests, and issues are welcome. Not only for code but also for documentat
   * Styles are currently only on the examples, need to figure out a way to
     be in JavaScript and still be able to override via some API. Should it
     even be allowed?
-  * Figure out build system to support:
+  * Figure out a build system to support:
     * CommonJS require if installed by npm
     * Dev build with warnings and/or performance profiling helpers
     * `require('scrollable/scroller')` or `require('scrollable').Scroller`
