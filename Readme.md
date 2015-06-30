@@ -1,4 +1,6 @@
 ## React Scrollable
+
+[![Join the chat at https://gitter.im/yahoo/scrollable](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yahoo/scrollable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![build status](https://travis-ci.org/yahoo/scrollable.svg)](https://travis-ci.org/yahoo/scrollable)
 [![Coverage Status](https://coveralls.io/repos/yahoo/scrollable/badge.svg)](https://coveralls.io/r/yahoo/scrollable)
 
