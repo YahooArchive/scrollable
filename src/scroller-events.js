@@ -51,9 +51,11 @@ var members = {
     restoration is called.
   */
   temporaryDisable: function() {
-    this._restore_disabled = this._disabled;
-    this._temp_disabled = true;
-    this._disabled = true;
+    if (!this._temp_disabled) {
+      this._restore_disabled = this._disabled;
+      this._temp_disabled = true;
+      this._disabled = true;
+    }
   },
   restoreTempDisabled: function() {
     this._temp_disabled = false;
