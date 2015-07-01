@@ -95,10 +95,11 @@ var Reminders = React.createClass({
   // When listing all categories and user taps on a given category
   showCategory: function(categoryId, event) {
     event.preventDefault();
+    this.refs.scroller.prepareAnimationSync();
     this.setState({
       mode: 'single',
       selected: categoryId,
-      previousScrollPosition: this.refs.scroller._scroller._scroller.getValues().top,
+      previousScrollPosition: this.refs.scroller.scrollTop,
     }, function() {
       this.refs.scroller.animateAndResetScroll(0, 0);
     });
