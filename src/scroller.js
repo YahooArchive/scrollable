@@ -195,7 +195,6 @@ var Scroller = React.createClass({displayName: "Scroller",
   _animEndY: 0,
   _animating: false,
   _animTimer: null,
-  _animationPrepared: false,
   prepareAnimationSync: function() {
     this._animating = true;
     this._scroller.temporaryDisable();
