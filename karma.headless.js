@@ -11,6 +11,7 @@ module.exports = function(config) {
     'browserify-istanbul', {
       ignore: [
         '**/src/scrollable.js',
+        '**/src/scroller-events-stub.js',
         '**/__tests__/**',
         '**/vendor/**'
       ],
