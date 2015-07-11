@@ -83,12 +83,13 @@ var initialRect = { left : 0, right : 0, top : 0, height : 0, bottom : 0, width 
 
 var RectCache = {
   rect: initialRect,
+  _node: null,
   _updateRectCache: function() {
-    if(!this.isMounted()) {
-      return; // Edge case, this should not happen, maybe react bug?
+    if(!this._node) {
+      return;
     }
     var oldRect = this.rect;
-    var newRect = this.getDOMNode().getBoundingClientRect();
+    var newRect = this._node.getBoundingClientRect();
     this.rect = newRect;
 
     // Interesting fact: Checking for changes is not only better for performance. Since
@@ -109,6 +110,7 @@ var RectCache = {
   componentDidMount: function(){
     var node = this.getDOMNode();
     var update = this._updateRectCache;
+    this._node = node;
     update();
     watchLoadImages(node, update);
     node.addEventListener('DOMSubtreeModified', update);
@@ -120,8 +122,9 @@ var RectCache = {
   },
 
   componentWillUnmount: function(){
-    var node = this.getDOMNode();
+    var node = this._node;
     var update = this._updateRectCache;
+    this._node = null;
     node.removeEventListener('DOMSubtreeModified', update);
     node.removeEventListener('DOMNodeInserted', this._bindImgLoad);
     if (this.props.hasOwnProperty('viewport')) {
