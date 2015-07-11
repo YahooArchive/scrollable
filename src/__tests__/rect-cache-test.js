@@ -111,8 +111,12 @@ describe('RectCache mixin', function() {
 
     it("won't update after unmount", function () {
       var resizeCallback = jasmine.createSpy();
+      // Adding viewport below will only force the code to have coverage
+      // but testing the viewport resize is probably a lot of work, as the
+      // event would need to be simulates. This feels an overkill, but Pull
+      // requests accepted =)
       sut = React.render(
-        <RectCacheConsumer onResize={resizeCallback} />,
+        <RectCacheConsumer viewport onResize={resizeCallback} />,
         div
       );
       expect(resizeCallback.calls.count()).toBe(1);
