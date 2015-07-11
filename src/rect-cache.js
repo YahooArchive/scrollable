@@ -103,14 +103,14 @@ var RectCache = {
     }
   },
 
-  _bindImgLoad: function(event) {
-    watchLoadImages(event.target, this._updateRectCache);
-  },
-
+  _bindImgLoad: null,
   componentDidMount: function(){
     var node = this.getDOMNode();
     var update = this._updateRectCache;
     this._node = node;
+    this._bindImgLoad = function(event) {
+      watchLoadImages(event.target, update);
+    };
     update();
     watchLoadImages(node, update);
     node.addEventListener('DOMSubtreeModified', update);
@@ -124,9 +124,10 @@ var RectCache = {
   componentWillUnmount: function(){
     var node = this._node;
     var update = this._updateRectCache;
-    this._node = null;
     node.removeEventListener('DOMSubtreeModified', update);
     node.removeEventListener('DOMNodeInserted', this._bindImgLoad);
+    this._node = null;
+    this._bindImgLoad = null;
     if (this.props.hasOwnProperty('viewport')) {
       window.removeEventListener('orientationchange', update);
       window.removeEventListener("resize", update);
