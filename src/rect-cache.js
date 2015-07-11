@@ -28,12 +28,17 @@ var RectCache = {
     }
   },
 
+  _bindImgLoad: function(event) {
+    watchLoadImages(event.target, this._updateRectCache);
+  },
+
   componentDidMount: function(){
     var node = this.getDOMNode();
     var update = this._updateRectCache;
     update();
-    getImageLoadedNotifications(node, update);
+    watchLoadImages(node, update);
     node.addEventListener('DOMSubtreeModified', update);
+    node.addEventListener('DOMNodeInserted', this._bindImgLoad);
     if (this.props.hasOwnProperty('viewport')) {
       window.addEventListener('orientationchange', update);
       window.addEventListener("resize", update);
@@ -44,29 +49,27 @@ var RectCache = {
     var node = this.getDOMNode();
     var update = this._updateRectCache;
     node.removeEventListener('DOMSubtreeModified', update);
+    node.removeEventListener('DOMNodeInserted', this._bindImgLoad);
     if (this.props.hasOwnProperty('viewport')) {
-    window.removeEventListener('orientationchange', update);
-    window.removeEventListener("resize", update);
+      window.removeEventListener('orientationchange', update);
+      window.removeEventListener("resize", update);
     }
   },
 };
 
-function getImageLoadedNotifications(node, callback) {
-  watchLoadImages(node.getElementsByTagName('img'), callback);
-  node.addEventListener('DOMNodeInserted', function(event) {
-    var images = event.target.getElementsByTagName && event.target.getElementsByTagName('img');
-    if (event.target.nodeName.toLowerCase() === 'img') {
-      watchLoadImages([event.target], callback);
-    }
-    watchLoadImages(images, callback);
-  });
+function watchLoadImages(node, callback) {
+  var imgArr = getAllImagesInTree(node);
+  for (var i = 0; i < imgArr.length; i++) {
+    var img = imgArr[i];
+    img.addEventListener('load', callback);
+  }
 }
-function watchLoadImages(imgArr, callback) {
-  if(imgArr && imgArr.length) {
-    for (var i = 0; i < imgArr.length; i++) {
-      var img = imgArr[i];
-      img.addEventListener('load', callback);
-    }
+
+function getAllImagesInTree(node) {
+  if (node && node.nodeName.toLowerCase() === 'img') {
+    return [node];
+  } else {
+    return (node.getElementsByTagName && node.getElementsByTagName('img')) || [];
   }
 }
 
