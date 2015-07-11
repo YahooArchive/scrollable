@@ -99,6 +99,16 @@ describe('RectCache mixin', function() {
       container.appendChild(img);
     });
 
+    it("Inserting text nodes", function () {
+      sut = React.render(
+        <RectCacheConsumer />,
+        div
+      );
+      sut.getDOMNode().appendChild(document.createTextNode(' text test node '));
+
+      expect(true, "make sure inserting the element won't throw");
+    });
+
     it("won't update after unmount", function () {
       var resizeCallback = jasmine.createSpy();
       sut = React.render(
