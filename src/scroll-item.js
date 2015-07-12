@@ -14,6 +14,7 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
   propTypes: {
     name: React.PropTypes.string.isRequired,
     scrollHandler: React.PropTypes.func.isRequired,
+    serverStyles: React.PropTypes.func,
   },
 
   contextTypes: {
@@ -51,7 +52,10 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
     var ownProps = {className: "scrollable-item"};
     var ssStyles = this.props.serverStyles;
     if (ssStyles) {
-      var styleObject = ssStyles(this, this._scrollingParent);
+      var styleObject;
+      try {
+        styleObject = ssStyles(this, this._scrollingParent);
+      } catch(e) {}
       if (styleObject) {
         styleObject = StyleHelper.scrollStyles(styleObject);
         ownProps.style = styleObject;

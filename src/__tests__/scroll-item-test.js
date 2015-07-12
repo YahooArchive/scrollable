@@ -20,18 +20,22 @@ describe('<ScrollItem>', function() {
     it("required props", function () {
       spyOn(console, 'warn');
       TestUtils.renderIntoDocument(
-        <ScrollItem />
+        <ScrollItem serverStyles={true} />
       );
       expect(console.warn).toHaveBeenCalled();
-      expect(console.warn.calls.count()).toEqual(2);
-      expect(console.warn.calls.first().args[0]).toMatch('was not specified');
-      expect(console.warn.calls.mostRecent().args[0]).toMatch('was not specified');
+      expect(console.warn.calls.count()).toEqual(3);
+      expect(console.warn.calls.argsFor(0)).toMatch('was not specified');
+      expect(console.warn.calls.argsFor(1)).toMatch('was not specified');
+      expect(console.warn.calls.argsFor(2)).toMatch('expected `function`');
     });
 
     it("Won't throw outside <Scroller>", function () {
-      TestUtils.renderIntoDocument(
-        <ScrollItem name="foo" scrollHandler={function(){}}  />
-      );
+      function go() {
+        TestUtils.renderIntoDocument(
+          <ScrollItem name="foo" scrollHandler={function(){}}  />
+        );
+      }
+      expect(go).not.toThrow();
     });
 
     it("warns about owner and parent context", function () {
@@ -64,6 +68,60 @@ describe('<ScrollItem>', function() {
       var sut = TestUtils.findRenderedComponentWithType(wrapper, ScrollItem);
       expect(sut.rect.height).toEqual(200);
       expect(sut.rect.width).toEqual(200);
+    });
+
+  });
+
+  describe('Server-side rendering', function() {
+
+    it("Render styles from serverStyles prop", function () {
+      var Scroller = MockScroller();
+      var wrapper = React.render(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
+            return {
+              height: '50px',
+            };
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
+      expect(sut.props.style.height).toBe('50px');
+    });
+
+    it("Won't throw if serverStyles returns false", function () {
+      var Scroller = MockScroller();
+      function go() {
+        React.render(
+          <Scroller>
+            <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
+              return false;
+            }}>
+              foo
+            </ScrollItem>
+          </Scroller>,
+          div
+        );
+      }
+      expect(go).not.toThrow();
+    });
+
+    it("Won't throw if serverStyles is not a function", function () {
+      var Scroller = MockScroller();
+      function go() {
+        React.render(
+          <Scroller>
+            <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={true}>
+              foo
+            </ScrollItem>
+          </Scroller>,
+          div
+        );
+      }
+      expect(go).not.toThrow();
     });
 
   });
