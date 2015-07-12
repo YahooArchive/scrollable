@@ -37,12 +37,7 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
 
   componentDidMount: function () {
     this._node = this.getDOMNode();
-    var styleObject = this._pendingStyles;
-    if (styleObject) {
-      for(var prop in styleObject) {
-        this._node.style[prop] = styleObject[prop];
-      }
-    }
+    this._prendingOperation && this._prendingOperation();
   },
 
   componentWillUnmount: function () {

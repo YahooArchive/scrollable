@@ -75,19 +75,10 @@ var Scroller = React.createClass({displayName: "Scroller",
       if (styleObject) {
         styleObject = StyleHelper.scrollStyles(styleObject);
 
-        // Using styles directly and simple for loops yeilds HUGE performance
-        // improvements specially on iPhone 4 with iOS 7.
-
-        // Set styles
         if (item._node) {
-          for(var prop in styleObject) {
-            if (!item._prevStyles || item._prevStyles[prop] !== styleObject[prop]) {
-              item._node.style[prop] = styleObject[prop];
-            }
-          }
-          item._prevStyles = styleObject;
+          applyStyles(item, styleObject);
         } else {
-          item._pendingStyles = styleObject;
+          item._prendingOperation = queueStylesOperation(item, styleObject);
         }
 
       }
@@ -381,5 +372,20 @@ var Scroller = React.createClass({displayName: "Scroller",
   },
 
 });
+
+function queueStylesOperation(item, styleObject) {
+  return applyStyles.bind(null, item, styleObject);
+}
+
+function applyStyles(item, styleObject) {
+  // Using styles directly and simple for loops yeilds HUGE performance
+  // improvements specially on iPhone 4 with iOS 7.
+  for(var prop in styleObject) {
+    if (!item._prevStyles || item._prevStyles[prop] !== styleObject[prop]) {
+      item._node.style[prop] = styleObject[prop];
+    }
+  }
+  item._prevStyles = styleObject;
+}
 
 module.exports = Scroller;

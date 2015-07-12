@@ -142,6 +142,63 @@ describe('<ScrollItem>', function() {
       expect(sut._node).toBe(null);
     });
 
+    it("execute _prendingOperation that the parent might have setup", function () {
+      var Scroller = MockScroller();
+      var SuposedConsumer = React.createClass({
+        componentDidMount: function() {
+          this.refs.item._prendingOperation = function(){};
+        },
+        render: function() {
+          return (
+            <Scroller>
+              <ScrollItem ref="item" name="foo" scrollHandler={function(){}} />
+            </Scroller>
+          );
+        },
+      });
+
+      var consumer = React.render(
+        <SuposedConsumer />,
+        div
+      );
+      var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
+      spyOn(sut, '_prendingOperation');
+      sut.componentDidMount();
+      expect(sut._prendingOperation).toHaveBeenCalled();
+
+    });
+
+    it("Calls parent onResize method if item resizes", function () {
+      var Scroller = MockScroller();
+      var SuposedConsumer = React.createClass({
+        getInitialState: function() {return {resizeItem:false};},
+        render: function() {
+          return (
+            <Scroller ref="wrapper">
+              <ScrollItem name="foo" scrollHandler={function(){}}>
+                <div style={{height:'20px', width:'20px'}} />
+                { this.state.resizeItem &&
+                  <div style={{height:'20px', width:'20px'}} />
+                }
+              </ScrollItem>
+            </Scroller>
+          );
+        },
+      });
+
+      var consumer = React.render(
+        <SuposedConsumer />,
+        div
+      );
+      var parent = TestUtils.findRenderedComponentWithType(consumer, Scroller);
+      parent.onResize = function () {};
+      spyOn(parent, 'onResize');
+
+      consumer.setState({resizeItem: true});
+
+      expect(parent.onResize).toHaveBeenCalled();
+    });
+
   });
 
 });
