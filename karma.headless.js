@@ -10,8 +10,13 @@ module.exports = function(config) {
   sharedConf.browserify.transform.push([
     'browserify-istanbul', {
       ignore: [
-        '**/src/scrollable.js',
-        '**/src/scroller-events-stub.js',
+        '**/src/scrollable.js', // just a wrapper
+        '**/src/prefixed.js', // almost a vendor library, tested on original project
+        '**/src/scroller-events.js', // this is better tested by integration tests
+                                     // at the moment, is tested internally at Yahoo, on
+                                     // products integration tests. Will bootstrap a
+                                     // integration suite later for this repository.
+        '**/src/scroller-events-stub.js', // just for server-side
         '**/__tests__/**',
         '**/vendor/**'
       ],
