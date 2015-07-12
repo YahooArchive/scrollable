@@ -277,6 +277,9 @@ var Scroller = React.createClass({displayName: "Scroller",
   },
 
   _getContentSize: function() {
+    if (!this.props.getContentSize) {
+      return {width: 0, height: 0};
+    }
     return this.props.getContentSize(this._scrollItems, this);
   },
 
