@@ -9,6 +9,8 @@ var StyleHelper = require('./style-helper');
 var prefixed = require('./prefixed');
 var RectCache = require('./rect-cache');
 var ScrollerEvents;
+
+/* istanbul ignore else */
 if (inBrowser) {
   ScrollerEvents = require('./scroller-events');
 } else {
