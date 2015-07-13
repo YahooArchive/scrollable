@@ -18,7 +18,7 @@ describe('<Scroller>', function() {
     document.body.appendChild(div);
   });
 
-  describe('startup', function() {
+  describe('startup and cleanup', function() {
 
     it("required props", function () {
       spyOn(console, 'warn');
@@ -64,6 +64,34 @@ describe('<Scroller>', function() {
         setTimeout(done, 1); // needed to not stop and properly cover
         return false;
       };
+    });
+
+    it("cleanup after unmounted", function (done) {
+      var SuposedConsumer = React.createClass({
+        getInitialState: function() {return {isThere:true};},
+        render: function() {
+          return (
+            <div>
+              { this.state.isThere &&
+                <Scroller>
+                </Scroller>
+              }
+            </div>
+          );
+        },
+      });
+      var wrapper = React.render(
+        <SuposedConsumer />,
+        div
+      );
+      var scroller = TestUtils.findRenderedComponentWithType(wrapper, Scroller);
+      var node = scroller.getDOMNode();
+      setTimeout(function() {
+        expect(node.scrollable).toBe(scroller);
+        wrapper.setState({isThere:false});
+        expect(node.scrollable).toBeUndefined();
+        done();
+      },10);
     });
 
   });
@@ -270,6 +298,33 @@ describe('<Scroller>', function() {
         expect(fooItem._node.style[transform]).toBe('translate3d(0px, -150px, 0px)');
         done();
       },20);
+    });
+
+  });
+
+  describe("Render behavior", function() {
+
+    it("Should merge className, pass other props", function  () {
+      var wrapper = React.render(
+        <Scroller className="foo" data-foo="bar">
+        </Scroller>,
+        div
+      );
+
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable');
+      expect(sut.props.className).toBe('scrollable foo');
+      expect(sut.props['data-foo']).toBe('bar');
+    });
+
+    it("merges viewport class", function  () {
+      var wrapper = React.render(
+        <Scroller viewport>
+        </Scroller>,
+        div
+      );
+
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-viewport');
+      expect(sut.props.className).toBe('scrollable-viewport');
     });
 
   });
