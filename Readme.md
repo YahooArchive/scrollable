@@ -1,6 +1,7 @@
 ## React Scrollable
 [![build status](https://travis-ci.org/yahoo/scrollable.svg)](https://travis-ci.org/yahoo/scrollable)
 [![Coverage Status](https://coveralls.io/repos/yahoo/scrollable/badge.svg)](https://coveralls.io/r/yahoo/scrollable)
+[![Code Climate](https://codeclimate.com/github/yahoo/scrollable/badges/gpa.svg)](https://codeclimate.com/github/yahoo/scrollable)
 
 #### A library that brings smooth scrolling interactions to modern mobile browsers.
 
