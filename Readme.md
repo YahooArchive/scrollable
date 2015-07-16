@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/yahoo/scrollable](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yahoo/scrollable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![build status](https://travis-ci.org/yahoo/scrollable.svg)](https://travis-ci.org/yahoo/scrollable)
-[![Coverage Status](https://coveralls.io/repos/yahoo/scrollable/badge.svg)](https://coveralls.io/r/yahoo/scrollable)
+[![Test Coverage](https://codeclimate.com/github/yahoo/scrollable/badges/coverage.svg)](https://codeclimate.com/github/yahoo/scrollable/coverage)
 [![Code Climate](https://codeclimate.com/github/yahoo/scrollable/badges/gpa.svg)](https://codeclimate.com/github/yahoo/scrollable)
 
 #### A library that brings smooth scrolling interactions to modern mobile browsers.

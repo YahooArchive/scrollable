@@ -2,5 +2,4 @@ language: node_js
 node_js:
   - "0.10"
 after_success:
-  cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
-  CODECLIMATE_REPO_TOKEN=9d616c7ef741f81e30880df4cee9749e61c8299041a755eb2f2bf9467d57dfd7 ./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info
+  ./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info
