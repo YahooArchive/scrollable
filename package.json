@@ -21,6 +21,7 @@
     "beefy": "^2.1.3",
     "browserify": "^10.2.4",
     "browserify-istanbul": "^0.2.1",
+    "codeclimate-test-reporter": "^0.1.0",
     "coveralls": "^2.11.2",
     "hammerjs": "^2.0.4",
     "istanbul": "^0.3.6",
