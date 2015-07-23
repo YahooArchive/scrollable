@@ -27,6 +27,8 @@ Many examples are provided on the `examples/` folder.
 
     $ npm run dev
 
+Open `http://localhost:8080/examples/` after starting up the server to check out the examples.
+
 ##### Development auto-watch unit tests (without coverage)
 
     $ karma start
