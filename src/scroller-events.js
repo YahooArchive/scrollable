@@ -39,6 +39,13 @@ function ScrollerEvents(domNode, handler, config) {
   return this;
 }
 
+function inViewport (touch) {
+  return touch.pageX >= 0 &&
+         touch.pageX <= window.innerWidth,
+         touch.pageY >= 0 &&
+         touch.pageY <= window.innerHeight;
+}
+
 var members = {
   _disabled: false,
   _temp_disabled: false,
@@ -134,6 +141,18 @@ var members = {
 
   _touchMove: function(event) {
     var scroller = this._scroller;
+
+    /*
+    If gesture ends outside a webview we don't get a touchEnd event
+      so scroll never ends
+    The way to fix that is by checking that the touchMove
+      was triggered outside the viewport bounds and force
+      the scroll to end
+    */
+    if (!inViewport(event.touches[0])){
+      return this._touchEnd(event);
+    }
+
     if (!this._isParentScrolling && !this._disabled) {
        scroller.doTouchMove(event.touches, event.timeStamp, event.scale);
     }
