@@ -40,10 +40,10 @@ function ScrollerEvents(domNode, handler, config) {
 }
 
 function inViewport (touch) {
-  return touch.pageX >= 0 &&
-         touch.pageX <= window.innerWidth,
-         touch.pageY >= 0 &&
-         touch.pageY <= window.innerHeight;
+  return touch.pageX > 0 &&
+         touch.pageX < window.innerWidth,
+         touch.pageY > 0 &&
+         touch.pageY < window.innerHeight;
 }
 
 var members = {
