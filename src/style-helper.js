@@ -7,6 +7,16 @@ var prefixed = require('./prefixed');
 var transform = prefixed('transform');
 
 var StyleHelper = {
+  applyStyle: function (styleObject, name, value) {
+    if (name.constructor === Array) {
+      for (var i = 0; i < transform.length; i++) {
+        styleObject[transform[i]] = value;
+      }
+    } else {
+      styleObject[transform] = value;
+    }
+
+  },
   scrollStyles: function(styleObject) {
     var tx = styleObject.x || 0;
     var ty = styleObject.y || 0;
@@ -14,10 +24,11 @@ var StyleHelper = {
 
     delete styleObject.x;
     delete styleObject.y;
-    styleObject[transform] = 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)';
+
+    this.applyStyle(styleObject, transform, 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)');
 
     if (styleObject.scale) {
-      styleObject[transform] += ' scale('+styleObject.scale+')';
+      this.applyStyle(styleObject, transform, 'scale('+styleObject.scale+')');
       delete styleObject.scale;
     }
     return styleObject;
