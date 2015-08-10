@@ -11,7 +11,6 @@ var modElem = typeof document !== "undefined" && document.createElement(mod);
 var mStyle = modElem.style;
 var omPrefixes = 'Webkit Moz O ms';
 var cssomPrefixes = omPrefixes.split(' ');
-
 var domPrefixes = omPrefixes.toLowerCase().split(' ');
 
 function prefixed(prop, obj, elem, allprefix) {
