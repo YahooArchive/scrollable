@@ -32,11 +32,11 @@ var StyleHelper = {
 
     appliedStyle = this.applyStyle(transform, 'translate3d('+tx+'px, '+(ty)+'px, '+tz+'px)');
 
-    if (styleObject.scale) {
-      appliedStyle = this.applyStyle(transform, 'scale('+styleObject.scale+')');
-      delete styleObject.scale;
-    }
     for (var style in appliedStyle) {
+      if (styleObject.scale) {
+        appliedStyle[style] = appliedStyle[style] + ' scale('+styleObject.scale+')';
+        delete styleObject.scale;
+      }
       styleObject[style] = appliedStyle[style];
     }
     return styleObject;
