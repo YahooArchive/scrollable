@@ -41,7 +41,34 @@ describe('StyleHelper', function() {
     });
 
   });
+  describe('prefixAll', function() {
 
+    it("returns object with all transform properties prefixed", function () {
+      var sut = StyleHelper.prefixAll({
+        transform: 'myValue',
+      });
+      var expectation = { transform: 'myValue', WebkitTransform: 'myValue', MozTransform: 'myValue', OTransform: 'myValue', msTransform: 'myValue'};
+      expect(sut).toEqual(expectation);
+    });
+
+    it("returns same property for other prefixed props", function () {
+      var sut = StyleHelper.prefixAll({
+        zIndex: 1,
+      });
+      var expectation = { zIndex: 1 };
+      expect(sut).toEqual(expectation);
+    });
+
+    it("Mixed properties also compile correctly", function () {
+      var sut = StyleHelper.prefixAll({
+        zIndex: 1,
+        transform: 'myValue',
+      });
+      var expectation = { zIndex: 1 , transform: 'myValue', WebkitTransform: 'myValue', MozTransform: 'myValue', OTransform: 'myValue', msTransform: 'myValue'};
+      expect(sut).toEqual(expectation);
+    });
+
+  });
 });
 
 

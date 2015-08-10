@@ -77,8 +77,7 @@ function contains(str, substr) {
 
 if(typeof window === 'undefined'){
   module.exports = function(prop) {
-    var ucProp = prop.charAt(0).toUpperCase() + prop.slice(1);
-    return 'Webkit'+ucProp;
+    return prop;
   };
 } else {
   module.exports = prefixed;

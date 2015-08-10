@@ -5,8 +5,21 @@
 "use strict";
 var prefixed = require('./prefixed');
 var transform = prefixed('transform');
+var cssomPrefixes = 'Webkit Moz O ms'.split(' ');
+var propsToPrefix = ['transition','animation','perspective','transform','align','justify','flex'];
+var startWithPropsToPrefix = new RegExp('^('+propsToPrefix.join('|')+')', 'i');
 
 var StyleHelper = {
+  prefixAll: function(styleObject) {
+    var style, allPrefixed;
+    for(style in styleObject) {
+      allPrefixed = StyleHelper.allPrefixed(style);
+      for (var i = 0; i < allPrefixed.length; i++) {
+        styleObject[allPrefixed[i]] = styleObject[style];
+      }
+    }
+    return styleObject;
+  },
   scrollStyles: function(styleObject) {
     var tx = styleObject.x || 0;
     var ty = styleObject.y || 0;
@@ -21,6 +34,13 @@ var StyleHelper = {
       delete styleObject.scale;
     }
     return styleObject;
+  },
+  allPrefixed: function (prop) {
+    if (!startWithPropsToPrefix.test(prop)) {
+      return [prop];
+    }
+    var ucProp = prop.charAt(0).toUpperCase() + prop.slice(1);
+    return (prop + ' ' + cssomPrefixes.join(ucProp + ' ') + ucProp).split(' ');
   },
 };
 

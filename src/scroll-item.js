@@ -58,6 +58,7 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
       } catch(e) {}
       if (styleObject) {
         styleObject = StyleHelper.scrollStyles(styleObject);
+        styleObject = StyleHelper.prefixAll(styleObject);
         ownProps.style = styleObject;
       }
     }
