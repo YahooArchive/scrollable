@@ -13,7 +13,11 @@ var omPrefixes = 'Webkit Moz O ms';
 var cssomPrefixes = omPrefixes.split(' ');
 var domPrefixes = omPrefixes.toLowerCase().split(' ');
 
-function prefixed(prop, obj, elem) {
+function prefixed(prop, obj, elem, allprefix) {
+  allprefix = allprefix || false;
+  if (allprefix) {
+    return propsAll(prop);
+  }
   if (!obj) {
     return testPropsAll(prop, 'pfx');
   } else {
@@ -24,6 +28,18 @@ function prefixed(prop, obj, elem) {
 prefixed.hyphenated = function(prop) {
     // http://modernizr.com/docs/#prefixed
     return prefixed(prop).replace(/([A-Z])/g, function(str,m1){ return '-' + m1.toLowerCase(); }).replace(/^ms-/,'-ms-');
+};
+
+function propsAll(prop) {
+  var vendorProps = [];
+  var propName = prop.charAt(0).toUpperCase() + prop.slice(1);
+  for (var i = 0; i < cssomPrefixes.length; i++) {
+    if (cssomPrefixes[i]) {
+      vendorProps.push(cssomPrefixes[i] + propName);
+    }
+  }
+  vendorProps.push(propName);
+  return vendorProps;
 };
 
 function testPropsAll(prop, prefixed, elem) {
@@ -76,9 +92,8 @@ function contains(str, substr) {
 }
 
 if(typeof window === 'undefined'){
-  module.exports = function(prop) {
-    var ucProp = prop.charAt(0).toUpperCase() + prop.slice(1);
-    return 'Webkit'+ucProp;
+  module.exports = function(prop, obj, elem) {
+    return propsAll(prop);
   };
 } else {
   module.exports = prefixed;

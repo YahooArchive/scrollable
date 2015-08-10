@@ -10,6 +10,7 @@ var StyleHelper = require('./style-helper');
 var ScrollItem = React.createClass({displayName: "ScrollItem",
 
   mixins: [RectCache],
+  _hasServerStyle: true,
 
   propTypes: {
     name: React.PropTypes.string.isRequired,
@@ -34,11 +35,16 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
       this._scrollingParent = parent;
       parent._registerItem(this);
     }
+    this._hasServerStyle = this.props.serverStyles ? true : false;
   },
 
   componentDidMount: function () {
     this._node = this.getDOMNode();
     this._prendingOperation && this._prendingOperation();
+    if (this._hasServerStyle) {
+      this._hasServerStyle = false;
+      this.forceUpdate();
+    }
   },
 
   componentWillUnmount: function () {
@@ -57,7 +63,7 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
         styleObject = ssStyles(this, this._scrollingParent);
       } catch(e) {}
       if (styleObject) {
-        styleObject = StyleHelper.scrollStyles(styleObject);
+        styleObject = StyleHelper.scrollStyles(styleObject, this._hasServerStyle);
         ownProps.style = styleObject;
       }
     }
