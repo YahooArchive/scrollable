@@ -326,6 +326,10 @@ var Scroller = React.createClass({displayName: "Scroller",
       // Since we schedule _resetScroll to the next tick, if some edge-case racing
       // condition starts to unmount the element, we should prevent that.
       if (self.isMounted()) {
+        var items = self._scrollItems;
+        for(var itemK in items) {
+          cleanupStyles(items[itemK]);
+        }
         self._resetScroll();
       }
     }, 1);
@@ -377,6 +381,38 @@ var Scroller = React.createClass({displayName: "Scroller",
   },
 
 });
+
+
+/*
+  cleanupStyles
+  -------------
+  Used for removing all prefixed versions added by server-side rendering.
+  There is a lot of edge-cases in browsers with vendor prefixes, so the
+  only strategy that works consistently is removing all styles, then adding
+  back the styles that we should keep.
+
+  Given: <div style="-webkit-transform:FOO;transform:FOO;">
+  Known cases:
+    * In Chrome <= 42 the example will render the values for -webkit-transform
+      even though unprefixed transform is supported. This will cause the runtime
+      to use transform while the browser is rendering -webkit-transform.
+    * Both Safari and Chrome will remove all combination of prefixes when
+      removing a property. So `_node.style.WebkitTransform = null;` will also
+      remove `_node.style.transform`.
+
+*/
+function cleanupStyles(item) {
+  if(item._node) {
+    item._node.removeAttribute('style');
+    var props = item._prevStyles;
+    if (props) {
+      // cannot re-use applyStyles because should not check _prevStyles
+      for(var prop in props) {
+        item._node.style[prop] = props[prop];
+      }
+    }
+  }
+}
 
 function queueStylesOperation(item, styleObject) {
   return applyStyles.bind(null, item, styleObject);

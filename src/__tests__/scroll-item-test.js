@@ -92,6 +92,23 @@ describe('<ScrollItem>', function() {
       expect(sut.props.style.height).toBe('50px');
     });
 
+    it("serverStyles have all prefixes", function () {
+      var Scroller = MockScroller();
+      var finalString = React.renderToString(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
+            return {
+              y: 10,
+            };
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      expect(finalString).toContain('transform:translate3d(0px, 10px, 0px);-webkit-transform:translate3d(0px, 10px, 0px);-moz-transform:translate3d(0px, 10px, 0px);-o-transform:translate3d(0px, 10px, 0px);-ms-transform:translate3d(0px, 10px, 0px);');
+    });
+
     it("Won't throw if serverStyles returns false", function () {
       var Scroller = MockScroller();
       function go() {

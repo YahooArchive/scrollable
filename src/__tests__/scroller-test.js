@@ -10,7 +10,6 @@ var Scroller = require('../scroller');
 var prefixed = require('../prefixed');
 var transform = prefixed('transform');
 
-
 describe('<Scroller>', function() {
   var div;
   beforeEach(function() {
@@ -161,9 +160,7 @@ describe('<Scroller>', function() {
             };
           },
         },
-        _node: {
-          style: {},
-        },
+        _node: document.createElement('div'),
       };
       sut._registerItem(fooItem);
       sut.setStyleWithPosition(23,0);
@@ -189,7 +186,7 @@ describe('<Scroller>', function() {
       sut._registerItem(fooItem);
       sut.setStyleWithPosition(23,0);
       expect(fooItem._prendingOperation).toBeDefined();
-      fooItem._node = {style:{}};
+      fooItem._node = document.createElement('div');
       fooItem._prendingOperation();
       expect(fooItem._node.style.height).toBe('23px');
     });
@@ -212,14 +209,47 @@ describe('<Scroller>', function() {
             return JSON.parse(JSON.stringify(theReturn));
           },
         },
-        _node: {
-          style: {},
-        },
+        _node: document.createElement('div'),
       };
       sut._registerItem(fooItem);
       sut.setStyleWithPosition(0,0);
       var theExpected = StyleHelper.scrollStyles(theReturn);
-      expect(fooItem._node.style).toEqual(theExpected);
+      for(var prop in theExpected) {
+        expect(fooItem._node.style[prop]+'').toEqual(theExpected[prop]+'');
+      }
+    });
+
+    it("cleanup serverStyles after nextTick", function (done) {
+      var sut = React.render(
+        <Scroller>
+        </Scroller>,
+        div
+      );
+
+      var clientStyles = StyleHelper.scrollStyles({y:10});
+      var wrapper = document.createElement('section');
+      var style = 'height:3px;transform:translate3d(0px, 10px, 0px);-webkit-transform:translate3d(0px, 10px, 0px);-moz-transform:translate3d(0px, 10px, 0px);-o-transform:translate3d(0px, 10px, 0px);-ms-transform:translate3d(0px, 10px, 0px);';
+      wrapper.innerHTML = '<div style="'+style+'"></div>';
+      var node = wrapper.querySelector('div');
+
+      var fooItem = {
+        props: {
+          name: 'foo',
+          scrollHandler: function(x, y) {
+            return {height:'20px'};
+          },
+        },
+        _node: node,
+        _prevStyles: clientStyles,
+      };
+      sut._registerItem(fooItem);
+      sut._resetScroll = function(){
+        for(var prop in clientStyles) {
+          expect(node.style[prop]).toEqual(clientStyles[prop]);
+        }
+        expect(node.getAttribute('style')).toEqual(node.style.cssText);
+        done();
+      };
     });
 
     it("self, items and scroller params passed properly", function () {
@@ -240,9 +270,7 @@ describe('<Scroller>', function() {
             };
           },
         },
-        _node: {
-          style: {},
-        },
+        _node: document.createElement('div'),
       };
       var barItem = {
         props: {
@@ -254,9 +282,7 @@ describe('<Scroller>', function() {
             };
           },
         },
-        _node: {
-          style: {},
-        },
+        _node: document.createElement('div'),
       };
       sut._registerItem(fooItem);
       sut._registerItem(barItem);
@@ -282,9 +308,7 @@ describe('<Scroller>', function() {
             };
           },
         },
-        _node: {
-          style: {},
-        },
+        _node: document.createElement('div'),
       };
       sut._registerItem(fooItem);
       setTimeout(function(){ // needed so scroll next tick actually runs

@@ -1,6 +1,6 @@
 {
   "name": "scrollable",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Components for layer composition and scrolling with React.js",
   "main": "src/scrollable.js",
   "peerDependencies": {

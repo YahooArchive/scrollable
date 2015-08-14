@@ -4,7 +4,7 @@
    See the accompanying LICENSE file for terms. */
 "use strict";
 var prefixed = require('./prefixed');
-var transform = prefixed('transform');
+var prefixedTransform = prefixed('transform');
 var cssomPrefixes = 'Webkit Moz O ms'.split(' ');
 var propsToPrefix = ['transition','animation','perspective','transform','align','justify','flex'];
 var startWithPropsToPrefix = new RegExp('^('+propsToPrefix.join('|')+')', 'i');
@@ -24,7 +24,8 @@ var StyleHelper = {
   },
   // receives one scrollable styleObject with X, Y and translate abstractions and MODIFIES it
   // returns the same modified object as a convenience
-  scrollStyles: function(styleObject) {
+  scrollStyles: function(styleObject, serverTick) {
+    var transform = serverTick ? 'transform':prefixedTransform;
     var tx = styleObject.x || 0;
     var ty = styleObject.y || 0;
     var tz = styleObject.zIndex && styleObject.zIndex/10 || 0;
