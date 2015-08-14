@@ -185,9 +185,9 @@ describe('<Scroller>', function() {
       };
       sut._registerItem(fooItem);
       sut.setStyleWithPosition(23,0);
-      expect(fooItem._prendingOperation).toBeDefined();
+      expect(fooItem._pendingOperation).toBeDefined();
       fooItem._node = document.createElement('div');
-      fooItem._prendingOperation();
+      fooItem._pendingOperation();
       expect(fooItem._node.style.height).toBe('23px');
     });
 

@@ -38,7 +38,7 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
 
   componentDidMount: function () {
     this._node = this.getDOMNode();
-    this._prendingOperation && this._prendingOperation();
+    this._pendingOperation && this._pendingOperation();
   },
 
   componentWillUnmount: function () {

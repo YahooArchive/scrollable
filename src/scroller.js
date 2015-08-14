@@ -80,7 +80,7 @@ var Scroller = React.createClass({displayName: "Scroller",
         if (item._node) {
           applyStyles(item, styleObject);
         } else {
-          item._prendingOperation = queueStylesOperation(item, styleObject);
+          item._pendingOperation = queueStylesOperation(item, styleObject);
         }
 
       }

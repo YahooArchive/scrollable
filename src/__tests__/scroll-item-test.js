@@ -217,11 +217,11 @@ describe('<ScrollItem>', function() {
       expect(sut._node).toBe(null);
     });
 
-    it("execute _prendingOperation that the parent might have setup", function () {
+    it("execute _pendingOperation that the parent might have setup", function () {
       var Scroller = MockScroller();
       var SuposedConsumer = React.createClass({
         componentDidMount: function() {
-          this.refs.item._prendingOperation = function(){};
+          this.refs.item._pendingOperation = function(){};
         },
         render: function() {
           return (
@@ -237,9 +237,9 @@ describe('<ScrollItem>', function() {
         div
       );
       var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
-      spyOn(sut, '_prendingOperation');
+      spyOn(sut, '_pendingOperation');
       sut.componentDidMount();
-      expect(sut._prendingOperation).toHaveBeenCalled();
+      expect(sut._pendingOperation).toHaveBeenCalled();
 
     });
 
