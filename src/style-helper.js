@@ -10,16 +10,20 @@ var propsToPrefix = ['transition','animation','perspective','transform','align',
 var startWithPropsToPrefix = new RegExp('^('+propsToPrefix.join('|')+')', 'i');
 
 var StyleHelper = {
+  // receives a styleObject and returns a NEW styleObject with the same properties and additional prefixed props
+  // returns the same modified object as a convenience
   prefixAll: function(styleObject) {
-    var style, allPrefixed;
+    var style, allPrefixed, result = {};
     for(style in styleObject) {
       allPrefixed = StyleHelper.allPrefixed(style);
       for (var i = 0; i < allPrefixed.length; i++) {
-        styleObject[allPrefixed[i]] = styleObject[style];
+        result[allPrefixed[i]] = styleObject[style];
       }
     }
-    return styleObject;
+    return result;
   },
+  // receives one scrollable styleObject with X, Y and translate abstractions and MODIFIES it
+  // returns the same modified object as a convenience
   scrollStyles: function(styleObject) {
     var tx = styleObject.x || 0;
     var ty = styleObject.y || 0;
@@ -35,6 +39,7 @@ var StyleHelper = {
     }
     return styleObject;
   },
+  // receives one property name string and return an array of strings with prefixes when needed
   allPrefixed: function (prop) {
     if (!startWithPropsToPrefix.test(prop)) {
       return [prop];

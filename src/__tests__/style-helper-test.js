@@ -68,6 +68,15 @@ describe('StyleHelper', function() {
       expect(sut).toEqual(expectation);
     });
 
+    it("should be a new object", function () {
+      var sut = StyleHelper.prefixAll({
+        zIndex: 1,
+      });
+      var expectation = { zIndex: 1 };
+      expect(sut).toEqual(expectation);
+      expect(sut).not.toBe(expectation);
+    });
+
   });
 });
 
