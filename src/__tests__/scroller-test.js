@@ -219,39 +219,6 @@ describe('<Scroller>', function() {
       }
     });
 
-    it("cleanup serverStyles after nextTick", function (done) {
-      var sut = React.render(
-        <Scroller>
-        </Scroller>,
-        div
-      );
-
-      var clientStyles = StyleHelper.scrollStyles({y:10});
-      var wrapper = document.createElement('section');
-      var style = 'height:3px;transform:translate3d(0px, 10px, 0px);-webkit-transform:translate3d(0px, 10px, 0px);-moz-transform:translate3d(0px, 10px, 0px);-o-transform:translate3d(0px, 10px, 0px);-ms-transform:translate3d(0px, 10px, 0px);';
-      wrapper.innerHTML = '<div style="'+style+'"></div>';
-      var node = wrapper.querySelector('div');
-
-      var fooItem = {
-        props: {
-          name: 'foo',
-          scrollHandler: function(x, y) {
-            return {height:'20px'};
-          },
-        },
-        _node: node,
-        _prevStyles: clientStyles,
-      };
-      sut._registerItem(fooItem);
-      sut._resetScroll = function(){
-        for(var prop in clientStyles) {
-          expect(node.style[prop]).toEqual(clientStyles[prop]);
-        }
-        expect(node.getAttribute('style')).toEqual(node.style.cssText);
-        done();
-      };
-    });
-
     it("self, items and scroller params passed properly", function () {
       var sut = React.render(
         <Scroller thatCustomProp="13px">

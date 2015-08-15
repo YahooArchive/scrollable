@@ -6,7 +6,7 @@
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var ScrollItem = require('../scroll-item');
-
+var StyleHelper = require('../style-helper');
 
 describe('<ScrollItem>', function() {
   var div;
@@ -140,6 +140,77 @@ describe('<ScrollItem>', function() {
       }
       expect(go).not.toThrow();
     });
+
+    it("cleanup serverStyles after componentDidMount", function (done) {
+      var Scroller = MockScroller();
+      var wrapper = React.render(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){
+            return {y:10};
+          }} serverStyles={function(){
+            return {
+              y: 10,
+            };
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
+      var node = sut.getDOMNode();
+      var clientStyles = StyleHelper.scrollStyles({y:10});
+      setTimeout(function(){
+        for(var prop in clientStyles) {
+          expect(node.style[prop]).toEqual(clientStyles[prop]);
+        }
+        expect(node.getAttribute('style')).toEqual(node.style.cssText);
+        done();
+      },1);
+    });
+
+    it("cleanup serverStyles after componentDidUpdate", function (done) {
+      var Scroller = MockScroller();
+      function positions10() {return {y:10};}
+      function positions20() {return {y:20};}
+      var SuposedConsumer = React.createClass({
+        getInitialState: function() {return {changePositions:false};},
+        render: function() {
+          var handler = this.state.changePositions ? positions20 : positions10;
+          return (
+            <Scroller ref="wrapper">
+              <ScrollItem name="foo" scrollHandler={handler} serverStyles={handler}>
+                foo
+              </ScrollItem>
+            </Scroller>
+          );
+        },
+      });
+
+      var consumer = React.render(
+        <SuposedConsumer />,
+        div
+      );
+
+      var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
+      var node = sut.getDOMNode();
+
+      // update state
+      var clientStyles = StyleHelper.scrollStyles({y:20});
+      sut._prevStyles = clientStyles; // this would be done by <Scroller>
+      consumer.setState({changePositions: true}, function() {
+        setTimeout(function(){
+          for(var prop in clientStyles) {
+            expect(node.style[prop]).toEqual(clientStyles[prop]);
+          }
+          expect(node.getAttribute('style')).toEqual(node.style.cssText);
+          done();
+          done();
+        },300);
+      });
+
+    });
+
 
   });
 
