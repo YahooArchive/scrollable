@@ -164,7 +164,38 @@ describe('<ScrollItem>', function() {
         for(var prop in clientStyles) {
           expect(node.style[prop]).toEqual(clientStyles[prop]);
         }
-        expect(node.getAttribute('style')).toEqual(node.style.cssText);
+        expect(node.getAttribute('style')).toEqual(node.style.cssText); // this fails if there is prefixes leftovers
+        done();
+      },1);
+    });
+
+    it("cleanup serverStyles honors 'style' React Prop", function (done) {
+      var Scroller = MockScroller();
+      var wrapper = React.render(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){
+            return {y:10};
+          }} serverStyles={function(){
+            return {
+              y: 10,
+            };
+          }}
+          style={{
+            height: 10
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
+      var node = sut.getDOMNode();
+      var clientStyles = StyleHelper.scrollStyles({y:10});
+      setTimeout(function(){
+        for(var prop in clientStyles) {
+          expect(node.style[prop]).toEqual(clientStyles[prop]);
+        }
+        expect(node.style.height).toEqual('10px');
         done();
       },1);
     });

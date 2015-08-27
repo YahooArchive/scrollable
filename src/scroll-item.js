@@ -37,13 +37,14 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
   },
 
   componentDidMount: function () {
-    this._node = this.getDOMNode();
-    cleanupStyles(this);
-    this._pendingOperation && this._pendingOperation();
+    var self = this;
+    self._node = self.getDOMNode();
+    self.props.serverStyles && cleanupStyles(self);
+    self._pendingOperation && self._pendingOperation();
   },
 
   componentDidUpdate: function() {
-    cleanupStyles(this);
+    this.props.serverStyles && cleanupStyles(this);
   },
 
   componentWillUnmount: function () {
@@ -104,12 +105,23 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
 
 */
 function cleanupStyles(item) {
+  var prop;
+  var reactProps;
+  if (item.props.style) {
+    reactProps = {};
+    for(prop in item.props.style) {
+      reactProps[prop] = item._node.style[prop];
+    }
+  }
   item._node.removeAttribute('style');
-  var props = item._prevStyles;
-  if (props) {
-    // cannot re-use applyStyles because should not check _prevStyles
-    for(var prop in props) {
-      item._node.style[prop] = props[prop];
+  if (reactProps) {
+    for(prop in reactProps) {
+      item._node.style[prop] = reactProps[prop];
+    }
+  }
+  if (item._prevStyles) {
+    for(prop in item._prevStyles) {
+      item._node.style[prop] = item._prevStyles[prop];
     }
   }
 }
