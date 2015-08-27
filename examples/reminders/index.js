@@ -32,8 +32,7 @@ var Reminders = React.createClass({
         <Scroller viewport scrollingX={false} scrollingY={true}
                   ref={"scroller"} selected={self.state.selected}
                   getContentSize={this.calculateVerticalScrollArea}
-                  name="remindersViewport"
-                  onResize={this.refreshHeight}>
+                  name="remindersViewport">
           <ScrollItem name="search" scrollHandler={handleSearchBoxPosition}>
             <div />
           </ScrollItem>
@@ -43,28 +42,18 @@ var Reminders = React.createClass({
     );
   },
 
-  refreshHeight: function() {
-    if (this.isMounted()) {
-      this.forceUpdate();
-    }
-  },
-
   scrollItemForCategoryId: function(categoryId) {
     var self = this;
     var handler = handlePositionWhenShowingAllCategories;
     if (self.state.mode === 'single') {
       handler = self.state.selected === categoryId ? handlePositionForSelectedItem : handlePositionForStackedItem;
     }
-    var viewportHeight = this.refs.scroller && this.refs.scroller.rect.height;
     return (
       <ScrollItem name={"category_"+categoryId}
                   key={categoryId}
                   categoryId={categoryId}
                   transitionStyles={transitionStyles}
-                  scrollHandler={handler}
-                  style={{
-                    height: viewportHeight - spaceAtBottom,
-                  }}>
+                  scrollHandler={handler}>
         <Hammer component={ReminderCartegory}
                 categoryId={categoryId}
                 onTap={function(event) {
@@ -87,7 +76,7 @@ var Reminders = React.createClass({
     } else {
       return {
         width: scroller.rect.width,
-        height: items["category_"+this.state.selected].rect.height,
+        height: scroller.rect.height - spaceAtBottom,
       };
     }
   },
@@ -132,6 +121,7 @@ function handlePositionWhenShowingAllCategories(x, y, self, items, scroller) {
 
   var pos = Math.max(0, order * multiplier * itemSizeDuringListMode - y);
   return {
+    height: scroller.rect.height - spaceAtBottom + 'px',
     zIndex: 2 + order,
     y: pos,
   };
@@ -152,6 +142,7 @@ function handlePositionForStackedItem(x, y, self, items, scroller) {
   }
 
   return {
+    height: scroller.rect.height - spaceAtBottom + 'px',
     y: pos,
     zIndex: zIndex,
   };
@@ -160,6 +151,7 @@ function handlePositionForStackedItem(x, y, self, items, scroller) {
 function handlePositionForSelectedItem(x, y, self, items, scroller) {
   var order = Data.categoryIds.indexOf(self.props.categoryId);
   return {
+    height: scroller.rect.height - spaceAtBottom + 'px',
     zIndex: 2 + order,
     y: -y,
   };
