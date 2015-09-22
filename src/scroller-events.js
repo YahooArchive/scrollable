@@ -56,17 +56,30 @@ var members = {
     It will be stronger then disable itself. During temporary disable
     calling `.enable()` or `.disable()` will just schedule this for when
     restoration is called.
+
+    Since `temporaryDisable` it's only called for animation purposes, we
+    can assume it is considered a type of programmatic scrolling. So it
+    will also trigger proper 'scrollStateChanged' events.
+
+    TODO: A better way would be to handle CSS animations and programmatic
+    transitions like the elastic effect when scrolling out of boundaries,
+    in the same file and unify Zynga internal variables with those of this
+    file. Candidate for eventual Zynga complete rewrite.
   */
   temporaryDisable: function() {
     if (!this._temp_disabled) {
       this._restore_disabled = this._disabled;
       this._temp_disabled = true;
       this._disabled = true;
+      this._notifyChange('scrolling');
     }
   },
   restoreTempDisabled: function() {
     this._temp_disabled = false;
     this._disabled = this._restore_disabled;
+    if (!this._disabled) {
+      this._notifyChange('stopped');
+    }
   },
 
   disable: function() {
@@ -76,6 +89,9 @@ var members = {
   enable: function() {
     this._restore_disabled = false;
     if (!this._temp_disabled) {
+      if (this._disabled) {
+        this._notifyChange('stopped');
+      }
       this._disabled = false;
     }
   },
@@ -84,17 +100,18 @@ var members = {
   _started: function() {
     this._scrolling = true;
     this.stopEvents();
-    var scrollStateChanged = document.createEvent('Event');
-    scrollStateChanged.initEvent('scrollStateChanged', true, true);
-    scrollStateChanged.state = 'scrolling';
-    this._node.dispatchEvent(scrollStateChanged);
+    this._notifyChange('scrolling');
   },
   _stopped: function() {
     this._scrolling = false;
     this.resumeEvents();
+    this._notifyChange('stopped');
+  },
+
+  _notifyChange: function(stateString) {
     var scrollStateChanged = document.createEvent('Event');
     scrollStateChanged.initEvent('scrollStateChanged', true, true);
-    scrollStateChanged.state = 'stopped';
+    scrollStateChanged.state = stateString;
     this._node.dispatchEvent(scrollStateChanged);
   },
 
