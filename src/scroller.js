@@ -8,14 +8,6 @@ var React = (inBrowser && window.React) || require('react');
 var StyleHelper = require('./style-helper');
 var prefixed = require('./prefixed');
 var RectCache = require('./rect-cache');
-var ScrollerEvents;
-
-/* istanbul ignore else */
-if (inBrowser) {
-  ScrollerEvents = require('./scroller-events');
-} else {
-  ScrollerEvents = require('./scroller-events-stub');
-}
 
 var transition = prefixed('transition');
 
@@ -306,6 +298,7 @@ var Scroller = React.createClass({displayName: "Scroller",
   componentDidMount: function () {
     var self = this;
     var container = self.getDOMNode();
+    var ScrollerEvents = this.props.events;
     container.scrollable = this;
 
     var options = this.props.options || {};

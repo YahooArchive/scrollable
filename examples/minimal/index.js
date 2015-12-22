@@ -5,6 +5,7 @@
 var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
+var TouchEvents = require('../../src/touch-events');
 
 var Lorem = require('../lorem');
 
@@ -23,7 +24,7 @@ var MinimalScroller = React.createClass({
     var content = <Lorem />;
 
     return (
-      <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
+      <Scroller events={TouchEvents} viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
         <ScrollItem name="content" scrollHandler={simpleHandler} exampleProp={"for scroll calculation"}>
           {content}
         </ScrollItem>

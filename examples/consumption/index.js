@@ -5,6 +5,7 @@
 var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
+var TouchEvents = require('../../src/touch-events');
 
 var TopBar = require('./top');
 var BotBar = require('./bot');
@@ -16,7 +17,7 @@ var ConsumptionMode = React.createClass({
   render: function () {
     return (
       <div className="consumption">
-        <Scroller viewport scrollingX={false} scrollingY={true}
+        <Scroller events={TouchEvents} viewport scrollingX={false} scrollingY={true}
                   getContentSize={this.getContentSize} ref="scroller">
 
           <ScrollItem ref="topbar" name="topbar" scrollHandler={consumptionBars}>

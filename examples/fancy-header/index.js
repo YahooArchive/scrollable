@@ -5,6 +5,7 @@
 var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
+var TouchEvents = require('../../src/touch-events');
 
 var Lorem = require('../lorem');
 var Header = require('./header');
@@ -20,7 +21,7 @@ var FancyHeader = React.createClass({
 
   render: function () {
     return (
-      <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
+      <Scroller events={TouchEvents} viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
         <ScrollItem name="background" scrollHandler={handler}>
           <div className="background">
           </div>

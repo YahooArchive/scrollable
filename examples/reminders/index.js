@@ -5,6 +5,7 @@
 var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
+var TouchEvents = require('../../src/touch-events');
 var prefixed = require('../../src/prefixed');
 var Hammer = require('react-hammerjs/dist/react-hammerjs');
 var ReminderCartegory = require('./category');
@@ -29,7 +30,7 @@ var Reminders = React.createClass({
     var scrollingCategories = Data.categoryIds.map(this.scrollItemForCategoryId);
     return (
       <div className="reminders">
-        <Scroller viewport scrollingX={false} scrollingY={true}
+        <Scroller events={TouchEvents} viewport scrollingX={false} scrollingY={true}
                   ref={"scroller"} selected={self.state.selected}
                   getContentSize={this.calculateVerticalScrollArea}
                   name="remindersViewport">

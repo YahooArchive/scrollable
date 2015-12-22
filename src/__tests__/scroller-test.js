@@ -9,6 +9,7 @@ var StyleHelper = require('../style-helper');
 var Scroller = require('../scroller');
 var prefixed = require('../prefixed');
 var transform = prefixed('transform');
+var TouchEvents = require('../touch-events');
 
 describe('<Scroller>', function() {
   var div;
@@ -22,7 +23,7 @@ describe('<Scroller>', function() {
     it("required props", function () {
       spyOn(console, 'warn');
       TestUtils.renderIntoDocument(
-        <Scroller serverStyles={true} />
+        <Scroller events={TouchEvents} serverStyles={true} />
       );
       expect(console.warn).toHaveBeenCalled();
       expect(console.warn.calls.count()).toEqual(3);
@@ -33,7 +34,7 @@ describe('<Scroller>', function() {
 
     it("implements RectCache mixin", function () {
       var wrapper = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
           <style>{".scrollable {float:left;} /* this will force it not to have width: auto; */ "}</style>
           <div style={{width:'100px',height:'200px'}} />
         </Scroller>,
@@ -46,7 +47,7 @@ describe('<Scroller>', function() {
 
     it("_resetScroll after mounting nextTick", function (done) {
       var sut = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
         </Scroller>,
         div
       );
@@ -55,7 +56,7 @@ describe('<Scroller>', function() {
 
     it("_resetScroll after mounting nextTick (cover edge case)", function (done) {
       var sut = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
         </Scroller>,
         div
       );
@@ -72,7 +73,7 @@ describe('<Scroller>', function() {
           return (
             <div>
               { this.state.isThere &&
-                <Scroller>
+                <Scroller events={TouchEvents}>
                 </Scroller>
               }
             </div>
@@ -99,7 +100,7 @@ describe('<Scroller>', function() {
 
     it("register and unregister items", function () {
       var sut = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
         </Scroller>,
         div
       );
@@ -117,7 +118,7 @@ describe('<Scroller>', function() {
 
     it("warnings about bad register and unregister", function () {
       var sut = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
         </Scroller>,
         div
       );
@@ -147,7 +148,7 @@ describe('<Scroller>', function() {
 
     it("Set style props based on item scrollHandler", function () {
       var sut = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
         </Scroller>,
         div
       );
@@ -169,7 +170,7 @@ describe('<Scroller>', function() {
 
     it("Schedule styles when not ready to render", function () {
       var sut = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
         </Scroller>,
         div
       );
@@ -193,7 +194,7 @@ describe('<Scroller>', function() {
 
     it("Uses StyleHelper", function () {
       var sut = React.render(
-        <Scroller>
+        <Scroller events={TouchEvents}>
         </Scroller>,
         div
       );
@@ -221,7 +222,7 @@ describe('<Scroller>', function() {
 
     it("self, items and scroller params passed properly", function () {
       var sut = React.render(
-        <Scroller thatCustomProp="13px">
+        <Scroller events={TouchEvents} thatCustomProp="13px">
         </Scroller>,
         div
       );
@@ -262,7 +263,7 @@ describe('<Scroller>', function() {
 
     it("ScrollTo, enable and disable APIs", function (done) {
       var sut = React.render(
-        <Scroller getContentSize={function(){return {width:20, height:500};}} style={{height:'200px', width:'20px'}}>
+        <Scroller events={TouchEvents} getContentSize={function(){return {width:20, height:500};}} style={{height:'200px', width:'20px'}}>
         </Scroller>,
         div
       );
@@ -297,7 +298,7 @@ describe('<Scroller>', function() {
 
     it("Should merge className, pass other props", function  () {
       var wrapper = React.render(
-        <Scroller className="foo" data-foo="bar">
+        <Scroller events={TouchEvents} className="foo" data-foo="bar">
         </Scroller>,
         div
       );
@@ -309,7 +310,7 @@ describe('<Scroller>', function() {
 
     it("merges viewport class", function  () {
       var wrapper = React.render(
-        <Scroller viewport>
+        <Scroller events={TouchEvents} viewport>
         </Scroller>,
         div
       );

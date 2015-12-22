@@ -5,6 +5,7 @@
 var React = require('react');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
+var TouchEvents = require('../../src/touch-events');
 
 var PhotoList = require('../photos');
 var PatternsList = require('../patterns');
@@ -31,12 +32,12 @@ var NestedScrollers = React.createClass({
 
   render: function () {
     return (
-      <Scroller viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
+      <Scroller events={TouchEvents} viewport scrollingX={false} scrollingY={true} getContentSize={this.getContentSize}>
         <ScrollItem name="content" scrollHandler={verticalHandler} exampleProp={"for scroll calculation"}>
 
           <Lorem numParagraphs={1} />
 
-          <Scroller className={'nested-scroll'} scrollingX={true} scrollingY={false} getContentSize={this.getContentSize}>
+          <Scroller events={TouchEvents} className={'nested-scroll'} scrollingX={true} scrollingY={false} getContentSize={this.getContentSize}>
             <ScrollItem name="content" scrollHandler={horizontalHandler}>
               { 'photos' === this.state.display &&
                 <PhotoList />
@@ -49,7 +50,7 @@ var NestedScrollers = React.createClass({
 
           <Lorem numParagraphs={1} />
 
-          <Scroller className={'nested-scroll'} scrollingX={true} scrollingY={false} getContentSize={this.getContentSize}>
+          <Scroller events={TouchEvents} className={'nested-scroll'} scrollingX={true} scrollingY={false} getContentSize={this.getContentSize}>
             <ScrollItem name="content" scrollHandler={horizontalHandler}>
               { 'photos' === this.state.display &&
                 <PhotoList />
