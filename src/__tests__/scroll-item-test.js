@@ -6,7 +6,7 @@
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var ScrollItem = require('../scroll-item');
-
+var StyleHelper = require('../style-helper');
 
 describe('<ScrollItem>', function() {
   var div;
@@ -20,18 +20,22 @@ describe('<ScrollItem>', function() {
     it("required props", function () {
       spyOn(console, 'warn');
       TestUtils.renderIntoDocument(
-        <ScrollItem />
+        <ScrollItem serverStyles={true} />
       );
       expect(console.warn).toHaveBeenCalled();
-      expect(console.warn.calls.count()).toEqual(2);
-      expect(console.warn.calls.first().args[0]).toMatch('was not specified');
-      expect(console.warn.calls.mostRecent().args[0]).toMatch('was not specified');
+      expect(console.warn.calls.count()).toEqual(3);
+      expect(console.warn.calls.argsFor(0)).toMatch('was not specified');
+      expect(console.warn.calls.argsFor(1)).toMatch('was not specified');
+      expect(console.warn.calls.argsFor(2)).toMatch('expected `function`');
     });
 
     it("Won't throw outside <Scroller>", function () {
-      TestUtils.renderIntoDocument(
-        <ScrollItem name="foo" scrollHandler={function(){}}  />
-      );
+      function go() {
+        TestUtils.renderIntoDocument(
+          <ScrollItem name="foo" scrollHandler={function(){}}  />
+        );
+      }
+      expect(go).not.toThrow();
     });
 
     it("warns about owner and parent context", function () {
@@ -65,6 +69,179 @@ describe('<ScrollItem>', function() {
       expect(sut.rect.height).toEqual(200);
       expect(sut.rect.width).toEqual(200);
     });
+
+  });
+
+  describe('Server-side rendering', function() {
+
+    it("Render styles from serverStyles prop", function () {
+      var Scroller = MockScroller();
+      var wrapper = React.render(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
+            return {
+              height: '50px',
+            };
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
+      expect(sut.props.style.height).toBe('50px');
+    });
+
+    it("serverStyles have all prefixes", function () {
+      var Scroller = MockScroller();
+      var finalString = React.renderToString(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
+            return {
+              y: 10,
+            };
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      expect(finalString).toContain('transform:translate3d(0px, 10px, 0px);-webkit-transform:translate3d(0px, 10px, 0px);-moz-transform:translate3d(0px, 10px, 0px);-o-transform:translate3d(0px, 10px, 0px);-ms-transform:translate3d(0px, 10px, 0px);');
+    });
+
+    it("Won't throw if serverStyles returns false", function () {
+      var Scroller = MockScroller();
+      function go() {
+        React.render(
+          <Scroller>
+            <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
+              return false;
+            }}>
+              foo
+            </ScrollItem>
+          </Scroller>,
+          div
+        );
+      }
+      expect(go).not.toThrow();
+    });
+
+    it("Won't throw if serverStyles is not a function", function () {
+      var Scroller = MockScroller();
+      function go() {
+        React.render(
+          <Scroller>
+            <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={true}>
+              foo
+            </ScrollItem>
+          </Scroller>,
+          div
+        );
+      }
+      expect(go).not.toThrow();
+    });
+
+    it("cleanup serverStyles after componentDidMount", function (done) {
+      var Scroller = MockScroller();
+      var wrapper = React.render(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){
+            return {y:10};
+          }} serverStyles={function(){
+            return {
+              y: 10,
+            };
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
+      var node = sut.getDOMNode();
+      var clientStyles = StyleHelper.scrollStyles({y:10});
+      setTimeout(function(){
+        for(var prop in clientStyles) {
+          expect(node.style[prop]).toEqual(clientStyles[prop]);
+        }
+        expect(node.getAttribute('style')).toEqual(node.style.cssText); // this fails if there is prefixes leftovers
+        done();
+      },1);
+    });
+
+    it("cleanup serverStyles honors 'style' React Prop", function (done) {
+      var Scroller = MockScroller();
+      var wrapper = React.render(
+        <Scroller>
+          <ScrollItem name="foo" scrollHandler={function(){
+            return {y:10};
+          }} serverStyles={function(){
+            return {
+              y: 10,
+            };
+          }}
+          style={{
+            height: 10
+          }}>
+            foo
+          </ScrollItem>
+        </Scroller>,
+        div
+      );
+      var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
+      var node = sut.getDOMNode();
+      var clientStyles = StyleHelper.scrollStyles({y:10});
+      setTimeout(function(){
+        for(var prop in clientStyles) {
+          expect(node.style[prop]).toEqual(clientStyles[prop]);
+        }
+        expect(node.style.height).toEqual('10px');
+        done();
+      },1);
+    });
+
+    it("cleanup serverStyles after componentDidUpdate", function (done) {
+      var Scroller = MockScroller();
+      function positions10() {return {y:10};}
+      function positions20() {return {y:20};}
+      var SuposedConsumer = React.createClass({
+        getInitialState: function() {return {changePositions:false};},
+        render: function() {
+          var handler = this.state.changePositions ? positions20 : positions10;
+          return (
+            <Scroller ref="wrapper">
+              <ScrollItem name="foo" scrollHandler={handler} serverStyles={handler}>
+                foo
+              </ScrollItem>
+            </Scroller>
+          );
+        },
+      });
+
+      var consumer = React.render(
+        <SuposedConsumer />,
+        div
+      );
+
+      var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
+      var node = sut.getDOMNode();
+
+      // update state
+      var clientStyles = StyleHelper.scrollStyles({y:20});
+      sut._prevStyles = clientStyles; // this would be done by <Scroller>
+      consumer.setState({changePositions: true}, function() {
+        setTimeout(function(){
+          for(var prop in clientStyles) {
+            expect(node.style[prop]).toEqual(clientStyles[prop]);
+          }
+          expect(node.getAttribute('style')).toEqual(node.style.cssText);
+          done();
+          done();
+        },300);
+      });
+
+    });
+
 
   });
 
@@ -140,6 +317,63 @@ describe('<ScrollItem>', function() {
       consumer.setState({remove: true});
 
       expect(sut._node).toBe(null);
+    });
+
+    it("execute _pendingOperation that the parent might have setup", function () {
+      var Scroller = MockScroller();
+      var SuposedConsumer = React.createClass({
+        componentDidMount: function() {
+          this.refs.item._pendingOperation = function(){};
+        },
+        render: function() {
+          return (
+            <Scroller>
+              <ScrollItem ref="item" name="foo" scrollHandler={function(){}} />
+            </Scroller>
+          );
+        },
+      });
+
+      var consumer = React.render(
+        <SuposedConsumer />,
+        div
+      );
+      var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
+      spyOn(sut, '_pendingOperation');
+      sut.componentDidMount();
+      expect(sut._pendingOperation).toHaveBeenCalled();
+
+    });
+
+    it("Calls parent onResize method if item resizes", function () {
+      var Scroller = MockScroller();
+      var SuposedConsumer = React.createClass({
+        getInitialState: function() {return {resizeItem:false};},
+        render: function() {
+          return (
+            <Scroller ref="wrapper">
+              <ScrollItem name="foo" scrollHandler={function(){}}>
+                <div style={{height:'20px', width:'20px'}} />
+                { this.state.resizeItem &&
+                  <div style={{height:'20px', width:'20px'}} />
+                }
+              </ScrollItem>
+            </Scroller>
+          );
+        },
+      });
+
+      var consumer = React.render(
+        <SuposedConsumer />,
+        div
+      );
+      var parent = TestUtils.findRenderedComponentWithType(consumer, Scroller);
+      parent.onResize = function () {};
+      spyOn(parent, 'onResize');
+
+      consumer.setState({resizeItem: true});
+
+      expect(parent.onResize).toHaveBeenCalled();
     });
 
   });

@@ -64,7 +64,10 @@ function handler(x, y, self, items, scroller) {
       };
     case "white":
       return {
-        opacity: Math.min(1/transitionPixels * y, 1),
+        // this rounding to 0.001 and 0.9999 should not be needed.
+        // some browsers were causing re-paint. So I will leave this here
+        // as documentation
+        opacity: Math.max(0.001, Math.min(1/transitionPixels * y, 0.9999)),
         zIndex: 5,
         y: headerPos,
       };

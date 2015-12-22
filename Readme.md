@@ -1,5 +1,10 @@
 ## React Scrollable
 
+[![Join the chat at https://gitter.im/yahoo/scrollable](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yahoo/scrollable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![build status](https://travis-ci.org/yahoo/scrollable.svg)](https://travis-ci.org/yahoo/scrollable)
+[![Test Coverage](https://codeclimate.com/github/yahoo/scrollable/badges/coverage.svg)](https://codeclimate.com/github/yahoo/scrollable/coverage)
+[![Code Climate](https://codeclimate.com/github/yahoo/scrollable/badges/gpa.svg)](https://codeclimate.com/github/yahoo/scrollable)
+
 #### A library that brings smooth scrolling interactions to modern mobile browsers.
 
 React Scrollable is a set of React.js components that provide an abstraction for layer composition and scroll events. The components provide a declarative API for independently positioning of each layer to create high performance, high frame rate interactions.
@@ -22,15 +27,17 @@ Many examples are provided on the `examples/` folder.
 
     $ npm run dev
 
+Open `http://localhost:8080/examples/` after starting up the server to check out the examples.
+
 ##### Development auto-watch unit tests (without coverage)
 
     $ karma start
 
-Notice: The current version throws a lot of warnings about 'owner-based context'. To ignore this messages you can use the following regex on the Chrome Dev-Tools console filter: ^((?!owner-based).)*$
+Notice: The current version throws a lot of warnings about 'owner-based context'. To ignore these messages you can use the following regex on the Chrome Dev-Tools console filter: `^((?!owner-based).)*$`
 
 ### Contributions Guideline
 
-Pull requests, and issues are welcome. Not only for code but also for documentation and examples.
+Pull requests and issues are welcome. Not only for code but also for documentation and examples.
 
   * Use a code editor with JSXHint or run `jsxhint` before committing
   * Use a code editor with `.editorconfig` support or read the file
@@ -53,7 +60,7 @@ Pull requests, and issues are welcome. Not only for code but also for documentat
   * Styles are currently only on the examples, need to figure out a way to
     be in JavaScript and still be able to override via some API. Should it
     even be allowed?
-  * Figure out build system to support:
+  * Figure out a build system to support:
     * CommonJS require if installed by npm
     * Dev build with warnings and/or performance profiling helpers
     * `require('scrollable/scroller')` or `require('scrollable').Scroller`

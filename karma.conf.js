@@ -4,7 +4,7 @@
 // Karma configuration
 
 module.exports = function(config) {
-  var sharedConf = require('karma.shared')(config);
+  var sharedConf = require('./karma.shared')(config);
   var options = {
 
     // enable / disable watching file and executing tests whenever any file changes
