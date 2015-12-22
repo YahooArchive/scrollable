@@ -8,15 +8,31 @@ function ScrollerEvents(domNode, handler, config) {
     return new ScrollerEvents(domNode, handler, config);
   }
 
+  var fillerNode = document.createElement('div');
+  var fillerStyle = fillerNode.style;
+  fillerStyle.position = 'relative';
+  fillerStyle.display = 'block';
+  fillerStyle.visibiliy = 'hidden';
+  fillerStyle.zIndex = 300;
+
   this._node = domNode;
   this._handler = handler;
+  this._filler = fillerNode;
+  this._wrapper = this._node.firstChild;
+  this._wrapper.style.position = 'fixed';
+  // should be detected based on this._node, just assuming viewport so far
+  this._wrapper.style.top = 0;
+  this._wrapper.style.bottom = 0;
+  this._wrapper.style.left = 0;
+  this._wrapper.style.right = 0;
+
+  this._node.insertBefore(this._filler, this._wrapper);
+  this._node.style.overflow = "scroll";
 
   // Store ScrollerEvents instances during event capturing
-  domNode.addEventListener("scroll", this._storeScrollers.bind(this), true);
+  // domNode.addEventListener("scroll", this._storeScrollers.bind(this), true);
   // Then act on this information during bubbling
   domNode.addEventListener("scroll", this._scrollFired.bind(this),    false);
-
-  handler(0, 0);
   return this;
 }
 
@@ -97,15 +113,16 @@ var members = {
   },
 
   stopEvents: function() {
-    this._node.firstChild.style.pointerEvents = "none";
+    this._wrapper.style.pointerEvents = "none";
   },
   resumeEvents: function() {
-    this._node.firstChild.style.pointerEvents = "inherit";
+    this._wrapper.style.pointerEvents = "inherit";
   },
 
   setDimensions: function(containerWidth, containerHeight, contentWidth, contentHeight) {
-    // not sure about this being needed on native yet
-    // this._scroller.setDimensions(containerWidth, containerHeight, contentWidth, contentHeight);
+    this._filler.style.width = contentWidth + 'px';
+    this._filler.style.height = contentHeight + 'px';
+    this._handler(this._node.scrollLeft, this._node.scrollTop);
   },
 
   scrollTo: function(left, top, animate, zoom) {
@@ -123,7 +140,7 @@ var members = {
   },
 
   _scrollFired: function(event) {
-    console.log(event.details);
+    console.log('scroll', event);
     var self = this;
     if (!self._scrolling) {
       self._started();

@@ -37,6 +37,7 @@ var FancyHeader = React.createClass({
           </div>
         </ScrollItem>
         <ScrollItem name="content" scrollHandler={handler}>
+          <p><a href="http://reactjs.com/">test link</a></p>
           <Lorem />
         </ScrollItem>
       </Scroller>
