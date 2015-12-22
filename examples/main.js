@@ -10,6 +10,7 @@ var container = document.getElementById('container');
 var MinimalScroller = require('./minimal');
 var ComsumptionMode = require('./consumption');
 var FancyHeader = require('./fancy-header');
+var FancyHeaderNative = require('./fancy-header-native');
 var Reminders = require('./reminders');
 var NestedScrollers = require('./nested');
 var NestedNative = require('./nested-native');
@@ -65,6 +66,8 @@ var App = React.createClass({
           description: "consumption/ - top and bottom bar consumption mode"},
         { name:        'fancy-header',
           description: "fancy-header/ - fading and parallax transitions based on scroll"},
+        { name:        'fancy-header-native',
+          description: "fancy-header-native/ - same as above, but don't use touch events"},
         { name:        'reminders',
           description: "reminders/ - just like Apple's Reminders App"},
         { name:        'nested',
@@ -92,6 +95,7 @@ var App = React.createClass({
         { render === 'minimal'       && <MinimalScroller /> }
         { render === 'consumption'   && <ComsumptionMode /> }
         { render === 'fancy-header'  && <FancyHeader /> }
+        { render === 'fancy-header-native'  && <FancyHeaderNative /> }
         { render === 'reminders'     && <Reminders /> }
         { render === 'nested'        && <NestedScrollers /> }
         { render === 'nested-native' && <NestedNative /> }
