@@ -87,7 +87,7 @@ describe('RectCache mixin', function() {
       expect(sut.rect.height>=68);
       expect(sut.rect.width>=200);
 
-      var container = ReactDOM.findDOMNode(sut.refs.imgHere);
+      var container = sut.refs.imgHere;
       var img = document.createElement('img');
       img.addEventListener('load', function() {
         expect(resizeCallback.calls.count()).toBe(3);

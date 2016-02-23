@@ -145,13 +145,13 @@ describe('<ScrollItem>', function() {
         div
       );
       var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
-      var node = ReactDOM.findDOMNode(sut);
+      var sutDOM = ReactDOM.findDOMNode(sut);
       var clientStyles = StyleHelper.scrollStyles({y:10});
       setTimeout(function(){
         for(var prop in clientStyles) {
-          expect(node.style[prop]).toEqual(clientStyles[prop]);
+          expect(sutDOM.style[prop]).toEqual(clientStyles[prop]);
         }
-        expect(node.getAttribute('style')).toEqual(node.style.cssText); // this fails if there is prefixes leftovers
+        expect(sutDOM.getAttribute('style')).toEqual(sutDOM.style.cssText); // this fails if there is prefixes leftovers
         done();
       },1);
     });
@@ -176,13 +176,12 @@ describe('<ScrollItem>', function() {
         div
       );
       var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
-      var node = ReactDOM.findDOMNode(sut);
       var clientStyles = StyleHelper.scrollStyles({y:10});
       setTimeout(function(){
         for(var prop in clientStyles) {
-          expect(node.style[prop]).toEqual(clientStyles[prop]);
+          expect(sut.style[prop]).toEqual(clientStyles[prop]);
         }
-        expect(node.style.height).toEqual('10px');
+        expect(sut.style.height).toEqual('10px');
         done();
       },1);
     });
@@ -211,7 +210,7 @@ describe('<ScrollItem>', function() {
       );
 
       var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
-      var node = ReactDOM.findDOMNode(sut);
+      var sutDOM = ReactDOM.findDOMNode(sut);
 
       // update state
       var clientStyles = StyleHelper.scrollStyles({y:20});
@@ -219,9 +218,9 @@ describe('<ScrollItem>', function() {
       consumer.setState({changePositions: true}, function() {
         setTimeout(function(){
           for(var prop in clientStyles) {
-            expect(node.style[prop]).toEqual(clientStyles[prop]);
+            expect(sutDOM.style[prop]).toEqual(clientStyles[prop]);
           }
-          expect(node.getAttribute('style')).toEqual(node.style.cssText);
+          expect(sutDOM.getAttribute('style')).toEqual(sutDOM.style.cssText);
           done();
           done();
         },300);
@@ -299,7 +298,8 @@ describe('<ScrollItem>', function() {
         div
       );
       var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
-      expect(sut._node).toEqual(ReactDOM.findDOMNode(sut));
+      var sutDOM = ReactDOM.findDOMNode(sut);
+      expect(sut._node).toEqual(sutDOM);
 
       consumer.setState({remove: true});
 

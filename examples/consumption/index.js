@@ -61,7 +61,7 @@ var ConsumptionMode = React.createClass({
   componentDidMount: function() {
     this.refs.scroller.consuming = true;
     this.refs.scroller.origin = 0;
-    var hammer = (this.hammer = new Hammer(ReactDOM.findDOMNode(this.refs.swipeArea)));
+    var hammer = (this.hammer = new Hammer(this.refs.swipeArea));
     hammer.get('swipe').set({
       direction: Hammer.DIRECTION_DOWN,
       velocity: 0.3,
