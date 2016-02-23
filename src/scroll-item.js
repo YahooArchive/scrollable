@@ -4,7 +4,7 @@
    See the accompanying LICENSE file for terms. */
 
 var React = (typeof window !== 'undefined' && window.React) || require('react');
-var ReactDOM = (typeof window !== 'undefined' && window.React) || require('react-dom');
+var ReactDOM = (typeof window !== 'undefined' && window.ReactDOM) || require('react-dom');
 var RectCache = require('./rect-cache');
 var StyleHelper = require('./style-helper');
 
