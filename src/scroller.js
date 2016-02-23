@@ -5,6 +5,7 @@
 
 var inBrowser = typeof window !== 'undefined';
 var React = (inBrowser && window.React) || require('react');
+var ReactDOM = (inBrowser && window.React) || require('react-dom');
 var StyleHelper = require('./style-helper');
 var prefixed = require('./prefixed');
 var RectCache = require('./rect-cache');
@@ -305,7 +306,7 @@ var Scroller = React.createClass({displayName: "Scroller",
 
   componentDidMount: function () {
     var self = this;
-    var container = self.getDOMNode();
+    var container = ReactDOM.findDOMNode(self);
     container.scrollable = this;
 
     var options = this.props.options || {};
@@ -332,7 +333,7 @@ var Scroller = React.createClass({displayName: "Scroller",
   },
 
   componentWillUnmount: function() {
-    delete this.getDOMNode().scrollable;
+    delete ReactDOM.findDOMNode(this).scrollable;
   },
 
   onResize: function() {

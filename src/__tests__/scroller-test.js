@@ -3,8 +3,9 @@
    See the accompanying LICENSE file for terms. */
 "use strict";
 
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 var StyleHelper = require('../style-helper');
 var Scroller = require('../scroller');
 var prefixed = require('../prefixed');
@@ -20,19 +21,19 @@ describe('<Scroller>', function() {
   describe('startup and cleanup', function() {
 
     it("required props", function () {
-      spyOn(console, 'warn');
+      spyOn(console, 'error');
       TestUtils.renderIntoDocument(
         <Scroller serverStyles={true} />
       );
-      expect(console.warn).toHaveBeenCalled();
-      expect(console.warn.calls.count()).toEqual(3);
-      expect(console.warn.calls.argsFor(0)).toMatch('was not specified');
-      expect(console.warn.calls.argsFor(1)).toMatch('was not specified');
-      expect(console.warn.calls.argsFor(2)).toMatch('was not specified');
+      expect(console.error).toHaveBeenCalled();
+      expect(console.error.calls.count()).toEqual(3);
+      expect(console.error.calls.argsFor(0)).toMatch('was not specified');
+      expect(console.error.calls.argsFor(1)).toMatch('was not specified');
+      expect(console.error.calls.argsFor(2)).toMatch('was not specified');
     });
 
     it("implements RectCache mixin", function () {
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller>
           <style>{".scrollable {float:left;} /* this will force it not to have width: auto; */ "}</style>
           <div style={{width:'100px',height:'200px'}} />
@@ -45,7 +46,7 @@ describe('<Scroller>', function() {
     });
 
     it("_resetScroll after mounting nextTick", function (done) {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller>
         </Scroller>,
         div
@@ -54,7 +55,7 @@ describe('<Scroller>', function() {
     });
 
     it("_resetScroll after mounting nextTick (cover edge case)", function (done) {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller>
         </Scroller>,
         div
@@ -79,12 +80,12 @@ describe('<Scroller>', function() {
           );
         },
       });
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <SuposedConsumer />,
         div
       );
       var scroller = TestUtils.findRenderedComponentWithType(wrapper, Scroller);
-      var node = scroller.getDOMNode();
+      var node = ReactDOM.findDOMNode(scroller);
       setTimeout(function() {
         expect(node.scrollable).toBe(scroller);
         wrapper.setState({isThere:false});
@@ -98,7 +99,7 @@ describe('<Scroller>', function() {
   describe("Register and unregister <ScrollItem>s", function(){
 
     it("register and unregister items", function () {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller>
         </Scroller>,
         div
@@ -116,7 +117,7 @@ describe('<Scroller>', function() {
     });
 
     it("warnings about bad register and unregister", function () {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller>
         </Scroller>,
         div
@@ -146,7 +147,7 @@ describe('<Scroller>', function() {
   describe("Positioning items", function () {
 
     it("Set style props based on item scrollHandler", function () {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller>
         </Scroller>,
         div
@@ -168,7 +169,7 @@ describe('<Scroller>', function() {
     });
 
     it("Schedule styles when not ready to render", function () {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller>
         </Scroller>,
         div
@@ -192,7 +193,7 @@ describe('<Scroller>', function() {
     });
 
     it("Uses StyleHelper", function () {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller>
         </Scroller>,
         div
@@ -220,7 +221,7 @@ describe('<Scroller>', function() {
     });
 
     it("self, items and scroller params passed properly", function () {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller thatCustomProp="13px">
         </Scroller>,
         div
@@ -261,7 +262,7 @@ describe('<Scroller>', function() {
     });
 
     it("ScrollTo, enable and disable APIs", function (done) {
-      var sut = React.render(
+      var sut = ReactDOM.render(
         <Scroller getContentSize={function(){return {width:20, height:500};}} style={{height:'200px', width:'20px'}}>
         </Scroller>,
         div
@@ -296,26 +297,28 @@ describe('<Scroller>', function() {
   describe("Render behavior", function() {
 
     it("Should merge className, pass other props", function  () {
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller className="foo" data-foo="bar">
         </Scroller>,
         div
       );
 
       var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable');
-      expect(sut.props.className).toBe('scrollable foo');
-      expect(sut.props['data-foo']).toBe('bar');
+      var sutDOM = ReactDOM.findDOMNode(sut);
+      expect(sutDOM.className).toBe('scrollable foo');
+      expect(sutDOM.getAttribute('data-foo')).toBe('bar');
     });
 
     it("merges viewport class", function  () {
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller viewport>
         </Scroller>,
         div
       );
 
       var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-viewport');
-      expect(sut.props.className).toBe('scrollable-viewport');
+      var sutDOM = ReactDOM.findDOMNode(sut);
+      expect(sutDOM.className).toBe('scrollable-viewport');
     });
 
   });

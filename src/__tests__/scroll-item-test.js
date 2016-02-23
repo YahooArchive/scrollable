@@ -3,10 +3,12 @@
    See the accompanying LICENSE file for terms. */
 "use strict";
 
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 var ScrollItem = require('../scroll-item');
 var StyleHelper = require('../style-helper');
+var ReactDOMServer = require('react-dom/server');
 
 describe('<ScrollItem>', function() {
   var div;
@@ -18,15 +20,15 @@ describe('<ScrollItem>', function() {
   describe('startup', function() {
 
     it("required props", function () {
-      spyOn(console, 'warn');
+      spyOn(console, 'error');
       TestUtils.renderIntoDocument(
         <ScrollItem serverStyles={true} />
       );
-      expect(console.warn).toHaveBeenCalled();
-      expect(console.warn.calls.count()).toEqual(3);
-      expect(console.warn.calls.argsFor(0)).toMatch('was not specified');
-      expect(console.warn.calls.argsFor(1)).toMatch('was not specified');
-      expect(console.warn.calls.argsFor(2)).toMatch('expected `function`');
+      expect(console.error).toHaveBeenCalled();
+      expect(console.error.calls.count()).toEqual(3);
+      expect(console.error.calls.argsFor(0)).toMatch('was not specified');
+      expect(console.error.calls.argsFor(1)).toMatch('was not specified');
+      expect(console.error.calls.argsFor(2)).toMatch('expected `function`');
     });
 
     it("Won't throw outside <Scroller>", function () {
@@ -38,25 +40,9 @@ describe('<ScrollItem>', function() {
       expect(go).not.toThrow();
     });
 
-    it("warns about owner and parent context", function () {
-      // TODO: remove this when React 0.14 arrives
-      spyOn(console, 'warn');
-      var Scroller = MockScroller('without console spy');
-      TestUtils.renderIntoDocument(
-        <Scroller>
-          <ScrollItem name="foo" scrollHandler={function(){}}>
-            foo
-          </ScrollItem>
-        </Scroller>
-      );
-      expect(console.warn).toHaveBeenCalled();
-      expect(console.warn.calls.count()).toEqual(1);
-      expect(console.warn.calls.mostRecent().args[0]).toMatch('owner-based and parent-based');
-    });
-
     it("implements RectCache mixin", function () {
       var Scroller = MockScroller();
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller>
           <style>{".scrollable-item {float:left;} /* this will force it not to have width: auto; */ "}</style>
           <ScrollItem name="foo" scrollHandler={function(){}}>
@@ -76,7 +62,7 @@ describe('<ScrollItem>', function() {
 
     it("Render styles from serverStyles prop", function () {
       var Scroller = MockScroller();
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller>
           <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
             return {
@@ -89,12 +75,13 @@ describe('<ScrollItem>', function() {
         div
       );
       var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
-      expect(sut.props.style.height).toBe('50px');
+      var sutDOM = ReactDOM.findDOMNode(sut);
+      expect(sutDOM.style.height).toBe('50px');
     });
 
     it("serverStyles have all prefixes", function () {
       var Scroller = MockScroller();
-      var finalString = React.renderToString(
+      var finalString = ReactDOMServer.renderToString(
         <Scroller>
           <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
             return {
@@ -112,7 +99,7 @@ describe('<ScrollItem>', function() {
     it("Won't throw if serverStyles returns false", function () {
       var Scroller = MockScroller();
       function go() {
-        React.render(
+        ReactDOM.render(
           <Scroller>
             <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={function(){
               return false;
@@ -129,7 +116,7 @@ describe('<ScrollItem>', function() {
     it("Won't throw if serverStyles is not a function", function () {
       var Scroller = MockScroller();
       function go() {
-        React.render(
+        ReactDOM.render(
           <Scroller>
             <ScrollItem name="foo" scrollHandler={function(){}} serverStyles={true}>
               foo
@@ -143,7 +130,7 @@ describe('<ScrollItem>', function() {
 
     it("cleanup serverStyles after componentDidMount", function (done) {
       var Scroller = MockScroller();
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller>
           <ScrollItem name="foo" scrollHandler={function(){
             return {y:10};
@@ -158,7 +145,7 @@ describe('<ScrollItem>', function() {
         div
       );
       var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
-      var node = sut.getDOMNode();
+      var node = ReactDOM.findDOMNode(sut);
       var clientStyles = StyleHelper.scrollStyles({y:10});
       setTimeout(function(){
         for(var prop in clientStyles) {
@@ -171,7 +158,7 @@ describe('<ScrollItem>', function() {
 
     it("cleanup serverStyles honors 'style' React Prop", function (done) {
       var Scroller = MockScroller();
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller>
           <ScrollItem name="foo" scrollHandler={function(){
             return {y:10};
@@ -189,7 +176,7 @@ describe('<ScrollItem>', function() {
         div
       );
       var sut = TestUtils.findRenderedDOMComponentWithClass(wrapper, 'scrollable-item');
-      var node = sut.getDOMNode();
+      var node = ReactDOM.findDOMNode(sut);
       var clientStyles = StyleHelper.scrollStyles({y:10});
       setTimeout(function(){
         for(var prop in clientStyles) {
@@ -218,13 +205,13 @@ describe('<ScrollItem>', function() {
         },
       });
 
-      var consumer = React.render(
+      var consumer = ReactDOM.render(
         <SuposedConsumer />,
         div
       );
 
       var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
-      var node = sut.getDOMNode();
+      var node = ReactDOM.findDOMNode(sut);
 
       // update state
       var clientStyles = StyleHelper.scrollStyles({y:20});
@@ -249,7 +236,7 @@ describe('<ScrollItem>', function() {
 
     it("register against scrollingParent", function () {
       var Scroller = MockScroller();
-      var wrapper = React.render(
+      var wrapper = ReactDOM.render(
         <Scroller>
           <ScrollItem name="foo" scrollHandler={function(){}}>
             foo
@@ -278,7 +265,7 @@ describe('<ScrollItem>', function() {
         },
       });
 
-      var consumer = React.render(
+      var consumer = ReactDOM.render(
         <SuposedConsumer />,
         div
       );
@@ -307,12 +294,12 @@ describe('<ScrollItem>', function() {
         },
       });
 
-      var consumer = React.render(
+      var consumer = ReactDOM.render(
         <SuposedConsumer />,
         div
       );
       var sut = TestUtils.findRenderedComponentWithType(consumer, ScrollItem);
-      expect(sut._node).toEqual(sut.getDOMNode());
+      expect(sut._node).toEqual(ReactDOM.findDOMNode(sut));
 
       consumer.setState({remove: true});
 
@@ -334,7 +321,7 @@ describe('<ScrollItem>', function() {
         },
       });
 
-      var consumer = React.render(
+      var consumer = ReactDOM.render(
         <SuposedConsumer />,
         div
       );
@@ -363,7 +350,7 @@ describe('<ScrollItem>', function() {
         },
       });
 
-      var consumer = React.render(
+      var consumer = ReactDOM.render(
         <SuposedConsumer />,
         div
       );

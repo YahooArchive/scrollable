@@ -4,6 +4,7 @@
    See the accompanying LICENSE file for terms. */
 
 var React = (typeof window !== 'undefined' && window.React) || require('react');
+var ReactDOM = (typeof window !== 'undefined' && window.React) || require('react-dom');
 var RectCache = require('./rect-cache');
 var StyleHelper = require('./style-helper');
 
@@ -22,14 +23,12 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
   },
 
   onResize: function() {
-    var parentContext = this._reactInternalInstance._context;
-    var parent = parentContext.scrollingParent;
+    var parent = this.context.scrollingParent;
     parent && parent.onResize && parent.onResize();
   },
 
   componentWillMount: function () {
-    var parentContext = this._reactInternalInstance._context;
-    var parent = parentContext.scrollingParent;
+    var parent = this.context.scrollingParent;
     if (parent) {
       this._scrollingParent = parent;
       parent._registerItem(this);
@@ -38,7 +37,7 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
 
   componentDidMount: function () {
     var self = this;
-    self._node = self.getDOMNode();
+    self._node = ReactDOM.findDOMNode(self);
     self.props.serverStyles && cleanupStyles(self);
     self._pendingOperation && self._pendingOperation();
   },
@@ -49,8 +48,7 @@ var ScrollItem = React.createClass({displayName: "ScrollItem",
 
   componentWillUnmount: function () {
     this._node = null;
-    var parentContext = this._reactInternalInstance._context;
-    var parent = parentContext.scrollingParent;
+    var parent = this.context.scrollingParent;
     parent && parent._unRegisterItem(this);
   },
 
