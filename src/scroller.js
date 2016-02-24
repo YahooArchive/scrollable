@@ -5,7 +5,7 @@
 
 var inBrowser = typeof window !== 'undefined';
 var React = (inBrowser && window.React) || require('react');
-var ReactDOM = (inBrowser && window.React) || require('react-dom');
+var ReactDOM = (inBrowser && window.ReactDOM) || require('react-dom');
 var StyleHelper = require('./style-helper');
 var prefixed = require('./prefixed');
 var RectCache = require('./rect-cache');

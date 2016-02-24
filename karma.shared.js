@@ -35,7 +35,7 @@ module.exports = function(config) {
     browserify: {
       debug: true,
       transform: [
-        ['reactify'],
+        ['babelify'],
       ],
     },
 

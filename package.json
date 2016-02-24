@@ -16,8 +16,15 @@
     "type": "git",
     "url": "https://github.com/yahoo/scrollable.git"
   },
+  "babel": {
+    "presets": [
+      "react"
+    ]
+  },
   "dependencies": {},
   "devDependencies": {
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.2.0",
     "beefy": "^2.1.3",
     "browserify": "^10.2.4",
     "browserify-istanbul": "^0.2.1",
@@ -40,14 +47,12 @@
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "~0.14.6",
     "react-hammerjs": "^0.4.5",
-    "react-tools": ">=0.13.0",
-    "reactify": "^1.0.0",
     "watchify": "^3.2.3"
   },
   "scripts": {
-    "build": "browserify src/scrollable.js -o dist/scrollable.js --transform reactify --exclude react --bare",
-    "build-examples": "browserify examples/main.js -o examples/build/bundle.js --transform reactify --insert-global-vars React",
-    "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform reactify --insert-global-vars React --debug --verbose",
+    "build": "browserify src/scrollable.js -o dist/scrollable.js --transform babelify --exclude react --exclude react-dom --bare --insert-global-vars React,ReactDOM",
+    "build-examples": "browserify examples/main.js -o examples/build/bundle.js --transform babelify --insert-global-vars React,ReactDOM",
+    "dev": "beefy examples/main.js:examples/build/bundle.js 8080 --live -- --transform babelify --insert-global-vars React,ReactDOM --debug --verbose",
     "test": "karma start karma.headless.js && istanbul report && echo 'Details at ./coverage/index.html'"
   },
   "author": "Irae Carvalho <irae@irae.pro.br>",
