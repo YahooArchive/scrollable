@@ -1029,7 +1029,7 @@
 
 				} else {
 
-					if (self.__positions.length > 0 && self.__interruptedAnimation || self.__isDragging) {
+					if (self.__interruptedAnimation || self.__isDragging) {
 						self.options.scrollingComplete();
 					}
 					self.scrollTo(self.__scrollLeft, self.__scrollTop, true, self.__zoomLevel);
