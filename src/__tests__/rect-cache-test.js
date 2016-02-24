@@ -4,8 +4,9 @@
 "use strict";
 
 var RectCache = require('../rect-cache');
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 
 
 describe('RectCache mixin', function() {
@@ -35,7 +36,7 @@ describe('RectCache mixin', function() {
     });
 
     it("updated rect after mounting", function () {
-      sut = React.render(
+      sut = ReactDOM.render(
         <RectCacheConsumer />,
         div
       );
@@ -45,7 +46,7 @@ describe('RectCache mixin', function() {
     });
 
     it("updated rect after DOM changes", function () {
-      sut = React.render(
+      sut = ReactDOM.render(
         <RectCacheConsumer />,
         div
       );
@@ -58,7 +59,7 @@ describe('RectCache mixin', function() {
 
     it("support for onResize callback when size changes", function () {
       var resizeCallback = jasmine.createSpy();
-      sut = React.render(
+      sut = ReactDOM.render(
         <RectCacheConsumer onResize={resizeCallback} />,
         div
       );
@@ -74,7 +75,7 @@ describe('RectCache mixin', function() {
 
     it("support arbitrary text and asynchronous image loading", function (done) {
       var resizeCallback = jasmine.createSpy();
-      sut = React.render(
+      sut = ReactDOM.render(
         <RectCacheConsumer onResize={resizeCallback} />,
         div
       );
@@ -86,7 +87,7 @@ describe('RectCache mixin', function() {
       expect(sut.rect.height>=68);
       expect(sut.rect.width>=200);
 
-      var container = sut.refs.imgHere.getDOMNode();
+      var container = sut.refs.imgHere;
       var img = document.createElement('img');
       img.addEventListener('load', function() {
         expect(resizeCallback.calls.count()).toBe(3);
@@ -100,11 +101,11 @@ describe('RectCache mixin', function() {
     });
 
     it("Inserting text nodes", function () {
-      sut = React.render(
+      sut = ReactDOM.render(
         <RectCacheConsumer />,
         div
       );
-      sut.getDOMNode().appendChild(document.createTextNode(' text test node '));
+      ReactDOM.findDOMNode(sut).appendChild(document.createTextNode(' text test node '));
 
       expect(true, "make sure inserting the element won't throw");
     });
@@ -115,7 +116,7 @@ describe('RectCache mixin', function() {
       // but testing the viewport resize is probably a lot of work, as the
       // event would need to be simulates. This feels an overkill, but Pull
       // requests accepted =)
-      sut = React.render(
+      sut = ReactDOM.render(
         <RectCacheConsumer viewport onResize={resizeCallback} />,
         div
       );

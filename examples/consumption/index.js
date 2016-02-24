@@ -3,6 +3,7 @@
    See the accompanying LICENSE file for terms. */
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Scroller = require('../../src/scroller');
 var ScrollItem = require('../../src/scroll-item');
 
@@ -60,7 +61,7 @@ var ConsumptionMode = React.createClass({
   componentDidMount: function() {
     this.refs.scroller.consuming = true;
     this.refs.scroller.origin = 0;
-    var hammer = (this.hammer = new Hammer(this.refs.swipeArea.getDOMNode()));
+    var hammer = (this.hammer = new Hammer(this.refs.swipeArea));
     hammer.get('swipe').set({
       direction: Hammer.DIRECTION_DOWN,
       velocity: 0.3,

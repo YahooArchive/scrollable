@@ -79,6 +79,7 @@ library only aims to "close the gap", when doing something with DOM outside of R
 
 */
 
+var ReactDOM = require('react-dom');
 var initialRect = { left : 0, right : 0, top : 0, height : 0, bottom : 0, width : 0 };
 
 var RectCache = {
@@ -105,7 +106,7 @@ var RectCache = {
 
   _bindImgLoad: null,
   componentDidMount: function(){
-    var node = this.getDOMNode();
+    var node = ReactDOM.findDOMNode(this);
     var update = this._updateRectCache;
     this._node = node;
     this._bindImgLoad = function(event) {
