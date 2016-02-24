@@ -3,7 +3,6 @@
    See the accompanying LICENSE file for terms. */
 var React = require('react');
 var ReactDOM = require('react-dom');
-window.React = React;
 
 var container = document.getElementById('container');
 
